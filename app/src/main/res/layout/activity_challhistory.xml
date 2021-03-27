@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/img_cal_main"
             android:layout_width="20dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
@@ -29,7 +29,7 @@
             tools:srcCompat="@drawable/calendar" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/img_box_main"
             android:layout_width="16dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
@@ -39,7 +39,7 @@
             tools:srcCompat="@drawable/box" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/img_setting_main"
             android:layout_width="1dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -56,11 +56,12 @@
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
@@ -85,15 +86,15 @@
     </LinearLayout>
 
     <FrameLayout
+        android:background="@drawable/layout_bg"
         android:id="@+id/frameLayout4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
@@ -130,7 +131,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/layout_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

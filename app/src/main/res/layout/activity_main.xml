@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/img_cal_main"
             android:layout_width="20dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
@@ -33,7 +33,7 @@
             tools:srcCompat="@drawable/calendar" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/img_box_main"
             android:layout_width="16dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
@@ -43,7 +43,7 @@
             tools:srcCompat="@drawable/box" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/img_setting_main"
             android:layout_width="1dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -58,7 +58,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
@@ -100,7 +100,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="#FFFFFF"
+            android:background="@drawable/layout_bg"
             android:orientation="vertical">
 
             <TextView
@@ -130,7 +130,7 @@
                 android:layout_height="71dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp" >
+                android:layout_marginLeft="20dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -168,7 +168,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="#FFFFFF"
+            android:background="@drawable/layout_bg"
             android:orientation="vertical">
 
             <TextView
