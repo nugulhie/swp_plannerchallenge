@@ -17,37 +17,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+
+        <Button
             android:id="@+id/img_cal_main"
-            android:layout_width="20dp"
-            android:layout_height="50dp"
+            android:layout_width="58dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_weight="5"
+            android:foreground="@drawable/calendar"
+            app:backgroundTint="#00FFFFFF"
             tools:srcCompat="@drawable/calendar" />
 
-        <ImageView
+        <Button
             android:id="@+id/img_box_main"
-            android:layout_width="16dp"
-            android:layout_height="50dp"
+            android:layout_width="61dp"
+            android:layout_height="58dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="120dp"
-            android:layout_marginLeft="120dp"
-            android:layout_weight="5"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:foreground="@drawable/box"
+            app:backgroundTint="#00FFFFFF"
             tools:srcCompat="@drawable/box" />
 
-        <ImageView
+        <Button
             android:id="@+id/img_setting_main"
-            android:layout_width="1dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="58dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:layout_weight="5"
+            android:foreground="@drawable/settings"
+            app:backgroundTint="#00FFFFFF"
             tools:srcCompat="@drawable/settings" />
+
 
     </LinearLayout>
 
