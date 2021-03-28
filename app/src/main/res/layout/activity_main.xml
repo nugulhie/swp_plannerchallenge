@@ -11,82 +11,88 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:background="#1ABC9C"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <Button
             android:id="@+id/img_cal_main"
-            android:layout_width="58dp"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:foreground="@drawable/calendar"
-            app:backgroundTint="#00FFFFFF"
-            tools:srcCompat="@drawable/calendar" />
+            android:background="@drawable/calendar"
+            app:backgroundTint="#FFFFFF" />
 
         <Button
             android:id="@+id/img_box_main"
-            android:layout_width="61dp"
-            android:layout_height="58dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="140dp"
             android:layout_marginLeft="140dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:foreground="@drawable/box"
-            app:backgroundTint="#00FFFFFF"
+            android:background="@drawable/box"
+            app:backgroundTint="#FFFFFF"
             tools:srcCompat="@drawable/box" />
 
         <Button
             android:id="@+id/img_setting_main"
-            android:layout_width="64dp"
-            android:layout_height="58dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:foreground="@drawable/settings"
-            app:backgroundTint="#00FFFFFF"
+            android:background="@drawable/settings"
+            app:backgroundTint="#FFFFFF"
             tools:srcCompat="@drawable/settings" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="24dp"
-            android:layout_height="40dp"
+            android:layout_width="20dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            tools:srcCompat="@drawable/smile" />
+            android:background="@drawable/smile" />
 
-        <EditText
+        <TextView
             android:id="@+id/text_curAchi_main"
             android:layout_width="75dp"
             android:layout_height="33dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="#1ABC9C"
-            android:text="TextView" />
+            android:text="text_curAchi_main" />
 
-        <EditText
+        <TextView
             android:id="@+id/text_Curdate_main"
             android:layout_width="132dp"
             android:layout_height="match_parent"
@@ -101,16 +107,19 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="370dp"
+        android:layout_height="218dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.029">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,7 +129,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_Plan_main"
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:layout_gravity="start"
@@ -142,12 +151,12 @@
 
             <Button
                 android:id="@+id/button_detail_main"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="37dp"
                 android:layout_gravity="right"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/layout_bg"
                 android:gravity="center"
                 android:text="자세히보기"
@@ -180,7 +189,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_Chall"
+                android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -190,14 +199,14 @@
                 android:textSize="24sp" />
 
             <ImageView
-                android:id="@+id/img_key_main"
+                android:id="@+id/imageView5"
                 android:layout_width="255dp"
                 android:layout_height="71dp"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/key" />
 
             <TextView
-                android:id="@+id/text_reward"
+                android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -213,12 +222,12 @@
                 android:layout_gravity="center" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_Chall_main"
                 android:layout_width="297dp"
                 android:layout_height="121dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
+                android:id="@+id/recycler_Chall_main"
                 android:layout_marginTop="10dp" />
 
             <Button

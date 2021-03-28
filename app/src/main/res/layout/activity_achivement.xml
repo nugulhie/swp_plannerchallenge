@@ -9,52 +9,54 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:background="#1ABC9C"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <Button
             android:id="@+id/img_cal_main"
-            android:layout_width="58dp"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:foreground="@drawable/calendar"
-            app:backgroundTint="#00FFFFFF"
-            tools:srcCompat="@drawable/calendar" />
+            android:background="@drawable/calendar"
+            app:backgroundTint="#FFFFFF" />
 
         <Button
             android:id="@+id/img_box_main"
-            android:layout_width="61dp"
-            android:layout_height="58dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="140dp"
             android:layout_marginLeft="140dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:foreground="@drawable/box"
-            app:backgroundTint="#00FFFFFF"
+            android:background="@drawable/box"
+            app:backgroundTint="#FFFFFF"
             tools:srcCompat="@drawable/box" />
 
         <Button
             android:id="@+id/img_setting_main"
-            android:layout_width="64dp"
-            android:layout_height="58dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:foreground="@drawable/settings"
-            app:backgroundTint="#00FFFFFF"
+            android:background="@drawable/settings"
+            app:backgroundTint="#FFFFFF"
             tools:srcCompat="@drawable/settings" />
+
 
     </LinearLayout>
 
