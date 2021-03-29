@@ -23,7 +23,7 @@
 
 
         <Button
-            android:id="@+id/img_cal_main"
+            android:id="@+id/img_cal_history"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -35,11 +35,23 @@
             app:backgroundTint="#FFFFFF" />
 
         <Button
-            android:id="@+id/img_box_main"
+            android:id="@+id/img_home_history"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="140dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/calendar"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/img_box_history"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="100dp"
             android:layout_marginLeft="140dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
@@ -48,7 +60,7 @@
             tools:srcCompat="@drawable/box" />
 
         <Button
-            android:id="@+id/img_setting_main"
+            android:id="@+id/img_setting_history"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"

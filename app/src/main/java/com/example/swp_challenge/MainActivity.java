@@ -2,7 +2,6 @@ package com.example.swp_challenge;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,9 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button img_cal;
     Button img_setting;
     Button img_box;
+    Button img_home;
   //  TextView text_Curdate = findViewById(R.id.text_Curdate_main);
  //   ProgressBar progressBar_reward = findViewById(R.id.progressBar_reward_main);
   //  RecyclerView recyclerView_Plan = findViewById(R.id.recycler_plan_main);
@@ -39,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         img_cal = findViewById(R.id.img_cal_main);
         img_setting = findViewById(R.id.img_setting_main);
         img_box = findViewById(R.id.img_box_main);
+        img_home = findViewById(R.id.img_home_main);
 
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
+                MainActivity.this.finish();
             }
         });
 
@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
+                MainActivity.this.finish();
             }
         });
         img_box.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, BoxActivity.class);
                 startActivity(intent);
+                MainActivity.this.finish();
             }
         });
         img_setting.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +98,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
+            }
+        });
+        img_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+                MainActivity.this.finish();
             }
         });
 
