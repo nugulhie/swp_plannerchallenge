@@ -9,14 +9,16 @@
     tools:context=".BoxActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_gravity="center"
         android:background="#1ABC9C"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -30,29 +32,47 @@
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/calendar"
             app:backgroundTint="#FFFFFF" />
 
-        <Button
-            android:id="@+id/img_home_box"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        <TextView
+            android:id="@+id/text_curAchi_box"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
+            android:layout_weight="0"
+            android:background="@drawable/layout_bg"
+            android:gravity="center"
+            android:text="text_curAchi_main"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/text_Curdate_box"
+            android:layout_width="96dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/calendar"
-            app:backgroundTint="#FFFFFF" />
+            android:layout_weight="0"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="3월 12일 금요일"
+            android:inputType="date"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/img_box_box"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="140dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/box"
@@ -69,7 +89,6 @@
             android:background="@drawable/settings"
             app:backgroundTint="#FFFFFF"
             tools:srcCompat="@drawable/settings" />
-
 
     </LinearLayout>
 

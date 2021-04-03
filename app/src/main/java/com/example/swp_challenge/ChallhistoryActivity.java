@@ -13,7 +13,6 @@ public class ChallhistoryActivity extends AppCompatActivity {
     Button img_box;
     Button img_cal;
     Button img_setting;
-    Button img_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,6 @@ public class ChallhistoryActivity extends AppCompatActivity {
         img_box = findViewById(R.id.img_box_history);
         img_cal = findViewById(R.id.img_cal_history);
         img_setting = findViewById(R.id.img_setting_history);
-        img_home = findViewById(R.id.img_home_history);
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,14 +46,5 @@ public class ChallhistoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        img_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ChallhistoryActivity.this, MainActivity.class);
-                startActivity(intent);
-                ChallhistoryActivity.this.finish();
-            }
-        });
-
     }
 }

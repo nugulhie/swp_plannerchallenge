@@ -12,7 +12,6 @@ public class BoxActivity extends AppCompatActivity {
     Button img_cal;
     Button img_box;
     Button img_setting;
-    Button img_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,6 @@ public class BoxActivity extends AppCompatActivity {
         img_cal=findViewById(R.id.img_cal_box);
         img_box=findViewById(R.id.img_box_box);
         img_setting=findViewById(R.id.img_setting_box);
-        img_home = findViewById(R.id.img_home_box);
 
 
         //intent 넘기기 함수 밑으로 인자
@@ -49,13 +47,6 @@ public class BoxActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        img_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BoxActivity.this, MainActivity.class);
-                startActivity(intent);
-                BoxActivity.this.finish();
-            }
-        });
+
     }
 }

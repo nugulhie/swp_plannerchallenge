@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         img_cal = findViewById(R.id.img_cal_main);
         img_setting = findViewById(R.id.img_setting_main);
         img_box = findViewById(R.id.img_box_main);
-        img_home = findViewById(R.id.img_home_main);
 
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
-                MainActivity.this.finish();
             }
         });
 
@@ -82,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
-                MainActivity.this.finish();
             }
         });
         img_box.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, BoxActivity.class);
                 startActivity(intent);
-                MainActivity.this.finish();
             }
         });
         img_setting.setOnClickListener(new View.OnClickListener() {
@@ -100,15 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        img_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-                MainActivity.this.finish();
-            }
-        });
-
     }
 }
 

@@ -1,6 +1,5 @@
 package com.example.swp_challenge;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,15 +9,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CalendarView;
 
-import java.util.Calendar;
-import java.util.TimeZone;
-
 public class CalendarActivity extends AppCompatActivity {
 
     Button img_cal;
     Button img_box;
     Button img_setting;
-    Button img_home;
     CalendarView cal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +25,6 @@ public class CalendarActivity extends AppCompatActivity {
         img_cal = findViewById(R.id.img_cal_cal);
         img_box = findViewById(R.id.img_box_cal);
         img_setting = findViewById(R.id.img_setting_cal);
-        img_home = findViewById(R.id.img_home_cal);
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,14 +47,5 @@ public class CalendarActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        img_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
-                startActivity(intent);
-                CalendarActivity.this.finish();
-            }
-        });
-
     }
 }

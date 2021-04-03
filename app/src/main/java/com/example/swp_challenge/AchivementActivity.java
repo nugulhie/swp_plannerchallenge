@@ -13,7 +13,6 @@ public class AchivementActivity extends AppCompatActivity {
     Button img_cal;
     Button img_box;
     Button img_setting;
-    Button img_home;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +23,6 @@ public class AchivementActivity extends AppCompatActivity {
         img_setting = findViewById(R.id.img_setting_ach);
         img_box = findViewById(R.id.img_box_ach);
         img_cal = findViewById(R.id.img_cal_ach);
-        img_home = findViewById(R.id.img_home_ach);
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,14 +45,5 @@ public class AchivementActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        img_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AchivementActivity.this, MainActivity.class);
-                startActivity(intent);
-                AchivementActivity.this.finish();
-            }
-        });
-
     }
 }
