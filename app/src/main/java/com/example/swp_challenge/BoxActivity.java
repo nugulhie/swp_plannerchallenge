@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import com.example.swp_challenge.BoxKey_Controller;
 
 public class BoxActivity extends AppCompatActivity {
     Button img_cal;
@@ -19,7 +20,6 @@ public class BoxActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_box);
-
         img_cal=findViewById(R.id.img_cal_box);
         img_box=findViewById(R.id.img_box_box);
         img_setting=findViewById(R.id.img_setting_box);
