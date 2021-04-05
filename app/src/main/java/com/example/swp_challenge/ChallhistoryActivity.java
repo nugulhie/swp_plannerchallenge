@@ -25,6 +25,7 @@ public class ChallhistoryActivity extends AppCompatActivity {
         img_cal = findViewById(R.id.img_cal_history);
         img_setting = findViewById(R.id.img_setting_history);
 
+// 밑으로 인텐트 함수
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

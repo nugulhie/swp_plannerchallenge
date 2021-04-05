@@ -23,7 +23,7 @@ public class AchivementActivity extends AppCompatActivity {
         img_setting = findViewById(R.id.img_setting_ach);
         img_box = findViewById(R.id.img_box_ach);
         img_cal = findViewById(R.id.img_cal_ach);
-
+// 밑으로 전부 인텐트 넘기는 함수
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

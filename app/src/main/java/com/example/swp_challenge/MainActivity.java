@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-                startActivity(intent);
+                startActivity(intent);  //자세히 보기 누를시 캘린더 화면으로 넘기기
             }
         });
 
@@ -53,21 +53,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-                startActivity(intent);
+                startActivity(intent); // 캘린더 아이콘 누를시 캘린더 화면으로 넘기기
             }
         });
         img_box.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, BoxActivity.class);
-                startActivity(intent);
+                startActivity(intent); // 상자 아이콘 누를시 상자 화면으로 넘기기
             }
         });
         img_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                startActivity(intent); // 설정 아이콘 누를시 설정 화면으로 넘기기
             }
         });
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), PopupActivity.class);
                 intent.putExtra("title", "공지사항");
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, 1); // +버튼 누르면 팝업 생성
             }
         });
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    void show() {
+    void show() { //팝업 메소드
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("AlertDialog Title");
         builder.setMessage("AlertDialog Content");

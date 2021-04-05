@@ -46,7 +46,7 @@ public class CalendarActivity extends AppCompatActivity {
         img_cal = findViewById(R.id.img_cal_cal);
         img_box = findViewById(R.id.img_box_cal);
         img_setting = findViewById(R.id.img_setting_cal);
-
+        // 밑으로 전부 인텐트 함수
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

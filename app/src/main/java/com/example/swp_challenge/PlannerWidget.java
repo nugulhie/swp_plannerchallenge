@@ -8,7 +8,7 @@ import android.widget.RemoteViews;
 /**
  * Implementation of App Widget functionality.
  */
-public class PlannerWidget extends AppWidgetProvider {
+public class PlannerWidget extends AppWidgetProvider { //위젯
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
