@@ -43,8 +43,6 @@ public class BoxKey_Controller {
             }
         } // 보상을 얻는 함수
 
-
-
     void boxOpen() {
         if (checkKey(cnt_key)) {
             getReward();
@@ -96,4 +94,4 @@ class UserAchivementControll { //사용자 칭호 메소드 개발중
         }
     } // 사용자가 가지고 있는 칭호를 확인하는 함수
 }
-
+//test
