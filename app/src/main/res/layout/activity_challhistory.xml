@@ -8,53 +8,42 @@
     android:background="#E0E0E0E0"
     app:layout_anchorGravity="center">
 
+    <!--도전과제 내역 레이아웃 !-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:background="#1ABC9C"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="56dp"
+            android:layout_weight="0"
 
+            android:background="#45D6AD"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme">
 
-            <Button
+            <ImageButton
                 android:id="@+id/img_cal_history"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="40dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/calendar"
-                app:backgroundTint="#FFFFFF" />
-
-            <TextView
-                android:id="@+id/text_curAchi_history"
-                android:layout_width="wrap_content"
-                android:layout_height="33dp"
-                android:layout_gravity="center_vertical"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_weight="0"
-                android:background="@drawable/layout_bg"
-                android:gravity="center"
-                android:text="text_curAchi_main"
-                android:textSize="10sp" />
+                android:background="@android:color/transparent"
+                android:padding="0sp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/calendar2" />
 
             <TextView
-                android:id="@+id/text_Curdate_history"
-                android:layout_width="96dp"
+                android:id="@+id/txt_date_of_today"
+                android:layout_width="150dp"
                 android:layout_height="33dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
@@ -64,134 +53,166 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="0"
                 android:ems="10"
+
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:hint="3월 12일 금요일"
+                android:fontFamily="@font/maplestory_bold"
                 android:inputType="date"
                 android:textAllCaps="true"
-                android:textSize="14sp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="@color/white"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/btn_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+
+                android:background="@android:color/transparent"
+                android:padding="0sp"
+                android:scaleType="fitXY"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0"
+                app:srcCompat="@drawable/more2" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="0"
+            android:background="#00FFFFFF"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginVertical="5dp">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0"
+                    tools:srcCompat="@tools:sample/avatars"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0"
+                    android:fontFamily="@font/maplestory_bold"
+                    android:text="칭호 목록"
+                    android:textColor="#3C3C3C" />
+
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+        <!--칭호 영역끝 !-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_weight="0"
+            android:baselineAligned="true"
+            android:orientation="vertical"
+            android:background="@drawable/layout_bg">
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/maplestory_bold"
+                android:text="도전과제 달성"
+                android:textColor="#45D6AD"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/img_box_history"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/box"
-                app:backgroundTint="#FFFFFF"
-                tools:srcCompat="@drawable/box" />
-
-            <Button
-                android:id="@+id/img_setting_history"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/settings"
-                app:backgroundTint="#FFFFFF"
-                tools:srcCompat="@drawable/settings" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/editTextDate4"
-                android:layout_width="310dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="date" />
-
-            <TextView
-                android:id="@+id/textView10"
+            <ProgressBar
+                android:id="@+id/progressBar2"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_weight="1"
-                android:text="TextView" />
-        </LinearLayout>
+                android:layout_height="wrap_content" />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="right|bottom"
+                    android:layout_margin="10dp"
+                    app:srcCompat="@drawable/success" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="20dp"/>
+
+            </FrameLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_height="250dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/layout_bg"
-            android:orientation="vertical">
+            android:baselineAligned="true"
+            android:orientation="vertical"
+            android:background="@drawable/layout_bg">
+
 
             <TextView
-                android:id="@+id/textView11"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="달성"
-                android:textSize="24sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/layout_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="실패"
-                android:textSize="24sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/maplestory_bold"
+                android:text="도전과제 실패"
+                android:textColor="#D67345"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="right|bottom"
+                    app:srcCompat="@drawable/fail" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="20dp"/>
+
+            </FrameLayout>
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
