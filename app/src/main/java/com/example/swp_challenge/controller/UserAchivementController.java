@@ -1,8 +1,7 @@
 package com.example.swp_challenge.controller;
-
 public class UserAchivementController {
 
-    UserContorller user = new UserContorller();
+    UserController user = new UserController();
 
     void giveAchivements(){} //사용자에게 칭호를 주는 함수
 
@@ -17,7 +16,7 @@ public class UserAchivementController {
 
     void checkAchivements(int achiveNumber){
         for(int i =100;i<100;i++){
-            if(user.has_achivement[i]){ //boolean값을 이용해서 if문 진입
+            if(user.getAchivement(i)){ //boolean값을 이용해서 if문 진입
                 if(i == achiveNumber){ //가지고있음
 
                 }
