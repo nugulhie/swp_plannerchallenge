@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.ImageButton;
-
 import com.example.swp_challenge.CalendarDecorator;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
@@ -24,7 +22,9 @@ import java.util.Date;
 
 public class CalendarActivity extends AppCompatActivity {
 
-    public ImageButton img_cal;
+    public Button img_cal;
+    public Button img_box;
+    public Button img_setting;
     public MaterialCalendarView cal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +44,27 @@ public class CalendarActivity extends AppCompatActivity {
 
 
         img_cal = findViewById(R.id.img_cal_cal);
+        img_box = findViewById(R.id.img_box_cal);
+        img_setting = findViewById(R.id.img_setting_cal);
         // 밑으로 전부 인텐트 함수
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CalendarActivity.this, CalendarActivity.class);
+                startActivity(intent);
+            }
+        });
+        img_box.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CalendarActivity.this, BoxActivity.class);
+                startActivity(intent);
+            }
+        });
+        img_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CalendarActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });
