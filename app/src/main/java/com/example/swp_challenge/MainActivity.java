@@ -8,11 +8,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     //  RecyclerView recyclerView_Plan = findViewById(R.id.recycler_plan_main);
     //  RecyclerView recyclerView_Chall = findViewById(R.id.recycler_Chall_main);
 
+    Spinner spinner;
+    ImageButton btn_menu;
+    String menu_item;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +42,59 @@ public class MainActivity extends AppCompatActivity {
         button_Add_challenge = findViewById(R.id.button_Addchall_main);
         //button_detail = findViewById(R.id.button_detail_main);
         img_cal = findViewById(R.id.img_cal_main);
+
+        //@@@@@메뉴 스피너@@@@@@@//
+        btn_menu = findViewById(R.id.btn_more_main);
+        final String[] menu = {"홈", "상자", "칭호", "설정"};  //메뉴 아이템 항목
+        spinner = findViewById(R.id.spinner_main);  //스피너 초기화
+        ArrayAdapter menuAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, menu);  //menu 어댑터 생성
+        menuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(menuAdapter);
+        spinner.setSelection(0);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                menu_item = (String) spinner.getSelectedItem();
+                Toast.makeText(getApplicationContext(),"Selected menu : " + menu[position], Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //선택한 드롭다운에서 버튼 선택 시 - 액티비티 이동//
+        btn_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch(menu_item) {
+                    case "홈":
+                        /*Intent intent = new Intent (MainActivity.this, MainActivity.class);
+                        startActivity(intent);*/ //동일 페이지라 설정X
+                        Toast.makeText(getApplicationContext(),"This is that page!", Toast.LENGTH_SHORT).show(); //동일 페이지에 출력
+                        break;
+                    case "상자":
+                        Intent intent = new Intent(MainActivity.this, BoxActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case "칭호":
+                        intent = new Intent(MainActivity.this, AchivementActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case "설정":
+                        intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        break;
+
+                }
+            }
+        });
+        //@@@@@메뉴 스피너 끝@@@@@2//
 
 
 //이 밑으로 전부 intent 함수
@@ -50,8 +111,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent); // 캘린더 아이콘 누를시 캘린더 화면으로 넘기기
+                finish();
             }
         });
+        /*
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,9 +128,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 show();
             }
+        });*/
+        button_Add_challenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PopupActivity.class);
+                startActivity(intent);
+            }
         });
-    }
 
+
+    }
+/*
     void show() { //팝업 메소드
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("AlertDialog Title");
@@ -85,8 +157,7 @@ public class MainActivity extends AppCompatActivity {
         }
     });
         builder.show();
-    }
+    }*/
 
 }
-
 

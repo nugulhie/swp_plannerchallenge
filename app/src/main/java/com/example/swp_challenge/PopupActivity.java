@@ -3,12 +3,63 @@ package com.example.swp_challenge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
 
+    Button btn_cancel_chall, btn_submit_chall;
+    ImageButton btn_delete_chall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//popup 타이틀제거
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_popup);
+
+        btn_cancel_chall = findViewById(R.id.btn_cancel_chall);
+        btn_submit_chall = findViewById(R.id.btn_submit_chall);
+        btn_delete_chall = findViewById(R.id.btn_delete_chall);
+
+        btn_cancel_chall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        btn_delete_chall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //데이터 제거해주는 메소드 추가해주어야함.
+                Toast.makeText(getApplicationContext(),"Data deleted!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+        btn_submit_chall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //데이터 추가해주는 메소드 추가해주어야함.
+                Toast.makeText(getApplicationContext(), "Data is added!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+
+    public boolean onTouchEvent(MotionEvent event) { //바깥 레이어 클릭해도 팝업 안 닫히게 하기.
+        if(event.getAction()==MotionEvent.ACTION_OUTSIDE) {
+            return false;
+        }
+        return true;
+    }
+    public void onBackPressed() {   //백스페이스 막기
+        return;
     }
 }

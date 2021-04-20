@@ -28,6 +28,7 @@ public class ChallhistoryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChallhistoryActivity.this, CalendarActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

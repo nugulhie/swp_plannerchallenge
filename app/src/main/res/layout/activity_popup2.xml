@@ -32,7 +32,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton5"
+                    android:id="@+id/btn_delete_schedule"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="right"
@@ -60,6 +60,7 @@
                 android:text="카테고리"
                 android:textSize="20sp" />
             <Spinner
+                android:id="@+id/spinner_popup2"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
@@ -86,7 +87,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/btn_cancel_schedule"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -98,7 +99,7 @@
                 app:backgroundTint="#4D45D6AD" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/btn_submit_schedule"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="50dp"

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton5"
+                    android:id="@+id/btn_delete_chall"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="right"
@@ -98,7 +99,7 @@
                 android:layout_gravity="center_vertical"/>
 
             <ImageButton
-                android:id="@+id/imageButton1"
+                android:id="@+id/btn_date1_chall"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
@@ -125,7 +126,7 @@
                 android:fontFamily="@font/maplestory_bold"
                 android:textSize="20sp"/>
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/btn_date2_chall"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
@@ -176,7 +177,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/btn_cancel_chall"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -188,7 +189,7 @@
                 app:backgroundTint="#4D45D6AD" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/btn_submit_chall"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="50dp"
