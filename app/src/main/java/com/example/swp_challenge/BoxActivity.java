@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.example.swp_challenge.controller.BoxController;
 
 public class BoxActivity extends AppCompatActivity {
     ImageButton img_cal;
@@ -92,9 +93,11 @@ public class BoxActivity extends AppCompatActivity {
             }
         });
 
-        btn_open.setOnClickListener(new View.OnClickListener() {    //상자열기
+      btn_open.setOnClickListener(new View.OnClickListener() {    //상자열기
             @Override
             public void onClick(View v) {
+                BoxController index = new BoxController();
+                index.boxOpen();
                 Intent intent = new Intent(BoxActivity.this, PopupBoxActivity.class);
                 startActivity(intent);
             }
