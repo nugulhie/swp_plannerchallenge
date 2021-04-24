@@ -49,13 +49,13 @@ public final class swp_database {
                 +chall_pass+" boolean"
                 +chall_date+" timestamp);";
     }
-   public static final class achivementDB implements  BaseColumns { // 칭호 데이터베이스
-       public static final String achive_id = "achive_id";
-       public static final String achive_name = "achive_name";
-       public static final String _TABLENAME3 = "Achivement";
-       public static final String _CREATE3 = "create table if not exist " + _TABLENAME3 + "("
-               + achive_id + " integer"
-               + achive_name + " text);";
-   }
+    public static final class achivementDB implements  BaseColumns { // 칭호 데이터베이스
+        public static final String achive_id = "achive_id";
+        public static final String achive_name = "achive_name";
+        public static final String _TABLENAME3 = "Achivement";
+        public static final String _CREATE3 = "create table if not exist " + _TABLENAME3 + "("
+                + achive_id + " integer"
+                + achive_name + " text);";
+    }
 }
 
