@@ -15,7 +15,7 @@ public final class swp_database {
         public static final String _TABLENAME0 = "User";
         public static final String _CREATE0 = "create table if not exists " + _TABLENAME0+"("
                 +user_name+" text, "
-                +birth+" timestamp, "
+                +birth+" Date, "
                 +cnt_key+" integer, "
                 +has_achivement+" array integer"
                 +plan_id+" integer, "
@@ -33,7 +33,7 @@ public final class swp_database {
                 +plan_id+" integer, "
                 +plan_category+ " integer"
                 +contents+" text"
-                +plan_date+" timestamp);";
+                +plan_date+" Date);";
     }
     public static final class challengeDB implements BaseColumns{ // 도전과제 데이터베이스
         public static final String chall_id = "chall_id";
@@ -44,12 +44,12 @@ public final class swp_database {
         public static final String _TABLENAME2 = "Challenge";
         public static final String _CREATE2 = "create table if not exist "+_TABLENAME2+"("
                 +chall_id+" integer"
-                +chall_rating+" double"
+                +chall_rating+" float"
                 +chall_contents+" text"
                 +chall_pass+" boolean"
-                +chall_date+" timestamp);";
+                +chall_date+" Date);";
     }
-    public static final class achivementDB implements  BaseColumns { // 칭호 데이터베이스
+    /*public static final class achivementDB implements  BaseColumns { // 칭호 데이터베이스
         public static final String achive_id = "achive_id";
         public static final String achive_name = "achive_name";
         public static final String _TABLENAME3 = "Achivement";
@@ -57,5 +57,5 @@ public final class swp_database {
                 + achive_id + " integer"
                 + achive_name + " text);";
     }
-}
+*/}
 

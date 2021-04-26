@@ -11,6 +11,7 @@ import com.example.swp_challenge.controller.UserController;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class swp_databaseOpenHelper {
     private static final String DATABASE_NAME = "InnerDatabase(SQLite).db";
@@ -64,12 +65,13 @@ public class swp_databaseOpenHelper {
 
         return mDB.insert(swp_database.UserDB._TABLENAME0, null, values);
     }
-    public long insertColumn(int plan_id, String plan_contents,  int plan_category, Timestamp plan_date){
+    public long plan_insertColumn(int plan_id, String plan_contents,  int plan_category, Date plan_date){
         ContentValues values = new ContentValues();
-        //values.put(swp_database.CreateDB1.plan_id);
+        values.put(swp_database.PlanDB.plan_id, plan_id);
+        //values.put(swp_database.PlanDB.pl, plan_id);
         return mDB.insert(swp_database.PlanDB._TABLENAME1, null, values);
     }
-    public long insertColumn(int chall_id, double chall_rating, String chall_contents, boolean chall_pass, Timestamp chall_date){
+    public long challenge_insertColumn(int chall_id, float chall_rating, String chall_contents, boolean chall_pass, Date chall_date){
         ContentValues values = new ContentValues();
         return mDB.insert(swp_database.challengeDB._TABLENAME2, null, values);
     }

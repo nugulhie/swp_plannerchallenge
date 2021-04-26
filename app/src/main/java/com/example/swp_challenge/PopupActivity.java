@@ -10,15 +10,21 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import com.example.swp_challenge.controller.UserController;
+import com.example.swp_challenge.controller.ChallengeController;
+import  com.example.swp_challenge.controller.PlannerController;
 
 public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
 
     Button btn_cancel_chall, btn_submit_chall;
     ImageButton btn_delete_chall;
+    UserController user = new UserController();
+    ChallengeController challenge = new ChallengeController();
+    PlannerController plan = new PlannerController();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);//popup 타이틀제거
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -46,6 +52,8 @@ public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만�
             @Override
             public void onClick(View v) {
                 //데이터 추가해주는 메소드 추가해주어야함.
+                //challenge.setChallenge(/*rating, contents, chall_pass*/); //Todo 여기에다가 인텐트값 넘겨서 setChallenge 메소드 안에 넣는거 구현해야함.
+                //user.insertChallenge(/*challenge.getChall_id(), challenge.getRating(), challenge.getContents(), challenge.getChall_pass(), challenge.getDate()*/); //Todo 확인 버튼을 누르면 이 메소드가 실행되게
                 Toast.makeText(getApplicationContext(), "Data is added!", Toast.LENGTH_SHORT).show();
                 finish();
             }
