@@ -26,8 +26,8 @@ public class ChallhistoryActivity extends AppCompatActivity {
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChallhistoryActivity.this, CalendarActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(ChallhistoryActivity.this, CalendarActivity.class);
+                startActivity(intent);*/ //바로 전 레이아웃이 캘린더 레이아웃이라 나가기
                 finish();
             }
         });

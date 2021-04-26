@@ -23,40 +23,41 @@ public class MainActivity extends AppCompatActivity {
 
     //    TextView text_curAchi = findViewById(R.id.text_curAchi_main);
     public ImageButton button_Add_challenge;
-    //public ImageButton button_detail;
-    public ImageButton img_cal;
+
     //  TextView text_Curdate = findViewById(R.id.text_Curdate_main);
     //   ProgressBar progressBar_reward = findViewById(R.id.progressBar_reward_main);
     //  RecyclerView recyclerView_Plan = findViewById(R.id.recycler_plan_main);
     //  RecyclerView recyclerView_Chall = findViewById(R.id.recycler_Chall_main);
 
     Spinner spinner;
-    ImageButton btn_menu;
+    ImageButton btn_menu, img_cal;
     String menu_item;
+
+    private long backKeyPressedTime = 0;    //마지막으로 뒤로가기 눌렀던 시간 저장
+    private Toast toast;    //첫번째 뒤로가기 버튼 누를때 표시
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
         button_Add_challenge = findViewById(R.id.button_Addchall_main);
         //button_detail = findViewById(R.id.button_detail_main);
         img_cal = findViewById(R.id.img_cal_main);
 
         //@@@@@메뉴 스피너@@@@@@@//
         btn_menu = findViewById(R.id.btn_more_main);
-        final String[] menu = {"홈", "상자", "칭호", "설정"};  //메뉴 아이템 항목
+        final String[] menu = {"상자", "칭호", "설정"};  //메뉴 아이템 항목
         spinner = findViewById(R.id.spinner_main);  //스피너 초기화
         ArrayAdapter menuAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, menu);  //menu 어댑터 생성
         menuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(menuAdapter);
-        spinner.setSelection(0);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 menu_item = (String) spinner.getSelectedItem();
-                Toast.makeText(getApplicationContext(),"Selected menu : " + menu[position], Toast.LENGTH_SHORT).show();
 
             }
 
@@ -71,20 +72,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 switch(menu_item) {
-                    case "홈":
-                        /*Intent intent = new Intent (MainActivity.this, MainActivity.class);
-                        startActivity(intent);*/ //동일 페이지라 설정X
-                        Toast.makeText(getApplicationContext(),"This is that page!", Toast.LENGTH_SHORT).show(); //동일 페이지에 출력
-                        break;
                     case "상자":
                         Intent intent = new Intent(MainActivity.this, BoxActivity.class);
                         startActivity(intent);
-                        finish();
                         break;
                     case "칭호":
                         intent = new Intent(MainActivity.this, AchivementActivity.class);
                         startActivity(intent);
-                        finish();
                         break;
                     case "설정":
                         intent = new Intent(MainActivity.this, SettingsActivity.class);
@@ -105,13 +99,11 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);  //자세히 보기 누를시 캘린더 화면으로 넘기기
 //            }
 //        });
-
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-                startActivity(intent); // 캘린더 아이콘 누를시 캘린더 화면으로 넘기기
-                finish();
+                startActivity(intent);
             }
         });
         /*
@@ -137,7 +129,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    public void onBackPressed() {   //뒤로가기 두번 눌러서 앱 종료
+        //super.onBackPressed();
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+            toast.cancel();
+        }
     }
 /*
     void show() { //팝업 메소드

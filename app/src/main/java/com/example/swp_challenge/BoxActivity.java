@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.example.swp_challenge.controller.BoxController;
 
 public class BoxActivity extends AppCompatActivity {
     ImageButton img_cal;
@@ -32,21 +31,17 @@ public class BoxActivity extends AppCompatActivity {
         btn_open = findViewById(R.id.button_open);
         //@@@@@메뉴 스피너@@@@@@@//
         btn_menu = findViewById(R.id.btn_more_box);
-        final String[] menu = {"홈", "상자", "칭호", "설정"};  //메뉴 아이템 항목
+        final String[] menu = {"상자", "칭호", "설정"};  //메뉴 아이템 항목
         spinner = findViewById(R.id.spinner_box);  //스피너 초기화
         ArrayAdapter menuAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, menu);  //menu 어댑터 생성
         menuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(menuAdapter);
-        spinner.setSelection(1);
-
+        spinner.setSelection(0);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 menu_item = (String) spinner.getSelectedItem();
-                Toast.makeText(getApplicationContext(),"Selected menu : " + menu[position], Toast.LENGTH_SHORT).show();
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -58,24 +53,20 @@ public class BoxActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 switch(menu_item) {
-                    case "홈":
-                        Intent intent = new Intent (BoxActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
                     case "상자":
                         /*Intent intent = new Intent(BoxActivity.this, BoxActivity.class);
                         startActivity(intent);*/ //동일 페이지라 설정X
                         Toast.makeText(getApplicationContext(),"This is that page!", Toast.LENGTH_SHORT).show(); //동일 페이지에 출력
                         break;
                     case "칭호":
-                        intent = new Intent(BoxActivity.this, AchivementActivity.class);
+                        Intent intent = new Intent(BoxActivity.this, AchivementActivity.class);
                         startActivity(intent);
                         finish();
                         break;
                     case "설정":
                         intent = new Intent(BoxActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
 
                 }
@@ -93,11 +84,9 @@ public class BoxActivity extends AppCompatActivity {
             }
         });
 
-      btn_open.setOnClickListener(new View.OnClickListener() {    //상자열기
+        btn_open.setOnClickListener(new View.OnClickListener() {    //상자열기
             @Override
             public void onClick(View v) {
-                BoxController index = new BoxController();
-                index.boxOpen();
                 Intent intent = new Intent(BoxActivity.this, PopupBoxActivity.class);
                 startActivity(intent);
             }

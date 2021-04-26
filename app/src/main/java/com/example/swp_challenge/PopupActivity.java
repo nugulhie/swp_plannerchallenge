@@ -20,6 +20,7 @@ public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만�
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);//popup 타이틀제거
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_popup);
 

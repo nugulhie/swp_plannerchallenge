@@ -31,18 +31,16 @@ public class AchivementActivity extends AppCompatActivity {
 
         //@@@@@메뉴 스피너@@@@@@@//
         btn_menu = findViewById(R.id.btn_more_ach);
-        final String[] menu = {"홈", "상자", "칭호", "설정"};  //메뉴 아이템 항목
+        final String[] menu = {"상자", "칭호", "설정"};  //메뉴 아이템 항목
         spinner = findViewById(R.id.spinner_ach);  //스피너 초기화
         ArrayAdapter menuAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, menu);  //menu 어댑터 생성
         menuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(menuAdapter);
-        spinner.setSelection(2);
-
+        spinner.setSelection(1);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 menu_item = (String) spinner.getSelectedItem();
-                Toast.makeText(getApplicationContext(),"Selected menu : " + menu[position], Toast.LENGTH_SHORT).show();
 
             }
 
@@ -57,13 +55,8 @@ public class AchivementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 switch(menu_item) {
-                    case "홈":
-                        Intent intent = new Intent (AchivementActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
                     case "상자":
-                        intent = new Intent(AchivementActivity.this, BoxActivity.class);
+                        Intent intent = new Intent(AchivementActivity.this, BoxActivity.class);
                         startActivity(intent);
                         finish();
                         break;
@@ -75,6 +68,7 @@ public class AchivementActivity extends AppCompatActivity {
                     case "설정":
                         intent = new Intent(AchivementActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
 
                 }
