@@ -11,8 +11,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.example.swp_challenge.controller.UserController;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.swp_challenge.controller.PlannerController;
 
 public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
 
@@ -20,6 +22,8 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
     ImageButton btn_delete_schedule;
     String category_item;
     Spinner spinner_category;
+    PlannerController plan = new PlannerController();
+    UserController user = new UserController();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +75,9 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
         btn_submit_schedule.setOnClickListener(new View.OnClickListener() { //입력버튼
             @Override
             public void onClick(View v) {
-                //데이터 추가해주는 메소드 추가해주어야함.
+                //데이터 추가해주는 메소드 추가해주어야함. //Todo 팝업 인텐트에서 setplan 메소드에 값 넘겨주는 구문 작성 필요
+                //plan.setPlan(content, category); //일정 추가 메소드
+                user.insertPlan();
                 Toast.makeText(getApplicationContext(), "Data is added!", Toast.LENGTH_SHORT).show();
                 finish();
             }

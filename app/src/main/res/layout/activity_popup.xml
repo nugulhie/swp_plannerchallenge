@@ -103,7 +103,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                app:srcCompat="@drawable/calendar"
+                app:srcCompat="@drawable/calendar1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"/>
 
@@ -130,7 +130,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                app:srcCompat="@drawable/calendar"
+                app:srcCompat="@drawable/calendar1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"/>
 
