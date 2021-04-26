@@ -2,8 +2,11 @@ package com.example.swp_challenge.controller;
 
 import android.app.Application;
 
+import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
+
 public class UserController extends Application
 {
+    swp_databaseOpenHelper db = new swp_databaseOpenHelper(this);
     private String userName;
     private int cnt_key=0;
     private int planId;
@@ -36,6 +39,7 @@ public class UserController extends Application
     //여기서 부터 값 넣는 함수
     public void setCnt_key(int value){
         this.cnt_key = value;
+        updateUser();
     }
     public void setPlanId(int value){
         this.planId = value;
@@ -45,12 +49,16 @@ public class UserController extends Application
     }
     public void setBoxRank(int value){
         this.boxRank = value;
+        updateUser();
     }
     public void setChance(float chance){
         this.getChance = chance;
     }
     public void sethasachivement(int i, boolean flag){
         this.hasAchivement[i] = flag;
+    }
+    public void giveAchivement(int i){
+        this.hasAchivement[i] = true;
     }
 
     float checkRank() { // 계급을 확인후 확률 부여
@@ -77,6 +85,8 @@ public class UserController extends Application
 
     } //사용자의 상자의 계급을 확인하는 함수
 
-
-
+    void updateUser(){ //사용자 이름,
+        db.insertColumn(getUserName(),getCnt_key(),getBoxRank());
+    }
 }
+
