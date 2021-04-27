@@ -1,6 +1,11 @@
  package com.example.swp_challenge.controller;
 
  public class BoxController {
+     private static final BoxController box = new BoxController();
+     public static BoxController getInstance(){
+         return box;
+     } //싱글톤 작업
+
      KeyController key = new KeyController();
      UserAchivementController AC = new UserAchivementController();
 

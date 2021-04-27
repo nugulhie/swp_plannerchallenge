@@ -3,59 +3,55 @@ package com.example.swp_challenge.dataController;
 import android.provider.BaseColumns;
 
 public final class swp_database {
-
+    private swp_database(){}
     public static final class UserDB implements BaseColumns { //사용자 데이터베이스
-        public static final String user_name = "name";
-        public static final String cnt_key = "cnt_key";
-        public static final String plan_id = "plan_id";
-        public static final String chall_id = "chall_id";
-        public static final String box_rank = "box_rank";
-        public static final String has_achivement = "has_achivement";
-        public static final String birth = "birth";
-        public static final String _TABLENAME0 = "User";
-        public static final String _CREATE0 = "create table if not exists " + _TABLENAME0+"("
-                +user_name+" text, "
-                +birth+" Date, "
-                +cnt_key+" integer, "
-                +has_achivement+" array integer"
-                +plan_id+" integer, "
-                +chall_id+" integer, "
-                +box_rank+" integer not null );";
+        public static final String TABLE_NAME = "UserDataBase";
+        public static final String USER_KEY = "USER_KEY";
+        public static final String USER_NAME = "USER_NAME";
+        public static final String BIRTH = "BIRTH";
+        public static final String BOX_RANK = "BOX_RANK";
+        public static final String SQL_CREATE =
+                "CREATE TABLE "+ UserDB.TABLE_NAME+ " ("
+                +UserDB.USER_NAME+ " TEXT,"
+                +UserDB._ID+ " INTEGER PRIMARY KEY,"
+                +UserDB.USER_KEY+" INTEGER,"
+                +UserDB.BIRTH+" TEXT,"
+                +UserDB.BOX_RANK+" INTEGER)";
+        public static final String SQL_DELETE =
+                "DROP TABLE IF EXISTS " + UserDB.TABLE_NAME;
+    }
 
+    public static final class PlanDB implements BaseColumns { // 일정 데이터베이스
+        public static final String TABLE_NAME = "PlanDataBase";
+        public static final String PLAN_ID = "PLAN_ID";
+        public static final String PLAN_CONTENTS = "PLAN_CONTENTS";
+        public static final String PLAN_CATEGORY = "PLAN_CATEGORY";
+        public static final String PLAN_DATE = "PLAN_DATE";
+        public static final String SQL_CREATE =
+                "CREATE TABLE "+ PlanDB.TABLE_NAME+ " ("
+                +PlanDB.PLAN_ID+" INTEGER PRIMARY KEY,"
+                +PlanDB.PLAN_CONTENTS+" TEXT,"
+                +PlanDB.PLAN_CATEGORY+" INTEGER,"
+                +PlanDB.PLAN_DATE+" TEXT)";
+        public static final String SQL_DELETE =
+                "DROP TABLE IF EXISTS " + PlanDB.TABLE_NAME;
     }
-    public static final class PlanDB implements BaseColumns{ // 일정 데이터베이스
-        public static final String plan_id = "plan_id";
-        public static final String contents = "contents";
-        public static final String plan_category = "plan_category";
-        public static final String plan_date = "plan_date";
-        public static final String _TABLENAME1 = "Plan";
-        public static final String _CREATE1 = "create table if not exist " + _TABLENAME1+"("
-                +plan_id+" integer, "
-                +plan_category+ " integer"
-                +contents+" text"
-                +plan_date+" Date);";
-    }
-    public static final class challengeDB implements BaseColumns{ // 도전과제 데이터베이스
-        public static final String chall_id = "chall_id";
-        public static final String chall_rating = "chall_rating";
-        public static final String chall_contents = "chall_contents";
-        public static final String chall_pass = "chall_pass";
-        public static final String chall_date = "chall_date";
-        public static final String _TABLENAME2 = "Challenge";
-        public static final String _CREATE2 = "create table if not exist "+_TABLENAME2+"("
-                +chall_id+" integer"
-                +chall_rating+" float"
-                +chall_contents+" text"
-                +chall_pass+" boolean"
-                +chall_date+" Date);";
-    }
-    /*public static final class achivementDB implements  BaseColumns { // 칭호 데이터베이스
-        public static final String achive_id = "achive_id";
-        public static final String achive_name = "achive_name";
-        public static final String _TABLENAME3 = "Achivement";
-        public static final String _CREATE3 = "create table if not exist " + _TABLENAME3 + "("
-                + achive_id + " integer"
-                + achive_name + " text);";
-    }
-*/}
 
+    public static final class ChallengeDB implements BaseColumns { // 도전과제 데이터베이스
+        public static final String TABLE_NAME =" ChallengeDataBase";
+        public static final String CHALLENGE_ID = "CHALLENGE_ID";
+        public static final String CHALLENGE_RATING = "CHALLENGE_RATING";
+        public static final String CHALLENGE_CONTENTS = "CHALLENGE_CONTENTS";
+        public static final String CHALLENGE_PASS = "CHALLENGE_PASS";
+        public static final String CHALLENGE_DATE = "CHALLENGE_DATE";
+        public static final String SQL_CREATE =
+                "CREATE TABLE "+ ChallengeDB.TABLE_NAME+ " ("
+                +ChallengeDB.CHALLENGE_ID+" INTEGER PRIMARY KEY,"
+                +ChallengeDB.CHALLENGE_RATING+ " REAL,"
+                +ChallengeDB.CHALLENGE_CONTENTS+" TEXT,"
+                +ChallengeDB.CHALLENGE_PASS+" INTEGER,"
+                +ChallengeDB.CHALLENGE_DATE+" TEXT)";
+        public static final String SQL_DELETE =
+                "DROP TABLE IF EXISTS " + ChallengeDB.TABLE_NAME;
+    }
+}

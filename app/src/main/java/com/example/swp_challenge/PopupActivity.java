@@ -2,6 +2,8 @@ package com.example.swp_challenge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +15,12 @@ import android.widget.Toast;
 import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.controller.ChallengeController;
 import  com.example.swp_challenge.controller.PlannerController;
+import com.example.swp_challenge.dataController.swp_database;
+import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+//import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
 public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
 
@@ -21,7 +29,10 @@ public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만�
     UserController user = new UserController();
     ChallengeController challenge = new ChallengeController();
     PlannerController plan = new PlannerController();
+    swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
+    SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+//    swp_databaseOpenHelper db = new swp_databaseOpenHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +71,25 @@ public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만�
         });
     }
 
+//    public void insertChallenge(){
+//        db.challenge_insertColumn(challenge.getChall_id(), challenge.getRating(), challenge.getContents(), challenge.getChall_pass(), challenge.getDate());
+//    }
 
     public boolean onTouchEvent(MotionEvent event) { //바깥 레이어 클릭해도 팝업 안 닫히게 하기.
         if(event.getAction()==MotionEvent.ACTION_OUTSIDE) {
             return false;
         }
         return true;
+    }
+    public void insertChallenge(String contents, Date date, int challenge_id, float rating ){
+        ContentValues values = new ContentValues();
+        SimpleDateFormat dateFormat = new SimpleDateFormat();
+        values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,contents);
+        values.put(swp_database.ChallengeDB.CHALLENGE_DATE,dateFormat.format(date));
+        values.put(swp_database.ChallengeDB.CHALLENGE_ID, challenge_id);
+        values.put(swp_database.ChallengeDB.CHALLENGE_PASS,0);
+        values.put(swp_database.ChallengeDB.CHALLENGE_RATING, rating);
+        long newRowId = db.insert(swp_database.ChallengeDB.TABLE_NAME, null, values);
     }
     public void onBackPressed() {   //백스페이스 막기
         return;

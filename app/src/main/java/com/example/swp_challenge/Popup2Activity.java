@@ -15,9 +15,9 @@ import com.example.swp_challenge.controller.UserController;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.swp_challenge.controller.PlannerController;
+//import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
 public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
-
     Button btn_cancel_schedule, btn_submit_schedule;
     ImageButton btn_delete_schedule;
     String category_item;
@@ -77,13 +77,16 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
             public void onClick(View v) {
                 //데이터 추가해주는 메소드 추가해주어야함. //Todo 팝업 인텐트에서 setplan 메소드에 값 넘겨주는 구문 작성 필요
                 //plan.setPlan(content, category); //일정 추가 메소드
-                user.insertPlan();
+//                insertPlan();
                 Toast.makeText(getApplicationContext(), "Data is added!", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
     }
-
+//
+//    public void insertPlan() {
+//        db.plan_insertColumn(plan.getPlan_id(),plan.getPlanContents(),plan.getCategory(),plan.getDate());
+//    }
 
     public boolean onTouchEvent(MotionEvent event) { //바깥 레이어 클릭해도 팝업 안 닫히게 하기.
         if(event.getAction()==MotionEvent.ACTION_OUTSIDE) {

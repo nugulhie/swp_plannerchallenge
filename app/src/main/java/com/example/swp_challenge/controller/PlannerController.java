@@ -6,7 +6,11 @@ import java.security.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-public class PlannerController extends Application {
+public class PlannerController{
+    private static final PlannerController plan = new PlannerController();
+    public static PlannerController getInstance(){
+        return plan;
+    }
     private String planContents = new String();
     private int plan_id = 0;
     private int category;
@@ -19,19 +23,19 @@ public class PlannerController extends Application {
         this.plan_id++;
     }
 
-    String getPlanContents(){
+    public String getPlanContents(){
         return this.planContents;
     }
 
-    int getPlan_id(){
+    public int getPlan_id(){
         return this.plan_id;
     }
 
-    int getCategory(){
+    public int getCategory(){
         return this.category;
     }
 
-    Date getDate(){
+    public Date getDate(){
         return this.date;
     }
 

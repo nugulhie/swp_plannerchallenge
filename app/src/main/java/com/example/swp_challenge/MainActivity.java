@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.BaseColumns;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -17,21 +21,28 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.swp_challenge.controller.KeyController;
+import com.example.swp_challenge.controller.PlannerController;
+import com.example.swp_challenge.controller.UserController;
+import com.example.swp_challenge.dataController.swp_database;
+import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
+
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    //    TextView text_curAchi = findViewById(R.id.text_curAchi_main);
+    KeyController key = KeyController.getInstance();
+    UserController user = new UserController();
     public ImageButton button_Add_challenge;
-
-    //  TextView text_Curdate = findViewById(R.id.text_Curdate_main);
-    //   ProgressBar progressBar_reward = findViewById(R.id.progressBar_reward_main);
-    //  RecyclerView recyclerView_Plan = findViewById(R.id.recycler_plan_main);
-    //  RecyclerView recyclerView_Chall = findViewById(R.id.recycler_Chall_main);
-
     Spinner spinner;
     ImageButton btn_menu, img_cal;
     String menu_item;
+    //----------------database-------------------
+
 
     private long backKeyPressedTime = 0;    //마지막으로 뒤로가기 눌렀던 시간 저장
     private Toast toast;    //첫번째 뒤로가기 버튼 누를때 표시
@@ -41,6 +52,56 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat();
+
+        String[] challengeProjection = {
+                swp_database.ChallengeDB.CHALLENGE_CONTENTS,
+                swp_database.ChallengeDB.CHALLENGE_PASS};
+       String[] planProjection = {
+                swp_database.PlanDB.PLAN_CONTENTS,
+                swp_database.PlanDB.PLAN_DATE};
+        String challengeSelection = swp_database.ChallengeDB.CHALLENGE_DATE +" ="+dateFormat.format(date);
+        String planSelection = swp_database.PlanDB.PLAN_DATE+" ="+dateFormat.format(date);
+        Cursor planCursor = db.query(
+                swp_database.PlanDB.TABLE_NAME,
+                planProjection,
+                null,
+                null,
+                null,
+                null,
+                null);
+        Cursor challengeCursor = db.query(
+                swp_database.ChallengeDB.TABLE_NAME,
+                challengeProjection,
+                null,
+                null,
+                null,
+                null,
+                null);
+        //-----------------database--------------------
+        List challengeItem = new ArrayList<>();
+        while(challengeCursor.moveToNext()){
+            int itemId = challengeCursor.getInt(
+                    challengeCursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID)
+            );
+            challengeItem.add(itemId);
+        }
+        challengeCursor.close();
+        List planContent = new ArrayList<>();
+        while(planCursor.moveToNext()){
+            String planContents = planCursor.getString(
+                    planCursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS)
+            );
+            Log.d("dasssdsssss",planCursor.toString());
+            planContent.add(planContents);
+        }
+        planCursor.close();
+
 
         button_Add_challenge = findViewById(R.id.button_Addchall_main);
         //button_detail = findViewById(R.id.button_detail_main);
@@ -90,15 +151,6 @@ public class MainActivity extends AppCompatActivity {
         });
         //@@@@@메뉴 스피너 끝@@@@@2//
 
-
-//이 밑으로 전부 intent 함수
-//        button_detail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-//                startActivity(intent);  //자세히 보기 누를시 캘린더 화면으로 넘기기
-//            }
-//        });
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,21 +158,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*
-        button_Add_challenge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), PopupActivity.class);
-                intent.putExtra("title", "공지사항");
-                startActivityForResult(intent, 1); // +버튼 누르면 팝업 생성
-            }
-        });
-        button_Add_challenge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                show();
-            }
-        });*/
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,25 +181,5 @@ public class MainActivity extends AppCompatActivity {
             toast.cancel();
         }
     }
-/*
-    void show() { //팝업 메소드
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("AlertDialog Title");
-        builder.setMessage("AlertDialog Content");
-        builder.setPositiveButton("예",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "예를 선택했습니다.", Toast.LENGTH_LONG).show();
-                    }
-    });
-        builder.setNegativeButton("아니오",
-                new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int which) {
-            Toast.makeText(getApplicationContext(), "아니오를 선택했습니다.", Toast.LENGTH_LONG).show();
-        }
-    });
-        builder.show();
-    }*/
 
 }
-
