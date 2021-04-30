@@ -1,201 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal">
 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/maplestory_bold"
+        android:text="도전과제 설정"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_delete_chall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/trash" />
+
     <LinearLayout
+        android:id="@+id/linearLayout12"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="58dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/content_chall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView1">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            android:fontFamily="@font/maplestory_bold"
+            android:text="중요도"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/maplestory_bold"
-                android:text="도전과제 설정"
-                android:textColor="#000000"
-                android:textSize="20sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/btn_delete_chall"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/trash" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
-                android:text="중요도"
-                android:textSize="20sp"
-                android:fontFamily="@font/maplestory_bold"
-                android:layout_gravity="center_vertical"/>
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:numStars="3"
-                android:rating="2"
-                android:stepSize="1"
-                />
-
-        </LinearLayout>
-
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:hint="내용을 입력하세요."
-            android:fontFamily="@font/maplestory_bold"
-            android:inputType="text" />
+            android:numStars="3"
+            android:rating="2"
+            android:stepSize="1" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
-                android:text="기간"
-                android:textSize="20sp"
-                android:fontFamily="@font/maplestory_bold"
-                android:layout_gravity="center_vertical"/>
-
-            <ImageButton
-                android:id="@+id/btn_date1_chall"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                app:srcCompat="@drawable/calendar1"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"/>
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_gravity="center_vertical"
-                android:text="date"
-                android:fontFamily="@font/maplestory_bold"
-                android:textSize="15sp"/>
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_gravity="center_vertical"
-                android:text="~"
-                android:fontFamily="@font/maplestory_bold"
-                android:textSize="20sp"/>
-            <ImageButton
-                android:id="@+id/btn_date2_chall"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                app:srcCompat="@drawable/calendar1"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"/>
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_gravity="center_vertical"
-                android:text="date"
-                android:fontFamily="@font/maplestory_bold"
-                android:textSize="15sp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
-                android:text="시각"
-                android:textSize="20sp"
-                android:fontFamily="@font/maplestory_bold"
-                android:layout_gravity="center_vertical" />
-
-            <TimePicker
-                android:id="@+id/timePicker"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:timePickerMode="spinner">
-
-            </TimePicker>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_cancel_chall"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginHorizontal="50dp"
-                android:fontFamily="@font/maplestory_bold"
-                android:text="CANCEL"
-
-                android:textColor="#959595"
-                app:backgroundTint="#4D45D6AD" />
-
-            <Button
-                android:id="@+id/btn_submit_chall"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="50dp"
-                android:fontFamily="@font/maplestory_bold"
-                android:text="SUBMIT"
-                app:backgroundTint="#45D6AD" />
-        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <EditText
+        android:id="@+id/content_chall"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:maxLength="20"
+        android:layout_marginHorizontal="10dp"
+        android:fontFamily="@font/maplestory_bold"
+        android:hint="내용을 입력하세요."
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout12" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_chall">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginVertical="5dp"
+            android:fontFamily="@font/maplestory_bold"
+            android:text="기간"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/btn_date1_chall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/calendar1" />
+
+        <TextView
+            android:id="@+id/startDate"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/maplestory_bold"
+            android:text="date"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/maplestory_bold"
+            android:text="~"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/btn_date2_chall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/calendar1" />
+
+        <TextView
+            android:id="@+id/endDate"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="5dp"
+            android:fontFamily="@font/maplestory_bold"
+            android:text="date"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit_chall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout14">
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            android:fontFamily="@font/maplestory_bold"
+            android:text="시각"
+            android:textSize="20sp" />
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:timePickerMode="spinner">
+
+        </TimePicker>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit_chall"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/maplestory_bold"
+        android:text="SUBMIT"
+        app:backgroundTint="#45D6AD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_cancel_chall"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btn_cancel_chall"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/maplestory_bold"
+        android:text="CANCEL"
+
+        android:textColor="#959595"
+        app:backgroundTint="#4D45D6AD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_submit_chall"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
