@@ -1,27 +1,23 @@
 package com.example.swp_challenge.controller;
 
 
-import android.content.Context;
+import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.swp_challenge.MainActivity;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 import android.*;
+import com.example.swp_challenge.controller.PlannerController;
 
-public class UserController {
-    private static final UserController user = new UserController();
-
-    public static UserController getInstance() {
-        return user;
-    }
-
+public class UserController extends Application {
+    swp_databaseOpenHelper db = new swp_databaseOpenHelper(this);
     PlannerController plan = new PlannerController();
     ChallengeController challenge = new ChallengeController();
     private String userName;
     private int cnt_key = 0;
     private int planId;
     private int challId;
-    private int boxRank = 0;
+    private int boxRank;
     private float getChance = 0.6f;
     private boolean[] hasAchivement = new boolean[100];
 
@@ -56,6 +52,7 @@ public class UserController {
     //여기서 부터 값 넣는 함수
     public void setCnt_key(int value) {
         this.cnt_key = value;
+        updateUser();
     }
 
     public void setPlanId(int value) {
@@ -68,6 +65,7 @@ public class UserController {
 
     public void setBoxRank(int value) {
         this.boxRank = value;
+        updateUser();
     }
 
     public void setChance(float chance) {
@@ -82,7 +80,7 @@ public class UserController {
         this.hasAchivement[i] = true;
     }
 
-    public float checkRank() { // 계급을 확인후 확률 부여
+    float checkRank() { // 계급을 확인후 확률 부여
         switch (boxRank) {
             case 1:
                 return 0.6f;
@@ -105,4 +103,16 @@ public class UserController {
         }
 
     } //사용자의 상자의 계급을 확인하는 함수
+
+    public void updateUser() { //사용자 이름,
+        db.insertColumn(getUserName(), getCnt_key(), getBoxRank());
+    }
+
+    public void insertPlan() {
+        db.plan_insertColumn(plan.getPlan_id(),plan.getPlanContents(),plan.getCategory(),plan.getDate());
+    }
+
+    public void insertChallenge(){
+        db.challenge_insertColumn(challenge.getChall_id(), challenge.getRating(), challenge.getContents(), challenge.getChall_pass(), challenge.getDate());
+    }
 }

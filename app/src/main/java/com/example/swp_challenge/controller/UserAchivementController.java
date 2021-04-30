@@ -1,9 +1,5 @@
 package com.example.swp_challenge.controller;
 public class UserAchivementController {
-    private static final UserAchivementController achivements = new UserAchivementController();
-    public static UserAchivementController getInstance(){
-        return achivements;
-    }
 
     void initAchivement(){
         String[] achs = new String[10];
