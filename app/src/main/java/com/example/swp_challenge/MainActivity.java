@@ -21,6 +21,7 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.swp_challenge.controller.ChallengeController;
 import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.PlannerController;
 import com.example.swp_challenge.controller.UserController;
@@ -56,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Date date = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
+        Date date = Calendar.getInstance().getTime();
 
         String[] challengeProjection = {
                 swp_database.ChallengeDB.CHALLENGE_CONTENTS,
@@ -67,40 +68,40 @@ public class MainActivity extends AppCompatActivity {
                 swp_database.PlanDB.PLAN_DATE};
         String challengeSelection = swp_database.ChallengeDB.CHALLENGE_DATE +" ="+dateFormat.format(date);
         String planSelection = swp_database.PlanDB.PLAN_DATE+" ="+dateFormat.format(date);
-        Cursor planCursor = db.query(
-                swp_database.PlanDB.TABLE_NAME,
-                planProjection,
-                null,
-                null,
-                null,
-                null,
-                null);
-        Cursor challengeCursor = db.query(
-                swp_database.ChallengeDB.TABLE_NAME,
-                challengeProjection,
-                null,
-                null,
-                null,
-                null,
-                null);
-        //-----------------database--------------------
-        List challengeItem = new ArrayList<>();
-        while(challengeCursor.moveToNext()){
-            int itemId = challengeCursor.getInt(
-                    challengeCursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID)
-            );
-            challengeItem.add(itemId);
-        }
-        challengeCursor.close();
-        List planContent = new ArrayList<>();
-        while(planCursor.moveToNext()){
-            String planContents = planCursor.getString(
-                    planCursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS)
-            );
-            Log.d("dasssdsssss",planCursor.toString());
-            planContent.add(planContents);
-        }
-        planCursor.close();
+//        Cursor planCursor = db.query(
+//                swp_database.PlanDB.TABLE_NAME,
+//                planProjection,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null);
+//        Cursor challengeCursor = db.query(
+//                swp_database.ChallengeDB.TABLE_NAME,
+//                challengeProjection,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null);
+//        //-----------------database--------------------
+//        List challengeItem = new ArrayList<>();
+//        while(challengeCursor.moveToNext()){
+//            int itemId = challengeCursor.getInt(
+//                    challengeCursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID)
+//            );
+//            challengeItem.add(itemId);
+//        }
+//        challengeCursor.close();
+//        List planContent = new ArrayList<>();
+//        while(planCursor.moveToNext()){
+//            String planContents = planCursor.getString(
+//                    planCursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS)
+//            );
+//            Log.d("dasssdsssss",planCursor.toString());
+//            planContent.add(planContents);
+//        }
+//        planCursor.close();
 
 
         button_Add_challenge = findViewById(R.id.button_Addchall_main);
@@ -180,6 +181,10 @@ public class MainActivity extends AppCompatActivity {
             finish();
             toast.cancel();
         }
+    }
+
+    public void onData(swp_database db, swp_databaseOpenHelper dbhelper, UserController user, PlannerController plan, ChallengeController challenge){
+
     }
 
 }

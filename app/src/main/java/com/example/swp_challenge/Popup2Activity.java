@@ -1,5 +1,7 @@
 package com.example.swp_challenge;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +17,11 @@ import com.example.swp_challenge.controller.UserController;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.swp_challenge.controller.PlannerController;
+import com.example.swp_challenge.dataController.swp_database;
+import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 //import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
 public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
@@ -24,6 +31,9 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
     Spinner spinner_category;
     PlannerController plan = new PlannerController();
     UserController user = new UserController();
+    swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
+    SQLiteDatabase db = dbHelper.getWritableDatabase();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +87,14 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
             public void onClick(View v) {
                 //데이터 추가해주는 메소드 추가해주어야함. //Todo 팝업 인텐트에서 setplan 메소드에 값 넘겨주는 구문 작성 필요
                 //plan.setPlan(content, category); //일정 추가 메소드
-//                insertPlan();
+                insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getPlan_id(),plan.getDate());
                 Toast.makeText(getApplicationContext(), "Data is added!", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
     }
-//
-//    public void insertPlan() {
-//        db.plan_insertColumn(plan.getPlan_id(),plan.getPlanContents(),plan.getCategory(),plan.getDate());
-//    }
+
+
 
     public boolean onTouchEvent(MotionEvent event) { //바깥 레이어 클릭해도 팝업 안 닫히게 하기.
         if(event.getAction()==MotionEvent.ACTION_OUTSIDE) {
@@ -97,4 +105,5 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
     public void onBackPressed() {   //백스페이스 막기
         return;
     }
+
 }
