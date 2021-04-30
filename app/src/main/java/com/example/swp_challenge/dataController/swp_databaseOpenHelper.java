@@ -35,11 +35,20 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void insertChallenge(String contents, Date date, int challenge_id, float rating, boolean chall_pass){
+    public void insertChallenge(String contents, Date date, int challenge_id, float rating, int chall_pass){
         SQLiteDatabase db = getWritableDatabase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat();
+
         db.execSQL("INSERT INTO ChallengeDB(CHALLENGE_ID, CHALLENGE_RATING, CHALLENGE_CONTENTS, CHALLENGE_PASS, CHALLENGE_DATE) VALUES(" +
-                "'"+contents+"','" +rating+"','"+contents+"','"+chall_pass+"','"+date+"' );");
+                "'"+challenge_id+"','" +rating+"','"+contents+"','"+chall_pass+"','"+dateFormat.format(date)+"' );");
     }
+    public void insertPlan(String contents, int category, int id, Date date){
+        SQLiteDatabase db = getWritableDatabase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat();
+        db.execSQL("INSERT INTO PlanDB(PLAN_ID, PLAN_CONTETNS, PLAN_CATEGORY, PLAN_DATE) VALUES("+
+                "'"+id+"','"+contents+"','"+category+"','"+dateFormat.format(date)+"');");
+    }
+
 /*        ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,contents);

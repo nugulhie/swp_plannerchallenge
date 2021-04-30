@@ -87,7 +87,7 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
             public void onClick(View v) {
                 //데이터 추가해주는 메소드 추가해주어야함. //Todo 팝업 인텐트에서 setplan 메소드에 값 넘겨주는 구문 작성 필요
                 //plan.setPlan(content, category); //일정 추가 메소드
-                insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getPlan_id(),plan.getDate());
+                dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getPlan_id(),plan.getDate());
                 Toast.makeText(getApplicationContext(), "Data is added!", Toast.LENGTH_SHORT).show();
                 finish();
             }
