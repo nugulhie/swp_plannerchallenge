@@ -102,5 +102,5 @@ public class UserController extends Application {
 
     } //사용자의 상자의 계급을 확인하는 함수
 
-//
+
 }

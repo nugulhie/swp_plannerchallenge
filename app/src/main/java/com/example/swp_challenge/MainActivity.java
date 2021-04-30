@@ -36,7 +36,7 @@ import java.util.Date;
 import java.util.List;
 //
 public class MainActivity extends AppCompatActivity {
-    KeyController key = KeyController.getInstance();
+    //KeyController key = KeyController.getInstance();
     UserController user = new UserController();
     public ImageButton button_Add_challenge;
     Spinner spinner;
