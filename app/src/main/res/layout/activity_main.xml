@@ -175,6 +175,7 @@
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_plan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -264,6 +265,7 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_challenge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"

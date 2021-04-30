@@ -2,6 +2,8 @@ package com.example.swp_challenge;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,12 +28,15 @@ import com.example.swp_challenge.controller.ChallengeController;
 import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.PlannerController;
 import com.example.swp_challenge.controller.UserController;
+import com.example.swp_challenge.dataController.RecyclerAdapter;
+import com.example.swp_challenge.dataController.recyclerData;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,15 +46,12 @@ public class MainActivity extends AppCompatActivity {
     UserController user =UserController.getInstance();
     PlannerController plan = PlannerController.getInstance();
     ChallengeController challenge = ChallengeController.getInstance();
-    swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
-    SQLiteDatabase db = dbHelper.getReadableDatabase();
-    SimpleDateFormat dateFormat = new SimpleDateFormat();
 
+    private RecyclerAdapter adapter;
     public ImageButton button_Add_challenge;
     Spinner spinner;
     ImageButton btn_menu, img_cal;
     String menu_item;
-    //----------------database-------------------
 
 
     private long backKeyPressedTime = 0;    //마지막으로 뒤로가기 눌렀던 시간 저장
@@ -59,9 +62,17 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        init_recycler();
+        getData_recycler();
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat();
+
 
         key.givekey(user, challenge.getChall_pass());
         user.setCnt_key(9);
+
+
         Log.d("159753", "onCreate: main"+user.getCnt_key());
         Date date = Calendar.getInstance().getTime();
 
@@ -144,8 +155,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onData(swp_database db, swp_databaseOpenHelper dbhelper, UserController user, PlannerController plan, ChallengeController challenge){
+    private void init_recycler(){ //RecyclerView initiate method
+        RecyclerView recyclerView_plan = findViewById(R.id.recycler_plan);
+        RecyclerView recyclerView_challenge = findViewById(R.id.recycler_challenge);
 
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView_plan.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerAdapter();
+        recyclerView_plan.setAdapter(adapter);
+        recyclerView_challenge.setAdapter(adapter);
     }
+    private void getData_recycler(){
+        List<String> listTitle = Arrays.asList("운동", "습관","미션");
+        List<String> listContent = Arrays.asList(
+                "레그프레스 3세트 10회 반복하기",
+                "아침 8시에 기상하기",
+                "오늘 과제 전부 끝내기"
+        );
+        List<Date> listDate = Arrays.asList(
+                Calendar.getInstance().getTime(),
+                Calendar.getInstance().getTime(),
+                Calendar.getInstance().getTime()
+        );
+        for(int i=0;i<listTitle.size();i++){
+            recyclerData data = new recyclerData();
+            data.setTitle(listTitle.get(i));
+            data.setContent(listContent.get(i));
+            data.setDate(listDate.get(i));
 
+            adapter.addItem(data);
+        }
+        adapter.notifyDataSetChanged();
+    }
 }
