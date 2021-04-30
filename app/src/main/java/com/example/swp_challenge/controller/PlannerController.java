@@ -12,7 +12,6 @@ public class PlannerController{
         return plan;
     }
     private String planContents = new String();
-    private int plan_id = 0;
     private int category;
     private Date date;
 
@@ -20,15 +19,10 @@ public class PlannerController{
         this.planContents = content;
         this.category = category;
         this.date = Calendar.getInstance().getTime();
-        this.plan_id++;
     }
 
     public String getPlanContents(){
         return this.planContents;
-    }
-
-    public int getPlan_id(){
-        return this.plan_id;
     }
 
     public int getCategory(){

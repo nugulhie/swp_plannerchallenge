@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -12,6 +13,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.swp_challenge.controller.BoxController;
+import com.example.swp_challenge.controller.UserController;
 
 public class BoxActivity extends AppCompatActivity {
     ImageButton img_cal;
@@ -23,9 +27,12 @@ public class BoxActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserController user =  UserController.getInstance();
+        BoxController box =BoxController.getInstance();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_box);
+        Log.d("159753", "onCreate: box"+user.getCnt_key());
         img_cal=findViewById(R.id.img_cal_box);
 
         btn_open = findViewById(R.id.button_open);
@@ -88,6 +95,7 @@ public class BoxActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(BoxActivity.this, PopupBoxActivity.class);
+                box.boxOpen(user);
                 startActivity(intent);
             }
         });

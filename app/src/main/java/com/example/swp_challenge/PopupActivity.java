@@ -28,8 +28,8 @@ import java.util.Date;
 //
 public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
 
-    UserController user = new UserController();
-    ChallengeController challenge = new ChallengeController();
+    UserController user = UserController.getInstance();
+    ChallengeController challenge = ChallengeController.getInstance();
 
     Button btn_cancel_chall, btn_submit_chall;
     ImageButton btn_delete_chall, btn_startDate, btn_endDate;
@@ -100,11 +100,12 @@ public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만�
             public void onClick(View v) {
                 //데이터 추가해주는 메소드 추가해주어야함.
                 //challenge.setChallenge(/*rating, contents, chall_pass*/); //Todo 여기에다가 인텐트값 넘겨서 setChallenge 메소드 안에 넣는거 구현해야함.
-                /*dbHelper.insertChallenge(
+              /*  dbHelper.insertChallenge(
                         challenge.getContents(),challenge.getDate() , challenge.getChall_id(),challenge.getRating(),challenge.getChall_pass()
-               ); //Todo 확인 버튼을 누르면 이 메소드가 실행되게*/
+               );*/ //Todo 확인 버튼을 누르면 이 메소드가 실행되게
                 if (content.length() > 0 )//나중에 날짜 지정 조건 추가해주기
                 {
+                    dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating());
                     Toast.makeText(getApplicationContext(), content.getText().toString() +", 중요도 : "+ ratingbar.getRating() + "Data is added!", Toast.LENGTH_SHORT).show();
                     finish();
                 }

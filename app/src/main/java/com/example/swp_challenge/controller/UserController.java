@@ -9,28 +9,21 @@ import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 import android.*;
 import com.example.swp_challenge.controller.PlannerController;
 
-public class UserController extends Application {
-    swp_databaseOpenHelper db = new swp_databaseOpenHelper(this);
-    PlannerController plan = new PlannerController();
-    ChallengeController challenge = new ChallengeController();
+public class UserController{
+    private static final UserController user = new UserController();
+    public static UserController getInstance(){
+        return user;
+    }
+    PlannerController plan = PlannerController.getInstance();
+    ChallengeController challenge =ChallengeController.getInstance();
     private String userName;
     private int cnt_key = 0;
-    private int planId;
-    private int challId;
     private int boxRank;
     private float getChance = 0.6f;
     private boolean[] hasAchivement = new boolean[100];
 
     public int getCnt_key() {
         return cnt_key;
-    }
-
-    public int getPlanId() {
-        return planId;
-    }
-
-    public int getChallId() {
-        return challId;
     }
 
     public int getBoxRank() {
@@ -52,14 +45,6 @@ public class UserController extends Application {
     //여기서 부터 값 넣는 함수
     public void setCnt_key(int value) {
         this.cnt_key = value;
-    }
-
-    public void setPlanId(int value) {
-        this.planId = value;
-    }
-
-    public void setChallId(int value) {
-        this.challId = value;
     }
 
     public void setBoxRank(int value) {

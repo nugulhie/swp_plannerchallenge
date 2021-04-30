@@ -16,10 +16,10 @@ import com.example.swp_challenge.controller.UserController;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.swp_challenge.controller.BoxController;
 public class PopupBoxActivity extends AppCompatActivity {
-//
+
     Button btn_popup;
-    BoxController box = new BoxController();
-    UserController user = new UserController();
+    BoxController box = BoxController.getInstance();
+    UserController user = UserController.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +34,6 @@ public class PopupBoxActivity extends AppCompatActivity {
             @Override
 
             public void onClick(View v) {
-
                 box.boxOpen(user);
                 finish();
             }

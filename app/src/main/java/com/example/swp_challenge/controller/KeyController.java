@@ -14,8 +14,15 @@ public class KeyController {
     } // 사용자가 열쇠를 가지고 있는지 확인하는 함수
 
 
-    void getKey(UserController user, int hint) {
+    public void getKey(UserController user, int hint) {
         user.setCnt_key(user.getCnt_key()+hint);
     } // 열쇠를 얻는 함수
+    public void givekey(UserController user, int chall_pass){
+        if(1==chall_pass){
+            user.setCnt_key(user.getCnt_key()+1);
+        }
+        //Todo ChallengeDB에서 오늘의 도전과제들의 chall_pass를 가져와야함
+        /*가져와서 chall_pass */
+    }
 }
 //

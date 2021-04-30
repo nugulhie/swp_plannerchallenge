@@ -1,13 +1,16 @@
  package com.example.swp_challenge.controller;
 
+ import android.util.Log;
+ import android.widget.Toast;
+
  public class BoxController {
      private static final BoxController box = new BoxController();
      public static BoxController getInstance(){
          return box;
      } //싱글톤 작업
 
-     KeyController key = new KeyController();
-     UserAchivementController AC = new UserAchivementController();
+     KeyController key =  KeyController.getInstance();
+     UserAchivementController AC =  UserAchivementController.getInstance();
 
 
      public void getReward(UserController user) {
@@ -17,12 +20,16 @@
          int randomAchive = (int)(Math.random()*100);
          if (1 <= a && a <= user.getChance() * 100) {
              key.getKey(user, 1);
+             Log.d("box123123123", "getReward: 1");
          } else if (user.getChance() * 100 < a && a <= user.getChance() * 100 + 30) {
              AC.giveAchivements(user,randomAchive);
+             Log.d("box123123123", "getReward: achive");
          } else if (user.getChance() * 100 + 30 < a && a <= user.getChance() * 100 + 30 + ((100 - (user.getChance() * 100 + 30)) / 2)) {
              key.getKey(user,2);
+             Log.d("box123123123", "getReward: 2");
          } else {
              key.getKey(user,3);
+             Log.d("box123123123", "getReward: 3");
          }
 
      } // 보상을 얻는 함수
@@ -33,6 +40,9 @@
              user.setCnt_key(user.getCnt_key() - 1);
              System.out.println(user.getCnt_key());
              System.out.println("키를 사용");
+         }
+         else{
+             Log.d("box123123123", "boxOpen: can't open");
          }
      } // 상자 여는 함수
  }

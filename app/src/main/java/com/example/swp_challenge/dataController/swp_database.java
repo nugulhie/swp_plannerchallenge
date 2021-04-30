@@ -29,7 +29,7 @@ public final class swp_database {
         public static final String PLAN_DATE = "PLAN_DATE";
         public static final String SQL_CREATE =
                 "CREATE TABLE "+ PlanDB.TABLE_NAME+ " ("
-                +PlanDB.PLAN_ID+" INTEGER PRIMARY KEY,"
+                +PlanDB.PLAN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +PlanDB.PLAN_CONTENTS+" TEXT,"
                 +PlanDB.PLAN_CATEGORY+" INTEGER,"
                 +PlanDB.PLAN_DATE+" TEXT)";
@@ -46,7 +46,7 @@ public final class swp_database {
         public static final String CHALLENGE_DATE = "CHALLENGE_DATE";
         public static final String SQL_CREATE =
                 "CREATE TABLE "+ ChallengeDB.TABLE_NAME+ " ("
-                +ChallengeDB.CHALLENGE_ID+" INTEGER PRIMARY KEY,"
+                +ChallengeDB.CHALLENGE_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +ChallengeDB.CHALLENGE_RATING+ " REAL,"
                 +ChallengeDB.CHALLENGE_CONTENTS+" TEXT,"
                 +ChallengeDB.CHALLENGE_PASS+" INTEGER,"

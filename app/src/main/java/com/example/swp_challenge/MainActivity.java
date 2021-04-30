@@ -36,8 +36,14 @@ import java.util.Date;
 import java.util.List;
 //
 public class MainActivity extends AppCompatActivity {
-    //KeyController key = KeyController.getInstance();
-    UserController user = new UserController();
+    KeyController key = KeyController.getInstance();
+    UserController user =UserController.getInstance();
+    PlannerController plan = PlannerController.getInstance();
+    ChallengeController challenge = ChallengeController.getInstance();
+    swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
+    SQLiteDatabase db = dbHelper.getReadableDatabase();
+    SimpleDateFormat dateFormat = new SimpleDateFormat();
+
     public ImageButton button_Add_challenge;
     Spinner spinner;
     ImageButton btn_menu, img_cal;
@@ -54,55 +60,10 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-
-        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        SimpleDateFormat dateFormat = new SimpleDateFormat();
+        key.givekey(user, challenge.getChall_pass());
+        user.setCnt_key(9);
+        Log.d("159753", "onCreate: main"+user.getCnt_key());
         Date date = Calendar.getInstance().getTime();
-
-        String[] challengeProjection = {
-                swp_database.ChallengeDB.CHALLENGE_CONTENTS,
-                swp_database.ChallengeDB.CHALLENGE_PASS};
-       String[] planProjection = {
-                swp_database.PlanDB.PLAN_CONTENTS,
-                swp_database.PlanDB.PLAN_DATE};
-        String challengeSelection = swp_database.ChallengeDB.CHALLENGE_DATE +" ="+dateFormat.format(date);
-        String planSelection = swp_database.PlanDB.PLAN_DATE+" ="+dateFormat.format(date);
-//        Cursor planCursor = db.query(
-//                swp_database.PlanDB.TABLE_NAME,
-//                planProjection,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null);
-//        Cursor challengeCursor = db.query(
-//                swp_database.ChallengeDB.TABLE_NAME,
-//                challengeProjection,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null);
-//        //-----------------database--------------------
-//        List challengeItem = new ArrayList<>();
-//        while(challengeCursor.moveToNext()){
-//            int itemId = challengeCursor.getInt(
-//                    challengeCursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID)
-//            );
-//            challengeItem.add(itemId);
-//        }
-//        challengeCursor.close();
-//        List planContent = new ArrayList<>();
-//        while(planCursor.moveToNext()){
-//            String planContents = planCursor.getString(
-//                    planCursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS)
-//            );
-//            Log.d("dasssdsssss",planCursor.toString());
-//            planContent.add(planContents);
-//        }
-//        planCursor.close();
-
 
         button_Add_challenge = findViewById(R.id.button_Addchall_main);
         //button_detail = findViewById(R.id.button_detail_main);
