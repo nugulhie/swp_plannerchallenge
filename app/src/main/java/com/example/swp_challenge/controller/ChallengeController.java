@@ -53,3 +53,4 @@ public class ChallengeController {
 //                +chall_pass+" boolean"
 //                +chall_date+" timestamp);";
 //    }
+//

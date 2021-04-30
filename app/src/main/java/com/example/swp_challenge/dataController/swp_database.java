@@ -55,3 +55,4 @@ public final class swp_database {
                 "DROP TABLE IF EXISTS " + ChallengeDB.TABLE_NAME;
     }
 }
+//

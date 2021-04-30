@@ -47,7 +47,7 @@ public class BoxActivity extends AppCompatActivity {
 
             }
         });
-
+//
         //선택한 드롭다운에서 버튼 선택 시 - 액티비티 이동//
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override

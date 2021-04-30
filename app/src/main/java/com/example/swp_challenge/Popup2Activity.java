@@ -23,7 +23,7 @@ import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 //import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
-
+//
 public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
     Button btn_cancel_schedule, btn_submit_schedule;
     ImageButton btn_delete_schedule;
