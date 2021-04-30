@@ -33,7 +33,7 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
     UserController user = new UserController();
     swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
     SQLiteDatabase db = dbHelper.getWritableDatabase();
-
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
