@@ -4,7 +4,11 @@ import android.app.Application;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ChallengeController extends Application {
+public class ChallengeController {
+    private static final ChallengeController challenge = new ChallengeController();
+    public static ChallengeController getInstance(){
+        return challenge;
+    }
     private int chall_id = 0;
     private float rating;
     private String contents;

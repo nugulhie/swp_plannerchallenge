@@ -35,7 +35,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void insertChallenge(String contents, Date date, int challenge_id, float rating, int chall_pass){
+    public void insertChallenge(String contents, Date date, int challenge_id, float rating, boolean chall_pass){
         SQLiteDatabase db = getWritableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
 

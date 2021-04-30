@@ -1,7 +1,10 @@
 package com.example.swp_challenge.controller;
 
 public class KeyController {
-
+    private static final KeyController key = new KeyController();
+    public static KeyController getInstance(){
+        return key;
+    }
     boolean checkKey(UserController user) {
         if (user.getCnt_key() > 0) {
             return true;

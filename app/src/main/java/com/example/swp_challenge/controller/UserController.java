@@ -52,7 +52,6 @@ public class UserController extends Application {
     //여기서 부터 값 넣는 함수
     public void setCnt_key(int value) {
         this.cnt_key = value;
-        updateUser();
     }
 
     public void setPlanId(int value) {
@@ -65,7 +64,6 @@ public class UserController extends Application {
 
     public void setBoxRank(int value) {
         this.boxRank = value;
-        updateUser();
     }
 
     public void setChance(float chance) {
@@ -104,15 +102,5 @@ public class UserController extends Application {
 
     } //사용자의 상자의 계급을 확인하는 함수
 
-    public void updateUser() { //사용자 이름,
-        db.insertColumn(getUserName(), getCnt_key(), getBoxRank());
-    }
 
-    public void insertPlan() {
-        db.plan_insertColumn(plan.getPlan_id(),plan.getPlanContents(),plan.getCategory(),plan.getDate());
-    }
-
-    public void insertChallenge(){
-        db.challenge_insertColumn(challenge.getChall_id(), challenge.getRating(), challenge.getContents(), challenge.getChall_pass(), challenge.getDate());
-    }
 }
