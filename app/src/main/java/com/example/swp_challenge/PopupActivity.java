@@ -28,11 +28,12 @@ public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만�
     ImageButton btn_delete_chall;
     UserController user = new UserController();
     ChallengeController challenge = new ChallengeController();
-    swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
-    SQLiteDatabase db = dbHelper.getWritableDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//popup 타이틀제거
 

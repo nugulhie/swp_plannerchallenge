@@ -31,11 +31,12 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
     Spinner spinner_category;
     PlannerController plan = new PlannerController();
     UserController user = new UserController();
-    swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
-    SQLiteDatabase db = dbHelper.getWritableDatabase();
-//
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);//popup 타이틀제거
