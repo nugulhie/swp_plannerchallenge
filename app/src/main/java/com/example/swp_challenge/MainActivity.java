@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 //------------------------------------------------------------------------------------------------------
         String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
 
-        Cursor cursor = db.query(
+        Cursor plancursor = db.query(
                 swp_database.PlanDB.TABLE_NAME,
                 null,
                 null,
@@ -82,25 +82,57 @@ public class MainActivity extends AppCompatActivity {
         List plan_categorys = new ArrayList<>();
         List plan_dates = new ArrayList<>();
 
-        while (cursor.moveToNext()){
-            String plan_date = cursor.getString(
-                    cursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
+        while (plancursor.moveToNext()){
+            String plan_date = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
                     plan_dates.add(plan_date);
-            String plan_category = cursor.getString(
-                    cursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
+            String plan_category = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
                     plan_categorys.add(plan_category);
-            String plan_content = cursor.getString(
-                    cursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
+            String plan_content = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
                     plan_contents.add(plan_content);
-            int planItems = cursor.getInt(
-                    cursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
+            int planItems = plancursor.getInt(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
             plan_id.add(planItems);
         }
 
-        cursor.close();
+        plancursor.close();
+        String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
+
+        Cursor challengecursor = db.query(
+                swp_database.ChallengeDB.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                sortOrder1
+        );
+        List challenge_id = new ArrayList<>();
+        List challenge_contents = new ArrayList<>();
+        List challenge_ratings = new ArrayList<>();
+        List challenge_dates = new ArrayList<>();
+
+
+        while (challengecursor.moveToNext()){
+            String challenge_date = challengecursor.getString(
+                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DATE));
+            challenge_dates.add(challenge_date);
+            String challenge_content = challengecursor.getString(
+                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
+            challenge_contents.add(challenge_content);
+            Float challenge_rating = challengecursor.getFloat(
+                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
+            challenge_ratings.add(challenge_rating);
+            int challengeItems = challengecursor.getInt(
+                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
+            challenge_id.add(challengeItems);
+        }
+
 
         init_recycler();
-        getData_recycler(plan_contents, plan_categorys, plan_dates);
+        getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
         //------------------------------------------------------------------------------------------------------
         plan.setPlan("upd","운동"); //임시값
@@ -206,31 +238,28 @@ public class MainActivity extends AppCompatActivity {
         recyclerView_plan.setAdapter(adapterplan);
         recyclerView_challenge.setAdapter(adapterchallenge);
     }
-    private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates){
+    private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates, List challenge_ratings, List challenge_contents, List challenge_dates){
         List<String> listPlanCategory = plan_categorys;
         List<String> listPlanContent = plan_contents;
-        List<String> listDate = plan_dates;
-        List<Float> listChallengeRating = Arrays.asList(1.5f, 2.5f, 3.0f);
-        List<String> listChallengeContent = Arrays.asList(
-                "7시에 기상",
-                "러닝 3키로 뛰기",
-                "빨래하기"
-        );
-
+        List<String> listplanDate = plan_dates;
+        List<Float> listChallengeRating = challenge_ratings;
+        List<String> listChallengeContent = challenge_contents;
+        List<String> listChallengeDate = challenge_dates;
 
         for(int i=0;i<listPlanCategory.size();i++){
             recyclerPlanData plandata = new recyclerPlanData();
             plandata.setTitle(listPlanCategory.get(i));
             plandata.setContent(listPlanContent.get(i));
-            plandata.setDate(listDate.get(i));
+            plandata.setDate(listplanDate.get(i));
             adapterplan.addItem(plandata);
         }
+
         for (int i=0;i<listChallengeRating.size();i++){
             recyclerChallengeData challengedata = new recyclerChallengeData();
 
             challengedata.setRating(listChallengeRating.get(i));
             challengedata.setContent(listChallengeContent.get(i));
-           //challengedata.setDate(listDate.get(i));
+           challengedata.setDate(listChallengeDate.get(i));
 
             adapterchallenge.addItem(challengedata);
         }
