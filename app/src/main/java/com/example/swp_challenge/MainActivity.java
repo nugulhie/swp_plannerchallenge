@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     PlannerController plan = PlannerController.getInstance();
     ChallengeController challenge = ChallengeController.getInstance();
     //
+    public static Activity mActivity;
     private PlanRecyclerAdapter adapterplan;
     private ChallengeRecyclerAdapter adapterchallenge;
     public ImageButton button_Add_challenge;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        mActivity = MainActivity.this;
 
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -207,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onResume() {
+        super.onResume();
+        adapterchallenge.notifyDataSetChanged();
     }
 
     public void onBackPressed() {   //뒤로가기 두번 눌러서 앱 종료
