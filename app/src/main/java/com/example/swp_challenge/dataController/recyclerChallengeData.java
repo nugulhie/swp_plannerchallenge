@@ -6,7 +6,7 @@ public class recyclerChallengeData {
     private float rating;
     private String content;
     private Date date;
-
+    //
     public float getrRating() {
         return rating;
     }

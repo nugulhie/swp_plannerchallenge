@@ -13,7 +13,7 @@ import com.example.swp_challenge.R;
 import java.util.ArrayList;
 
 public class PlanRecyclerAdapter extends RecyclerView.Adapter<PlanRecyclerAdapter.ItemViewHolder> {
-
+    //
     // adapter에 들어갈 list 입니다.
     private ArrayList<recyclerPlanData> listData = new ArrayList<recyclerPlanData>();
 

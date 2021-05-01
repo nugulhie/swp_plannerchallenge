@@ -6,7 +6,7 @@ public class recyclerPlanData {
     private String title;
     private String content;
     private Date date;
-
+    //
     public String getTitle() {
         return title;
     }

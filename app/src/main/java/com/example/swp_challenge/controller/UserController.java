@@ -67,7 +67,7 @@ public class UserController{
     public void giveAchivement(int i) {
         this.hasAchivement[i] = true;
     }
-
+    //
     float checkRank() { // 계급을 확인후 확률 부여
         switch (boxRank) {
             case 1:

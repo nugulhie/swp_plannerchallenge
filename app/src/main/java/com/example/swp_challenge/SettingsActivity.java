@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
-//
+////
 public class SettingsActivity extends AppCompatActivity {
     ImageButton img_cal;
     Spinner spinner;

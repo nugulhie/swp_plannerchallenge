@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     UserController user =UserController.getInstance();
     PlannerController plan = PlannerController.getInstance();
     ChallengeController challenge = ChallengeController.getInstance();
-
+    //
     private PlanRecyclerAdapter adapterplan;
     private ChallengeRecyclerAdapter adapterchallenge;
     public ImageButton button_Add_challenge;

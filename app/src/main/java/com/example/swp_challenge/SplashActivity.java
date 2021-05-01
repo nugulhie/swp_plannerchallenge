@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
-//
+////
 public class SplashActivity extends AppCompatActivity { //스플래시 화면 메소드 여기는 개발 완료 수정 x
 
     @Override

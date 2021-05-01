@@ -28,7 +28,7 @@ import java.util.Date;
 //import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 //
 public class ChallengePopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
-
+    //
     UserController user = UserController.getInstance();
     ChallengeController challenge = ChallengeController.getInstance();
 

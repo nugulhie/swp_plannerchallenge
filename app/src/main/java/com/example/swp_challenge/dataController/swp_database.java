@@ -1,7 +1,7 @@
 package com.example.swp_challenge.dataController;
 
 import android.provider.BaseColumns;
-
+//
 public final class swp_database {
     private swp_database(){}
     public static final class UserDB implements BaseColumns { //사용자 데이터베이스
