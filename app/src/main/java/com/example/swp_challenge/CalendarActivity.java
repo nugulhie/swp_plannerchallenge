@@ -1,5 +1,6 @@
 package com.example.swp_challenge;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +9,10 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 //
@@ -20,7 +23,7 @@ public class CalendarActivity extends AppCompatActivity {
     String menu_item;
     ImageButton btn_menu;
     Spinner spinner;
-    public MaterialCalendarView cal;
+    CalendarView mcalendarView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +56,6 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 menu_item = (String) spinner.getSelectedItem();
-
             }
 
             @Override
@@ -95,22 +97,42 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
-        btn_add_cal.setOnClickListener(new View.OnClickListener() { //일정 팝업 액티비티 이동
+        mcalendarView = findViewById(R.id.calendarView);
+        mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {  //캘린더뷰 선택한 날짜에 해당하는
+                btn_add_cal.setOnClickListener(new View.OnClickListener() {         //일정 팝업 액티비티 이동
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(CalendarActivity.this, PlanPopupActivity.class);
+                        intent.putExtra("year", year);
+                        intent.putExtra("month", month+1);
+                        intent.putExtra("day", dayOfMonth);
+                        startActivity(intent);
+                    }
+                });
+
+                btn_challHistory.setOnClickListener(new View.OnClickListener() {    //도전과제 내역 액티비티 이동
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(CalendarActivity.this, ChallhistoryActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+        btn_add_cal.setOnClickListener(new View.OnClickListener() {         //날짜 선택 안하고 버튼 클릭시 알림
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CalendarActivity.this, PlanPopupActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btn_challHistory.setOnClickListener(new View.OnClickListener() {
+        btn_challHistory.setOnClickListener(new View.OnClickListener() {    //날짜 선택 안하고 버튼 클릭시 알림
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CalendarActivity.this, ChallhistoryActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
 }
