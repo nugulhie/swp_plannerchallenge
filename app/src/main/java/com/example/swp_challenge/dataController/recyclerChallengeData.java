@@ -2,17 +2,17 @@ package com.example.swp_challenge.dataController;
 
 import java.util.Date;
 
-public class recyclerData {
-    private String title;
+public class recyclerChallengeData {
+    private float rating;
     private String content;
     private Date date;
 
-    public String getTitle() {
-        return title;
+    public float getrRating() {
+        return rating;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public String getContent() {

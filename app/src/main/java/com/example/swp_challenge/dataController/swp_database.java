@@ -10,12 +10,14 @@ public final class swp_database {
         public static final String USER_NAME = "USER_NAME";
         public static final String BIRTH = "BIRTH";
         public static final String BOX_RANK = "BOX_RANK";
+        public static final String BOX_OPEN_CNT = "BOX_OPEN_CNT";
         public static final String SQL_CREATE =
                 "CREATE TABLE "+ UserDB.TABLE_NAME+ " ("
                 +UserDB.USER_NAME+ " TEXT,"
                 +UserDB._ID+ " INTEGER PRIMARY KEY,"
                 +UserDB.USER_KEY+" INTEGER,"
                 +UserDB.BIRTH+" TEXT,"
+                +UserDB.BOX_OPEN_CNT+" INTEGER,"
                 +UserDB.BOX_RANK+" INTEGER)";
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + UserDB.TABLE_NAME;

@@ -40,11 +40,24 @@
              user.setCnt_key(user.getCnt_key() - 1);
              System.out.println(user.getCnt_key());
              System.out.println("키를 사용");
+             user.setBoxOpen(user.getBoxOpen()+1);
          }
          else{
              Log.d("box123123123", "boxOpen: can't open");
          }
      } // 상자 여는 함수
+
+     public void boxOpenCount(UserController user){
+        if (user.getBoxOpen()<10){
+            user.setBoxRank(1);
+        }
+        else if (10<=user.getBoxOpen()&& user.getBoxOpen()<20){
+            user.setBoxOpen(2);
+        }
+        else if(20<=user.getBoxOpen()&&user.getBoxOpen()<30){
+            user.setBoxOpen(3);
+        }
+     }
  }
 
 //

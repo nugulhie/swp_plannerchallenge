@@ -30,7 +30,7 @@ public class DatePicker2Fragment extends DialogFragment implements DatePickerDia
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        PopupActivity activity = (PopupActivity)getActivity();
+        ChallengePopupActivity activity = (ChallengePopupActivity)getActivity();
         activity.processDatePicker2Result(year, month, day);
     }
 }

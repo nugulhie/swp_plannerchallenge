@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -26,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 //import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 //
-public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
+public class ChallengePopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
 
     UserController user = UserController.getInstance();
     ChallengeController challenge = ChallengeController.getInstance();
@@ -100,16 +101,16 @@ public class PopupActivity extends AppCompatActivity {    //popup 인텐트 만�
             public void onClick(View v) {
                 //데이터 추가해주는 메소드 추가해주어야함.
                 //challenge.setChallenge(/*rating, contents, chall_pass*/); //Todo 여기에다가 인텐트값 넘겨서 setChallenge 메소드 안에 넣는거 구현해야함.
-              /*  dbHelper.insertChallenge(
-                        challenge.getContents(),challenge.getDate() , challenge.getChall_id(),challenge.getRating(),challenge.getChall_pass()
-               );*/ //Todo 확인 버튼을 누르면 이 메소드가 실행되게
                 if (content.length() > 0 )//나중에 날짜 지정 조건 추가해주기
                 {
                     dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating());
+                    Log.d("159753", "onClick: insertChallenge"+challenge.getContents());
                     Toast.makeText(getApplicationContext(), content.getText().toString() +", 중요도 : "+ ratingbar.getRating() + "Data is added!", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else {
+                    dbHelper.updateChallenge(challenge.getContents(),"운동들어오기",challenge.getDate(),2.5f);
+                    Log.d("159753", "onClick: updateChallenge"+"운동들어오기");
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     finish();
                 }

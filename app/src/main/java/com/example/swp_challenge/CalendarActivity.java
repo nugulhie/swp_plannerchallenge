@@ -1,30 +1,17 @@
 package com.example.swp_challenge;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.example.swp_challenge.CalendarDecorator;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.DayViewDecorator;
-import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-
-import java.io.FileInputStream;
-import java.util.Calendar;
-import java.util.Date;
 
 public class CalendarActivity extends AppCompatActivity {
 //
@@ -111,7 +98,7 @@ public class CalendarActivity extends AppCompatActivity {
         btn_add_cal.setOnClickListener(new View.OnClickListener() { //일정 팝업 액티비티 이동
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CalendarActivity.this, Popup2Activity.class);
+                Intent intent = new Intent(CalendarActivity.this, PlanPopupActivity.class);
                 startActivity(intent);
             }
         });
