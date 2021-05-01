@@ -65,7 +65,7 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
         void onBind(recyclerChallengeData data) {
             textView1.setRating(data.getrRating());
             textView2.setText(data.getContent());
-            textView3.setText(data.getDate().toString());
+            textView3.setText(data.getDate());
         }
     }
 }

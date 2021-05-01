@@ -1,6 +1,11 @@
 package com.example.swp_challenge.dataController;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+
+import java.util.ArrayList;
+
 //
 public final class swp_database {
     private swp_database(){}
@@ -56,5 +61,6 @@ public final class swp_database {
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + ChallengeDB.TABLE_NAME;
     }
+
 }
 //
