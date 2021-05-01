@@ -3,6 +3,7 @@ package com.example.swp_challenge;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -24,19 +25,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 //import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 //
-public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
+public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
     Button btn_cancel_schedule, btn_submit_schedule;
     ImageButton btn_delete_schedule;
     String category_item;
     Spinner spinner_category;
-    PlannerController plan = new PlannerController();
-    UserController user = new UserController();
+    PlannerController plan = PlannerController.getInstance();
+    UserController user = UserController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);//popup 타이틀제거
@@ -88,7 +88,7 @@ public class Popup2Activity extends AppCompatActivity {    //popup 인텐트 만
             public void onClick(View v) {
                 //데이터 추가해주는 메소드 추가해주어야함. //Todo 팝업 인텐트에서 setplan 메소드에 값 넘겨주는 구문 작성 필요
                 //plan.setPlan(content, category); //일정 추가 메소드
-                //dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getPlan_id(),plan.getDate());
+                dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate());
                 Toast.makeText(getApplicationContext(), "Data is added!", Toast.LENGTH_SHORT).show();
                 finish();
             }

@@ -1,26 +1,18 @@
 package com.example.swp_challenge;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,14 +20,13 @@ import com.example.swp_challenge.controller.ChallengeController;
 import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.PlannerController;
 import com.example.swp_challenge.controller.UserController;
-import com.example.swp_challenge.dataController.RecyclerAdapter;
-import com.example.swp_challenge.dataController.recyclerData;
-import com.example.swp_challenge.dataController.swp_database;
+import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
+import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
+import com.example.swp_challenge.dataController.recyclerChallengeData;
+import com.example.swp_challenge.dataController.recyclerPlanData;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     PlannerController plan = PlannerController.getInstance();
     ChallengeController challenge = ChallengeController.getInstance();
 
-    private RecyclerAdapter adapter;
+    private PlanRecyclerAdapter adapterplan;
+    private ChallengeRecyclerAdapter adapterchallenge;
     public ImageButton button_Add_challenge;
     Spinner spinner;
     ImageButton btn_menu, img_cal;
@@ -68,10 +60,11 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
 
-
-        key.givekey(user, challenge.getChall_pass());
-        user.setCnt_key(9);
-
+        plan.setPlan("upd",1); //임시값
+        challenge.setChallenge(3.5f,"운동들어오기");//임시값
+        user.setCnt_key(9); //임시값
+        key.givekey(user, 1); //임시값
+        dbHelper.updatePass(challenge.getContents(),1);
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
         Date date = Calendar.getInstance().getTime();
@@ -134,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PopupActivity.class);
+                Intent intent = new Intent(MainActivity.this, ChallengePopupActivity.class);
                 startActivity(intent);
             }
         });
@@ -160,33 +153,52 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView_challenge = findViewById(R.id.recycler_challenge);
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView_plan.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
+        recyclerView_plan.setLayoutManager(linearLayoutManager1);
+        recyclerView_challenge.setLayoutManager(linearLayoutManager2);
 
-        adapter = new RecyclerAdapter();
-        recyclerView_plan.setAdapter(adapter);
-        recyclerView_challenge.setAdapter(adapter);
+        adapterplan = new PlanRecyclerAdapter();
+        adapterchallenge = new ChallengeRecyclerAdapter();
+        recyclerView_plan.setAdapter(adapterplan);
+        recyclerView_challenge.setAdapter(adapterchallenge);
     }
     private void getData_recycler(){
-        List<String> listTitle = Arrays.asList("운동", "습관","미션");
-        List<String> listContent = Arrays.asList(
-                "레그프레스 3세트 10회 반복하기",
-                "아침 8시에 기상하기",
-                "오늘 과제 전부 끝내기"
+        List<String> listPlanCategory = Arrays.asList("약속", "약속","약속");
+        List<String> listPlanContent = Arrays.asList(
+                "10시 객체 과제마감",
+                "13시 점심 약속(인혁이랑)",
+                "19시 술약속(꾸븐)"
         );
+        List<Float> listChallengeRating = Arrays.asList(1.5f, 2.5f, 3.0f);
+        List<String> listChallengeContent = Arrays.asList(
+                "7시에 기상",
+                "러닝 3키로 뛰기",
+                "빨래하기"
+        );
+
         List<Date> listDate = Arrays.asList(
                 Calendar.getInstance().getTime(),
                 Calendar.getInstance().getTime(),
                 Calendar.getInstance().getTime()
         );
-        for(int i=0;i<listTitle.size();i++){
-            recyclerData data = new recyclerData();
-            data.setTitle(listTitle.get(i));
-            data.setContent(listContent.get(i));
-            data.setDate(listDate.get(i));
-
-            adapter.addItem(data);
+        for(int i=0;i<listPlanCategory.size();i++){
+            recyclerPlanData plandata = new recyclerPlanData();
+            plandata.setTitle(listPlanCategory.get(i));
+            plandata.setContent(listPlanContent.get(i));
+            plandata.setDate(listDate.get(i));
+            adapterplan.addItem(plandata);
         }
-        adapter.notifyDataSetChanged();
+        for (int i=0;i<listChallengeRating.size();i++){
+            recyclerChallengeData challengedata = new recyclerChallengeData();
+
+            challengedata.setRating(listChallengeRating.get(i));
+            challengedata.setContent(listChallengeContent.get(i));
+            challengedata.setDate(listDate.get(i));
+
+            adapterchallenge.addItem(challengedata);
+        }
+        adapterplan.notifyDataSetChanged();
+        adapterchallenge.notifyDataSetChanged();
     }
 }

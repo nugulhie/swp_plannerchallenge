@@ -14,7 +14,7 @@ public class ChallengeController {
     private int chall_pass;
     private Date date;
 
-    public void setChallenge(float rating, String contents, int chall_pass){
+    public void setChallenge(float rating, String contents){
         this.rating = rating;
         this.contents = contents;
         this.chall_pass = 0;

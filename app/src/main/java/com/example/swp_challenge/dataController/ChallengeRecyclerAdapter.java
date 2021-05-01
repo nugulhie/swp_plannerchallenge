@@ -1,10 +1,9 @@
 package com.example.swp_challenge.dataController;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,17 +13,17 @@ import com.example.swp_challenge.R;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder> {
+public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecyclerAdapter.ItemViewHolder> {
 
     // adapter에 들어갈 list 입니다.
-    private ArrayList<recyclerData> listData = new ArrayList<recyclerData>();
+    private ArrayList<recyclerChallengeData> listData = new ArrayList<recyclerChallengeData>();
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate 시킵니다.
         // return 인자는 ViewHolder 입니다.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_challengeitem, parent, false);
         return new ItemViewHolder(view);
     }
 
@@ -40,7 +39,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
         return listData.size();
     }
 
-    public void addItem(recyclerData data) {
+    public void addItem(recyclerChallengeData data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
@@ -50,21 +49,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textView1;
+        private RatingBar textView1;
         private TextView textView2;
         private TextView textView3;
 
         ItemViewHolder(View itemView) {
             super(itemView);
 
-            textView1 = itemView.findViewById(R.id.recycler_text1);
-            textView2 = itemView.findViewById(R.id.recycler_text2);
-            textView3 = itemView.findViewById(R.id.recycler_text3);
+            textView1 = itemView.findViewById(R.id.recycler_ratingbar);
+            textView2 = itemView.findViewById(R.id.recycler_challengecontents);
+            textView3 = itemView.findViewById(R.id.recycler_challengedate);
 
         }
 
-        void onBind(recyclerData data) {
-            textView1.setText(data.getTitle());
+        void onBind(recyclerChallengeData data) {
+            textView1.setRating(data.getrRating());
             textView2.setText(data.getContent());
             textView3.setText(data.getDate().toString());
         }

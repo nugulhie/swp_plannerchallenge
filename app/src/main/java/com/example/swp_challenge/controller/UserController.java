@@ -20,6 +20,7 @@ public class UserController{
     private int cnt_key = 0;
     private int boxRank;
     private float getChance = 0.6f;
+    private int boxOpen=0;
     private boolean[] hasAchivement = new boolean[100];
 
     public int getCnt_key() {
@@ -42,6 +43,8 @@ public class UserController{
         return userName;
     }
 
+    public int getBoxOpen(){return boxOpen;}
+
     //여기서 부터 값 넣는 함수
     public void setCnt_key(int value) {
         this.cnt_key = value;
@@ -58,6 +61,8 @@ public class UserController{
     public void sethasachivement(int i, boolean flag) {
         this.hasAchivement[i] = flag;
     }
+
+    public void setBoxOpen(int value){this.boxOpen = value;}
 
     public void giveAchivement(int i) {
         this.hasAchivement[i] = true;

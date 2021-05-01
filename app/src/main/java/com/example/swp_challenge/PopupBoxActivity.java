@@ -35,6 +35,7 @@ public class PopupBoxActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 box.boxOpen(user);
+                box.boxOpenCount(user);
                 finish();
             }
         });
