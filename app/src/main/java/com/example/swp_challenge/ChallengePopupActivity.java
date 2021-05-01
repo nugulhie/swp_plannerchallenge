@@ -143,6 +143,7 @@ public class ChallengePopupActivity extends AppCompatActivity {    //popup 인�
                         hour = mtimePicker.getCurrentHour() + "";
                         minute = mtimePicker.getCurrentMinute() + "";
                     }
+                    challenge.setChallenge(ratingbar.getRating(),content.getText().toString());
                     dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating());
                     Log.d("159753", "onClick: insertChallenge"+challenge.getContents());
                     Toast.makeText(getApplicationContext(), "할일: " + content.getText().toString() +", 중요도: "+ (int)ratingbar.getRating() +

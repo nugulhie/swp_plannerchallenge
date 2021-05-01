@@ -33,7 +33,7 @@ public final class swp_database {
                 "CREATE TABLE "+ PlanDB.TABLE_NAME+ " ("
                 +PlanDB.PLAN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +PlanDB.PLAN_CONTENTS+" TEXT,"
-                +PlanDB.PLAN_CATEGORY+" INTEGER,"
+                +PlanDB.PLAN_CATEGORY+" TEXT,"
                 +PlanDB.PLAN_DATE+" TEXT)";
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + PlanDB.TABLE_NAME;

@@ -40,7 +40,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
 
     //----------------------------PLANDB-----------------------------
-    public void insertPlan(String contents, int category,  Date date) {
+    public void insertPlan(String contents, String category,  Date date) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
@@ -50,7 +50,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         long newRowId = db.insert(swp_database.PlanDB.TABLE_NAME, null, values);
     }
 
-    public void updatePlan(String oldcontents, String newcontents,int category,  Date date){
+    public void updatePlan(String oldcontents, String newcontents, String category,  Date date){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동이상무 ID값으로 가져오거나 해당 문자열로 검색은 문제가 있을 것같음

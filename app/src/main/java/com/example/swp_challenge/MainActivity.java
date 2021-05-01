@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -60,7 +63,10 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
 
-        plan.setPlan("upd",1); //임시값
+//------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------------------------------
+        plan.setPlan("upd","운동"); //임시값
         challenge.setChallenge(3.5f,"운동들어오기");//임시값
         user.setCnt_key(9); //임시값
         key.givekey(user, 1); //임시값
@@ -201,4 +207,5 @@ public class MainActivity extends AppCompatActivity {
         adapterplan.notifyDataSetChanged();
         adapterchallenge.notifyDataSetChanged();
     }
+
 }
