@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.swp_challenge.controller.UserController;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 //
@@ -117,9 +119,45 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
 
     //----------------------------------USERDB------------------------------------
-    public void updateUserBoxRank(){}
-    public void updateUserBoxOpenCnt(){}
-    public void updateUserKeyCount(){}
+    public void updateUserBoxRank(String user_name,int box_rank){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.BOX_RANK, box_rank);
+        String selection = swp_database.UserDB.BOX_RANK+ " LIKE ?";
+        String[] selectionArgs = {user_name};
+
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+    public void updateUserBoxOpenCnt(String user_name, int box_cnt){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.BOX_OPEN_CNT, box_cnt);
+        String selection = swp_database.UserDB.BOX_OPEN_CNT+ " LIKE ?";
+        String[] selectionArgs = {user_name};
+
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+    public void updateUserKeyCount(String user_name, int key_cnt){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.USER_KEY, key_cnt);
+        String selection = swp_database.UserDB.USER_KEY+ " LIKE ?";
+        String[] selectionArgs = {user_name};
+
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
 
 
 

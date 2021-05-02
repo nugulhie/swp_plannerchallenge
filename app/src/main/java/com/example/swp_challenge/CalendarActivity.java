@@ -2,7 +2,12 @@ package com.example.swp_challenge;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,7 +19,18 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
+import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
+import com.example.swp_challenge.dataController.recyclerChallengeData;
+import com.example.swp_challenge.dataController.recyclerPlanData;
+import com.example.swp_challenge.dataController.swp_database;
+import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 //
 public class CalendarActivity extends AppCompatActivity {
 //
@@ -24,12 +40,56 @@ public class CalendarActivity extends AppCompatActivity {
     ImageButton btn_menu;
     Spinner spinner;
     CalendarView mcalendarView;
+    private PlanRecyclerAdapter adapterplan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_calendar);
+
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat();
+
+
+
+        String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
+
+        Cursor plancursor = db.query(
+                swp_database.PlanDB.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+        List plan_id = new ArrayList<>();
+        List plan_contents = new ArrayList<>();
+        List plan_categorys = new ArrayList<>();
+        List plan_dates = new ArrayList<>();
+
+        while (plancursor.moveToNext()){
+            String plan_date = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
+            plan_dates.add(plan_date);
+            String plan_category = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
+            plan_categorys.add(plan_category);
+            String plan_content = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
+            plan_contents.add(plan_content);
+            int planItems = plancursor.getInt(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
+            plan_id.add(planItems);
+        }
+
+        plancursor.close();
+
+
+        init_recycler();
+        getData_recycler(plan_contents, plan_categorys, plan_dates);
 
         /*cal = findViewById(R.id.calendarView_cal);
         cal.setSelectedDate(CalendarDay.today());
@@ -135,4 +195,33 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void init_recycler(){ //RecyclerView initiate method
+        RecyclerView recyclerView_calendar = findViewById(R.id.recycler_calendar);
+
+
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        recyclerView_calendar.setLayoutManager(linearLayoutManager1);
+
+        adapterplan = new PlanRecyclerAdapter();
+        recyclerView_calendar.setAdapter(adapterplan);
+    }
+
+    private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates){
+        List<String> listPlanCategory = plan_categorys;
+        List<String> listPlanContent = plan_contents;
+        List<String> listplanDate = plan_dates;
+
+        for(int i=0;i<listPlanCategory.size();i++){
+            recyclerPlanData plandata = new recyclerPlanData();
+            plandata.setTitle(listPlanCategory.get(i));
+            plandata.setContent(listPlanContent.get(i));
+            plandata.setDate(listplanDate.get(i));
+            adapterplan.addItem(plandata);
+        }
+
+        adapterplan.notifyDataSetChanged();
+    }
+
+
 }
