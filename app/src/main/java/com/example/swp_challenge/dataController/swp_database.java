@@ -20,9 +20,9 @@ public final class swp_database {
                 "CREATE TABLE "+ UserDB.TABLE_NAME+ " ("
                 +UserDB.USER_NAME+ " TEXT,"
                 +UserDB._ID+ " INTEGER PRIMARY KEY,"
-                +UserDB.USER_KEY+" INTEGER,"
+                +UserDB.USER_KEY+" INTEGER DEFAULT 0,"
                 +UserDB.BIRTH+" TEXT,"
-                +UserDB.BOX_OPEN_CNT+" INTEGER,"
+                +UserDB.BOX_OPEN_CNT+" INTEGER DEFAULT 0,"
                 +UserDB.BOX_RANK+" INTEGER)";
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + UserDB.TABLE_NAME;

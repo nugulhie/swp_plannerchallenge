@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
@@ -29,7 +30,10 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 //
 public class CalendarActivity extends AppCompatActivity {
@@ -41,6 +45,7 @@ public class CalendarActivity extends AppCompatActivity {
     Spinner spinner;
     CalendarView mcalendarView;
     private PlanRecyclerAdapter adapterplan;
+    TextView textdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +108,13 @@ public class CalendarActivity extends AppCompatActivity {
         img_cal = findViewById(R.id.img_cal_cal);
         btn_add_cal = findViewById(R.id.btn_addCal_cal);
         btn_challHistory = findViewById(R.id.btn_challHistory);
+
+        //banner set date in korean
+        textdate = findViewById(R.id.txt_date_of_today);
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
+        textdate.setText(korDate.format(date));
+
 
         //@@@@@메뉴 스피너@@@@@@@//
         btn_menu = findViewById(R.id.btn_more_cal);

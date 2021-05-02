@@ -12,14 +12,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.swp_challenge.controller.BoxController;
 import com.example.swp_challenge.controller.UserController;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 //
 public class BoxActivity extends AppCompatActivity {
     ImageButton img_cal;
-
+    TextView textdate;
     Button btn_open;
     Spinner spinner;
     ImageButton btn_menu;
@@ -34,12 +41,18 @@ public class BoxActivity extends AppCompatActivity {
         setContentView(R.layout.activity_box);
         Log.d("159753", "onCreate: box"+user.getCnt_key());
         img_cal=findViewById(R.id.img_cal_box);
-
+        textdate = findViewById(R.id.txt_date_of_today);
         btn_open = findViewById(R.id.button_open);
         //@@@@@메뉴 스피너@@@@@@@//
         btn_menu = findViewById(R.id.btn_more_box);
         final String[] menu = {"상자", "칭호", "설정"};  //메뉴 아이템 항목
         spinner = findViewById(R.id.spinner_box);  //스피너 초기화
+        //banner set date in korean
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
+        textdate.setText(korDate.format(date));
+
+
         ArrayAdapter menuAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, menu);  //menu 어댑터 생성
         menuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(menuAdapter);

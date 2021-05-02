@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.swp_challenge.controller.ChallengeController;
@@ -38,6 +39,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 //
 public class MainActivity extends AppCompatActivity {
     KeyController key = KeyController.getInstance();
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinner;
     ImageButton btn_menu, img_cal;
     String menu_item;
+    TextView textdate;
 
 
     private long backKeyPressedTime = 0;    //마지막으로 뒤로가기 눌렀던 시간 저장
@@ -147,10 +151,14 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
         Date date = Calendar.getInstance().getTime();
-
+        textdate = findViewById(R.id.txt_date_of_today);
         button_Add_challenge = findViewById(R.id.button_Addchall_main);
         //button_detail = findViewById(R.id.button_detail_main);
         img_cal = findViewById(R.id.img_cal_main);
+
+        //banner set date in korean
+        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
+        textdate.setText(korDate.format(date));
 
         //@@@@@메뉴 스피너@@@@@@@//
         btn_menu = findViewById(R.id.btn_more_main);
