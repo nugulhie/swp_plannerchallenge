@@ -8,17 +8,28 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class ChallhistoryActivity extends AppCompatActivity {
-//
+////
     ImageButton img_cal;
-
+    TextView textdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_challhistory);
+        //banner set date in korean
+        textdate = findViewById(R.id.txt_date_of_today);
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
+        textdate.setText(korDate.format(date));
 
         img_cal = findViewById(R.id.img_cal_history);
 

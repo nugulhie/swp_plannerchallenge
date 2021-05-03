@@ -14,7 +14,7 @@ import com.example.swp_challenge.R;
 import java.util.ArrayList;
 
 public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecyclerAdapter.ItemViewHolder> {
-
+    //
     // adapter에 들어갈 list 입니다.
     private ArrayList<recyclerChallengeData> listData = new ArrayList<recyclerChallengeData>();
 
@@ -65,7 +65,7 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
         void onBind(recyclerChallengeData data) {
             textView1.setRating(data.getrRating());
             textView2.setText(data.getContent());
-            textView3.setText(data.getDate().toString());
+            textView3.setText(data.getDate());
         }
     }
 }

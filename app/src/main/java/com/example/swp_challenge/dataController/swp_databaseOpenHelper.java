@@ -2,14 +2,17 @@ package com.example.swp_challenge.dataController;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.swp_challenge.controller.UserController;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+//
 public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
@@ -40,7 +43,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
 
     //----------------------------PLANDB-----------------------------
-    public void insertPlan(String contents, int category,  Date date) {
+    public void insertPlan(String contents, String category,  Date date) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
@@ -50,7 +53,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         long newRowId = db.insert(swp_database.PlanDB.TABLE_NAME, null, values);
     }
 
-    public void updatePlan(String oldcontents, String newcontents,int category,  Date date){
+    public void updatePlan(String oldcontents, String newcontents, String category,  Date date){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동이상무 ID값으로 가져오거나 해당 문자열로 검색은 문제가 있을 것같음
@@ -116,9 +119,45 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
 
     //----------------------------------USERDB------------------------------------
-    public void updateUserBoxRank(){}
-    public void updateUserBoxOpenCnt(){}
-    public void updateUserKeyCount(){}
+    public void updateUserBoxRank(String user_name,int box_rank){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.BOX_RANK, box_rank);
+        String selection = swp_database.UserDB.BOX_RANK+ " LIKE ?";
+        String[] selectionArgs = {user_name};
+
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+    public void updateUserBoxOpenCnt(String user_name, int box_cnt){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.BOX_OPEN_CNT, box_cnt);
+        String selection = swp_database.UserDB.BOX_OPEN_CNT+ " LIKE ?";
+        String[] selectionArgs = {user_name};
+
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+    public void updateUserKeyCount(String user_name, int key_cnt){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.USER_KEY, key_cnt);
+        String selection = swp_database.UserDB.USER_KEY+ " LIKE ?";
+        String[] selectionArgs = {user_name};
+
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
 
 
 

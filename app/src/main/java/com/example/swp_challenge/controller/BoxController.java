@@ -2,7 +2,7 @@
 
  import android.util.Log;
  import android.widget.Toast;
-
+//
  public class BoxController {
      private static final BoxController box = new BoxController();
      public static BoxController getInstance(){

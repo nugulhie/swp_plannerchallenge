@@ -1,7 +1,12 @@
 package com.example.swp_challenge.dataController;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import java.util.ArrayList;
+
+//
 public final class swp_database {
     private swp_database(){}
     public static final class UserDB implements BaseColumns { //사용자 데이터베이스
@@ -15,9 +20,9 @@ public final class swp_database {
                 "CREATE TABLE "+ UserDB.TABLE_NAME+ " ("
                 +UserDB.USER_NAME+ " TEXT,"
                 +UserDB._ID+ " INTEGER PRIMARY KEY,"
-                +UserDB.USER_KEY+" INTEGER,"
+                +UserDB.USER_KEY+" INTEGER DEFAULT 0,"
                 +UserDB.BIRTH+" TEXT,"
-                +UserDB.BOX_OPEN_CNT+" INTEGER,"
+                +UserDB.BOX_OPEN_CNT+" INTEGER DEFAULT 0,"
                 +UserDB.BOX_RANK+" INTEGER)";
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + UserDB.TABLE_NAME;
@@ -33,7 +38,7 @@ public final class swp_database {
                 "CREATE TABLE "+ PlanDB.TABLE_NAME+ " ("
                 +PlanDB.PLAN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +PlanDB.PLAN_CONTENTS+" TEXT,"
-                +PlanDB.PLAN_CATEGORY+" INTEGER,"
+                +PlanDB.PLAN_CATEGORY+" TEXT,"
                 +PlanDB.PLAN_DATE+" TEXT)";
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + PlanDB.TABLE_NAME;
@@ -56,5 +61,6 @@ public final class swp_database {
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + ChallengeDB.TABLE_NAME;
     }
+
 }
 //

@@ -5,8 +5,8 @@ import java.util.Date;
 public class recyclerChallengeData {
     private float rating;
     private String content;
-    private Date date;
-
+    private String date;
+    //
     public float getrRating() {
         return rating;
     }
@@ -23,11 +23,11 @@ public class recyclerChallengeData {
         this.content = content;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }
