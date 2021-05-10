@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_menu1"
+        android:title="상자"
+        android:fontFamily="@font/maplestory_bold"/>
+    <item
+        android:id="@+id/action_menu2"
+        android:title="칭호"/>
+    <item
+        android:id="@+id/action_menu3"
+        android:title="설정"/>
+</menu>
