@@ -150,9 +150,7 @@ public class ChallengePopupActivity extends AppCompatActivity {    //popup 인�
                     Log.d("159753", "onClick: insertChallenge"+challenge.getContents());
                     Toast.makeText(getApplicationContext(), "할일: " + content.getText().toString() +", 중요도: "+ (int)ratingbar.getRating() +
                             ", 기간(str): " +d1 +" ~ "+ d2+", 시각: "+hour+":"+minute+", 기간(date):"+date1.toString() +" ~ "+ date2.toString(), Toast.LENGTH_SHORT).show();
-                    MainActivity.mActivity.finish();
-                    Intent intent = new Intent(ChallengePopupActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    MainActivity.mActivity.recreate();
                     Log.d("zzz123", "onClick: " + "insert_challenge");
                     finish();
                 }

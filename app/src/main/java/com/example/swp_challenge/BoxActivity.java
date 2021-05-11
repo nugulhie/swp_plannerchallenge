@@ -3,6 +3,8 @@ package com.example.swp_challenge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,10 +18,14 @@ import android.widget.Toast;
 
 import com.example.swp_challenge.controller.BoxController;
 import com.example.swp_challenge.controller.UserController;
+import com.example.swp_challenge.dataController.swp_database;
+import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 //
@@ -28,6 +34,7 @@ public class BoxActivity extends AppCompatActivity {
     TextView textdate;
     Button btn_open;
     ImageButton btn_menu;
+    TextView textKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +46,7 @@ public class BoxActivity extends AppCompatActivity {
         Log.d("159753", "onCreate: box"+user.getCnt_key());
         img_cal=findViewById(R.id.button_calendar_box);
         textdate = findViewById(R.id.textView_dateOfToday);
+        textKey = findViewById(R.id.textView_amountOfKey);
         btn_open = findViewById(R.id.button_openBox);
         btn_menu = findViewById(R.id.button_menu_box); //메뉴 더보기 버튼
         //banner set date in korean
@@ -46,6 +54,23 @@ public class BoxActivity extends AppCompatActivity {
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
 
+        //------------------------------------------------------------------------------
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor userCursor = db.query(
+                swp_database.UserDB.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        textKey.setText("x "+Integer.toString(userCursor.getInt(userCursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY))));
+        userCursor.close();
+        //------------------------------------------------------------------------------
         //intent 넘기기 함수 밑으로 인자
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override

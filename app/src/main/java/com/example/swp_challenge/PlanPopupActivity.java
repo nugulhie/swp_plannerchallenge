@@ -99,7 +99,7 @@ public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 
                 //plan.setPlan(content, category); //일정 추가 메소드
                 if (content.length() > 0) {
                     plan.setPlan(content.getText().toString(), category_item);
-                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate());
+                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate(),mYear,mMonth,mDay);
                     Toast.makeText(getApplicationContext(), "날짜 : "+mYear+"년 "+mMonth+"월 "+mDay+"일 "
                             + ", 카테고리 : "+category_item + ", 내용 : "+ content.getText().toString(), Toast.LENGTH_SHORT).show();
                     finish();

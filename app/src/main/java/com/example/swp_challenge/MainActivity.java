@@ -138,10 +138,6 @@ public class MainActivity extends AppCompatActivity {
         getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
         //------------------------------------------------------------------------------------------------------
-        plan.setPlan("upd","운동"); //임시값
-        challenge.setChallenge(3.5f,"운동들어오기");//임시값
-        user.setCnt_key(9); //임시값
-        key.givekey(user, 1); //임시값
         dbHelper.updatePass(challenge.getContents(),1);
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
