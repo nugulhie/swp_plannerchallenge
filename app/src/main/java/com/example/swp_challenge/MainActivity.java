@@ -13,11 +13,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,11 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private PlanRecyclerAdapter adapterplan;
     private ChallengeRecyclerAdapter adapterchallenge;
     public ImageButton button_Add_challenge;
-    Spinner spinner;
     ImageButton btn_menu, img_cal;
-    String menu_item;
     TextView textdate;
-
+    int count = 0;
 
     private long backKeyPressedTime = 0;    //마지막으로 뒤로가기 눌렀던 시간 저장
     private Toast toast;    //첫번째 뒤로가기 버튼 누를때 표시
@@ -70,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
+
 //------------------------------------------------------------------------------------------------------
         String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
 
@@ -140,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
         //------------------------------------------------------------------------------------------------------
-
+        plan.setPlan("upd","운동"); //임시값
         challenge.setChallenge(3.5f,"운동들어오기");//임시값
         user.setCnt_key(9); //임시값
         key.givekey(user, 1); //임시값
@@ -148,24 +146,51 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
         Date date = Calendar.getInstance().getTime();
-        textdate = findViewById(R.id.textview_today);
-        button_Add_challenge = findViewById(R.id.button_Addchall_main);
+        textdate = findViewById(R.id.textView_dateOfToday);
+        button_Add_challenge = findViewById(R.id.button_addChall_main);
         //button_detail = findViewById(R.id.button_detail_main);
-        img_cal = findViewById(R.id.img_cal_main);
+        img_cal = findViewById(R.id.button_calendar_main);
+
+        //도전과제 진행도 예시
+        Button btn_minus = findViewById(R.id.button_minus);
+        Button btn_plus = findViewById(R.id.button_plus);
+        ProgressBar progressBar = findViewById(R.id.progressBar_todayChallenge);
+
+        btn_minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count < 0) {
+                    count = 0;
+                    progressBar.setProgress(0);
+                }
+                else
+                    progressBar.setProgress(--count);
+            }
+        });
+        btn_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count > 3) {
+                    count = 3;
+                    progressBar.setProgress(3);
+                }
+                else
+                    progressBar.setProgress(++count);
+            }
+        });//도전과제 진척도 예시
 
         //banner set date in korean
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
-        dbHelper.insertPlan("sd", "약속", date, 2021,06,03 );
 
-        btn_menu = findViewById(R.id.btn_more_main);
+        btn_menu = findViewById(R.id.button_menu_main);
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
-                finish();
+                Log.d("zzz123", "onClick:" + "calendarButton_main");
             }
         });
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChallengePopupActivity.class);
                 startActivity(intent);
+                Log.d("zzz123", "onClick:" + "addChallengeButton_main");
             }
         });
 
@@ -188,14 +214,17 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_menu1:
                         Intent intent = new Intent(MainActivity.this, BoxActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onMenuItemClick: " + "boxMenu_main");
                         break;
                     case R.id.action_menu2:
                         intent = new Intent(MainActivity.this, AchivementActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onMenuItemClick: " + "achieveMenu_main");
                         break;
                     case R.id.action_menu3:
                         intent = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onMenuItemClick: " + "settingMenu_main");
                         break;
                 }
                 return true;

@@ -34,18 +34,12 @@ public final class swp_database {
         public static final String PLAN_CONTENTS = "PLAN_CONTENTS";
         public static final String PLAN_CATEGORY = "PLAN_CATEGORY";
         public static final String PLAN_DATE = "PLAN_DATE";
-        public static final String PLAN_YEAR = "PLAN_YEAR";
-        public static final String PLAN_MONTH = "PLAN_MONTH";
-        public static final String PLAN_DAY = "PLAN_DAY";
         public static final String SQL_CREATE =
                 "CREATE TABLE "+ PlanDB.TABLE_NAME+ " ("
                 +PlanDB.PLAN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +PlanDB.PLAN_CONTENTS+" TEXT,"
                 +PlanDB.PLAN_CATEGORY+" TEXT,"
-                +PlanDB.PLAN_DATE+" TEXT,"
-                +PlanDB.PLAN_YEAR+" INTEGER,"
-                +PlanDB.PLAN_MONTH+" INTEGER,"
-                +PlanDB.PLAN_DAY+" INTEGER)";
+                +PlanDB.PLAN_DATE+" TEXT)";
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + PlanDB.TABLE_NAME;
     }

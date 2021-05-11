@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,10 +30,10 @@ public class AchivementActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_achivement);
 
-        img_cal = findViewById(R.id.img_cal_ach);
-        btn_menu = findViewById(R.id.btn_more_ach); //메뉴 더보기 버튼
+        img_cal = findViewById(R.id.button_calendar_achieve);
+        btn_menu = findViewById(R.id.button_menu_achieve); //메뉴 더보기 버튼
         //banner set date in korean
-        textdate = findViewById(R.id.txt_date_of_today);
+        textdate = findViewById(R.id.textView_dateOfToday);
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
@@ -47,6 +44,7 @@ public class AchivementActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AchivementActivity.this, CalendarActivity.class);
                 startActivity(intent);
+                Log.d("zzz123", "onClick: " + "calendarButton_achieve");
                 finish();
             }
         });
@@ -61,6 +59,7 @@ public class AchivementActivity extends AppCompatActivity {
                     case R.id.action_menu1:
                         Intent intent = new Intent(AchivementActivity.this, BoxActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onMenuItemClick: boxMenu_achieve");
                         finish();
                         break;
                     case R.id.action_menu2:
@@ -69,6 +68,7 @@ public class AchivementActivity extends AppCompatActivity {
                     case R.id.action_menu3:
                         intent = new Intent(AchivementActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onMenuItemClick: settingMenu_achieve");
                         finish();
                         break;
                 }

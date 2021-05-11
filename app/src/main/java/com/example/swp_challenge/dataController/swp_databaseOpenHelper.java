@@ -43,17 +43,13 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
 
     //----------------------------PLANDB-----------------------------
-    public void insertPlan(String contents, String category,  Date date, int year, int month, int day) {
+    public void insertPlan(String contents, String category,  Date date) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
         values.put(swp_database.PlanDB.PLAN_CONTENTS, contents);
         values.put(swp_database.PlanDB.PLAN_CATEGORY, category);
         values.put(swp_database.PlanDB.PLAN_DATE, dateFormat.format(date));
-        values.put(swp_database.PlanDB.PLAN_YEAR, year);
-        values.put(swp_database.PlanDB.PLAN_MONTH, month);
-        values.put(swp_database.PlanDB.PLAN_DAY, day);
-
         long newRowId = db.insert(swp_database.PlanDB.TABLE_NAME, null, values);
     }
 
@@ -123,15 +119,6 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
 
     //----------------------------------USERDB------------------------------------
-    public void insertUserDB(){
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(swp_database.UserDB.USER_KEY, 0);
-        values.put(swp_database.UserDB.BOX_OPEN_CNT, 0);
-        long newRowId = db.insert(swp_database.UserDB.TABLE_NAME, null, values);
-    }
-
-
     public void updateUserBoxRank(String user_name,int box_rank){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();

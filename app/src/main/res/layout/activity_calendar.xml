@@ -13,29 +13,29 @@
 
     <!--상단 메뉴 영역 !-->
     <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout_menuBar_cal"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout_basic_cal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0"
 
             android:background="#45D6AD"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:theme="?attr/actionBarTheme">
 
             <ImageButton
-                android:id="@+id/img_cal_cal"
+                android:id="@+id/button_calendar_cal"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="0"
@@ -45,7 +45,7 @@
                 app:srcCompat="@drawable/calendar2" />
 
             <TextView
-                android:id="@+id/txt_date_of_today"
+                android:id="@+id/textView_dateOfToday"
                 android:layout_width="150dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
@@ -68,94 +68,42 @@
                 android:textSize="20sp" />
 
             <ImageButton
-                android:id="@+id/btn_more_cal"
+                android:id="@+id/button_menu_cal"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
-                android:layout_weight="0"
                 android:background="@android:color/transparent"
-                android:padding="0sp"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/more2" />
-
-            <Spinner
-                android:id="@+id/spinner_cal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:spinnerMode="dropdown" />
+                app:srcCompat="@drawable/more2"
+                android:onClick="onPopupMenuButtonClick"/>
 
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar2"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="0"
-            android:background="#00FFFFFF"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginVertical="5dp"
-                android:layout_weight="0"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="0"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="0"
-                    android:fontFamily="@font/maplestory_bold"
-                    android:text="칭호 목록"
-                    android:textColor="#3C3C3C" />
-
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
     <!--하단 영역!-->
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="96dp"
+        android:id="@+id/linearLayout_basic_cal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_menuBar_cal">
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/linearLayout_calendar_cal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="6"
             android:background="@drawable/layout_bg"
             android:orientation="vertical">
 
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/textView_titleCalendar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
@@ -167,7 +115,6 @@
                 android:textStyle="bold" />
 
             <ProgressBar
-                android:id="@+id/progressBar1"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -175,12 +122,12 @@
 
             <CalendarView
                 android:id="@+id/calendarView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal" />
 
             <ImageButton
-                android:id="@+id/btn_addCal_cal"
+                android:id="@+id/button_addCalendar_cal"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="right"
@@ -193,63 +140,64 @@
 
         </LinearLayout>
 
+
         <LinearLayout
-            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="3"
+            android:background="@drawable/layout_bg"
             android:baselineAligned="true"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#00FFFFFF"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme">
-
-                <Button
-                    android:id="@+id/button1"
-                    android:layout_width="90dp"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:fontFamily="@font/maplestory_bold"
-                    android:text="일정"
-                    app:backgroundTint="#5ACCA4" />
-
-                <Button
-                    android:id="@+id/btn_challHistory"
-                    android:layout_width="90dp"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:fontFamily="@font/maplestory_bold"
-                    android:text="도전과제"
-                    app:backgroundTint="#515ACCA4" />
-
-            </androidx.appcompat.widget.Toolbar>
-
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/layout_bg"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_calendar"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textView_titlePlan_cal"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/maplestory_bold"
+                    android:text="일정"
+                    android:textColor="#45D6AD"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/button_challengeHistory_cal"
+                    android:layout_width="90dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="180dp"
+                    android:fontFamily="@font/maplestory_bold"
+                    android:text="도전과제"
+                    app:backgroundTint="#45D6AD" />
+
             </LinearLayout>
 
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="5dp" />
         </LinearLayout>
-    </LinearLayout>
+
+        </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

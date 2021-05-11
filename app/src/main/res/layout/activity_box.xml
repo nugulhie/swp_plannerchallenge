@@ -21,7 +21,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_weight="0"
@@ -31,7 +30,7 @@
             android:theme="?attr/actionBarTheme">
 
             <ImageButton
-                android:id="@+id/img_cal_box"
+                android:id="@+id/button_calendar_box"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="0"
@@ -41,7 +40,7 @@
                 app:srcCompat="@drawable/calendar2" />
 
             <TextView
-                android:id="@+id/textview_today"
+                android:id="@+id/textView_dateOfToday"
                 android:layout_width="150dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
@@ -64,20 +63,19 @@
                 android:textSize="20sp" />
 
             <ImageButton
-                android:id="@+id/btn_more_box"
+                android:id="@+id/button_menu_box"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
                 android:background="@android:color/transparent"
+                android:onClick="onPopupMenuButtonClick"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/more2"
-                android:onClick="onPopupMenuButtonClick"/>
+                app:srcCompat="@drawable/more2" />
 
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar2"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="0"
@@ -94,14 +92,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/imageView_selectedAchieve"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_weight="0"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/textView_selectedAchieve"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -135,7 +133,6 @@
 
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar4"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="#00FFFFFF"
@@ -143,7 +140,7 @@
             android:theme="?attr/actionBarTheme">
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/textView_titleBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
@@ -164,7 +161,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/imageView_key"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical"
@@ -176,7 +173,7 @@
 
 
                 <TextView
-                    android:id="@+id/cnt_key"
+                    android:id="@+id/textView_amountOfKey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/maplestory_bold"
@@ -190,13 +187,12 @@
 
 
         <ProgressBar
-            android:id="@+id/progressBar1"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/imageView_Box"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
@@ -208,13 +204,13 @@
             android:layout_height="60dp">
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/imageView_tier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ribbon_mint" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView_tier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -232,7 +228,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button_open"
+                android:id="@+id/button_openBox"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"

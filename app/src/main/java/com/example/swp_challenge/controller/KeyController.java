@@ -5,7 +5,7 @@ public class KeyController {
     public static KeyController getInstance(){
         return key;
     }
-    public boolean checkKey(UserController user) {
+    boolean checkKey(UserController user) {
         if (user.getCnt_key() > 0) {
             return true;
         } else {

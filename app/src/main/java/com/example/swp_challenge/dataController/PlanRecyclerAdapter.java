@@ -39,7 +39,7 @@ public class PlanRecyclerAdapter extends RecyclerView.Adapter<PlanRecyclerAdapte
     }
 
     public void addItem(recyclerPlanData data) {
-
+        // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
 

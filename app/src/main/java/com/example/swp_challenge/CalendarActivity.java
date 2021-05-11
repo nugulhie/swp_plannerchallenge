@@ -5,17 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
@@ -24,13 +21,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
 import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
-import com.example.swp_challenge.dataController.recyclerChallengeData;
 import com.example.swp_challenge.dataController.recyclerPlanData;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,33 +38,30 @@ public class CalendarActivity extends AppCompatActivity {
 //
     Button btn_challHistory;
     ImageButton img_cal, btn_add_cal;
-    String menu_item;
     ImageButton btn_menu;
-    Spinner spinner;
     CalendarView mcalendarView;
-    public static Activity mActivity1;
     private PlanRecyclerAdapter adapterplan;
     TextView textdate;
-    public static int changeDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_calendar);
-        mActivity1 = CalendarActivity.this;
+
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
-        String selection = swp_database.PlanDB.PLAN_DAY + " = ?";
-        String[] selectionArgs = {Integer.toString(changeDay)};
+
+
+
         String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
 
         Cursor plancursor = db.query(
                 swp_database.PlanDB.TABLE_NAME,
                 null,
-                selection,
-                selectionArgs,
+                null,
+                null,
                 null,
                 null,
                 sortOrder
@@ -110,59 +101,17 @@ public class CalendarActivity extends AppCompatActivity {
                 //new CalendarDecorator.MySelectorDecorator(this)
         );*/
 
-        img_cal = findViewById(R.id.img_cal_cal);
-        btn_add_cal = findViewById(R.id.btn_addCal_cal);
-        btn_challHistory = findViewById(R.id.btn_challHistory);
+        img_cal = findViewById(R.id.button_calendar_cal);
+        btn_add_cal = findViewById(R.id.button_addCalendar_cal);
+        btn_challHistory = findViewById(R.id.button_challengeHistory_cal);
 
         //banner set date in korean
-        textdate = findViewById(R.id.textview_today);
+        textdate = findViewById(R.id.textView_dateOfToday);
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
 
-
-        //@@@@@메뉴 스피너@@@@@@@//
-        btn_menu = findViewById(R.id.btn_more_cal);
-        final String[] menu = {"상자", "칭호", "설정"};  //메뉴 아이템 항목
-        spinner = findViewById(R.id.spinner_cal);  //스피너 초기화
-        ArrayAdapter menuAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, menu);  //menu 어댑터 생성
-        menuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(menuAdapter);
-        spinner.setSelection(0);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                menu_item = (String) spinner.getSelectedItem();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        btn_menu.setOnClickListener(new View.OnClickListener() {    //선택한 드롭다운에서 버튼 선택 시 - 액티비티 이동//
-            @Override
-            public void onClick(View v) {
-                switch(menu_item) {
-                    case "상자":
-                        Intent intent = new Intent(CalendarActivity.this, BoxActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case "칭호":
-                        intent = new Intent(CalendarActivity.this, AchivementActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case "설정":
-                        intent = new Intent(CalendarActivity.this, SettingsActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                }
-            }
-        });
-        //@@@@@메뉴 스피너 끝@@@@@2//
+        btn_menu = findViewById(R.id.button_menu_cal);
 
         // 밑으로 전부 인텐트 함수
         img_cal.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +119,7 @@ public class CalendarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(CalendarActivity.this, CalendarActivity.class);
                 startActivity(intent);
+                Log.d("zzz123", "onClick: calendarButton_calendar");
                 finish();
             }
         });
@@ -186,6 +136,7 @@ public class CalendarActivity extends AppCompatActivity {
                         intent.putExtra("month", month+1);
                         intent.putExtra("day", dayOfMonth);
                         startActivity(intent);
+                        Log.d("zzz123", "onClick: addPlanButton_calendar");
                     }
                 });
 
@@ -194,6 +145,7 @@ public class CalendarActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(CalendarActivity.this, ChallhistoryActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onClick: challengeHistoryButton_calendar");
                     }
                 });
             }
@@ -202,6 +154,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
+                Log.d("zzz123", "onClick: !unselected_date!");
             }
         });
 
@@ -209,13 +162,9 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
+                Log.d("zzz123", "onClick: !unselected_date!");
             }
         });
-    }
-    public void onBackPressed() {   //뒤로가기 두번 눌러서 앱 종료
-        //super.onBackPressed();
-        Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 
     public void onPopupMenuButtonClick(View button) {     //더보기 버튼 클릭 시 팝업메뉴 생성
@@ -228,16 +177,19 @@ public class CalendarActivity extends AppCompatActivity {
                     case R.id.action_menu1:
                         Intent intent = new Intent(CalendarActivity.this, BoxActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onMenuItemClick: boxMenu_calendar");
                         finish();
                         break;
                     case R.id.action_menu2:
                         intent = new Intent(CalendarActivity.this, AchivementActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onMenuItemClick: achieveMenu_calendar");
                         finish();
                         break;
                     case R.id.action_menu3:
                         intent = new Intent(CalendarActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        Log.d("zzz123", "onMenuItemClick: settingMenu_calendar");
                         finish();
                         break;
                 }
