@@ -41,7 +41,7 @@
                 app:srcCompat="@drawable/calendar2" />
 
             <TextView
-                android:id="@+id/txt_date_of_today"
+                android:id="@+id/textview_today"
                 android:layout_width="150dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
@@ -176,7 +176,7 @@
 
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/cnt_key"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/maplestory_bold"

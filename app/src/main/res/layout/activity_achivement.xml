@@ -33,7 +33,7 @@
             app:srcCompat="@drawable/calendar2" />
 
         <TextView
-            android:id="@+id/txt_date_of_today"
+            android:id="@+id/textview_today"
             android:layout_width="150dp"
             android:layout_height="33dp"
             android:layout_gravity="center"

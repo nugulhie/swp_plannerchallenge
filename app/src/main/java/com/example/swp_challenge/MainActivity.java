@@ -5,13 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +34,6 @@ import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -74,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
-
 //------------------------------------------------------------------------------------------------------
         String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
 
@@ -145,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
         //------------------------------------------------------------------------------------------------------
-        plan.setPlan("upd","운동"); //임시값
+
         challenge.setChallenge(3.5f,"운동들어오기");//임시값
         user.setCnt_key(9); //임시값
         key.givekey(user, 1); //임시값
@@ -153,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
         Date date = Calendar.getInstance().getTime();
-        textdate = findViewById(R.id.txt_date_of_today);
+        textdate = findViewById(R.id.textview_today);
         button_Add_challenge = findViewById(R.id.button_Addchall_main);
         //button_detail = findViewById(R.id.button_detail_main);
         img_cal = findViewById(R.id.img_cal_main);
@@ -161,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         //banner set date in korean
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
+        dbHelper.insertPlan("sd", "약속", date, 2021,06,03 );
 
         btn_menu = findViewById(R.id.btn_more_main);
 
@@ -169,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {

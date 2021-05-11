@@ -34,9 +34,14 @@ public class PopupBoxActivity extends AppCompatActivity {
             @Override
 
             public void onClick(View v) {
-                box.boxOpen(user);
-                box.boxOpenCount(user);
-                finish();
+                if(user.getCnt_key()>0) {
+                    box.boxOpen(user);
+                    box.boxOpenCount(user);
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"열쇠가 없습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

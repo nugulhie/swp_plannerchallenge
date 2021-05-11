@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
@@ -36,7 +35,7 @@ public class AchivementActivity extends AppCompatActivity {
         img_cal = findViewById(R.id.img_cal_ach);
         btn_menu = findViewById(R.id.btn_more_ach); //메뉴 더보기 버튼
         //banner set date in korean
-        textdate = findViewById(R.id.txt_date_of_today);
+        textdate = findViewById(R.id.textview_today);
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));

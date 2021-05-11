@@ -20,6 +20,7 @@ import com.example.swp_challenge.controller.UserController;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.swp_challenge.controller.PlannerController;
+import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
@@ -100,8 +101,8 @@ public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 
                 //데이터 추가해주는 메소드 추가해주어야함. //Todo 팝업 인텐트에서 setplan 메소드에 값 넘겨주는 구문 작성 필요
                 //plan.setPlan(content, category); //일정 추가 메소드
                 if (content.length() > 0) {
-                    plan.setPlan(content.getText().toString(), category_item);
-                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate());
+                    plan.setPlan(content.getText().toString(), category_item, mYear, mMonth, mDay);
+                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate(), mYear, mMonth, mDay);
                     Toast.makeText(getApplicationContext(), "날짜 : "+mYear+"년 "+mMonth+"월 "+mDay+"일 "
                             + ", 카테고리 : "+category_item + ", 내용 : "+ content.getText().toString(), Toast.LENGTH_SHORT).show();
                     finish();

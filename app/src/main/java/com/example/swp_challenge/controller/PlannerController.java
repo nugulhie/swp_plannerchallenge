@@ -14,11 +14,17 @@ public class PlannerController{
     private String planContents = new String();
     private String category;
     private Date date;
+    private int year;
+    private int month;
+    private int day;
 
-    public void setPlan(String content, String category){
+    public void setPlan(String content, String category, int year, int month, int day){
         this.planContents = content;
         this.category = category;
         this.date = Calendar.getInstance().getTime();
+        this.year = year;
+        this.month = month;
+        this.day = day;
     }
 
     public String getPlanContents(){

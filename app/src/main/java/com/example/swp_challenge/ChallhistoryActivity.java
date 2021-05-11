@@ -2,11 +2,9 @@ package com.example.swp_challenge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -26,7 +24,7 @@ public class ChallhistoryActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_challhistory);
         //banner set date in korean
-        textdate = findViewById(R.id.txt_date_of_today);
+        textdate = findViewById(R.id.textview_today);
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
