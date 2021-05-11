@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.swp_challenge" >
+    package="com.example.swp_challenge">
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -12,18 +13,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Swp_challenge" >
+        android:theme="@style/Theme.Swp_challenge">
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/menu" />
 
-        <activity android:name=".ChallengePopupActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/> // android:theme="@android:style/Theme.Dialog"  //popup 액티비티 dialog로 변경
-        <activity android:name=".PlanPopupActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
-        <activity android:name=".PopupBoxActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
-        <activity android:name=".SplashActivity" >
+        <activity
+            android:name=".ChallengePopupActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".PlanPopupActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".PopupBoxActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +38,7 @@
         <activity android:name=".MainActivity2" />
         <activity android:name=".MainActivity" />
 
-        <receiver android:name=".PlannerWidget" >
+        <receiver android:name=".PlannerWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

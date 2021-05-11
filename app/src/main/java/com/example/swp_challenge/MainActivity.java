@@ -13,11 +13,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -160,49 +162,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
 
-        //@@@@@메뉴 스피너@@@@@@@//
         btn_menu = findViewById(R.id.btn_more_main);
-        final String[] menu = {"상자", "칭호", "설정"};  //메뉴 아이템 항목
-        spinner = findViewById(R.id.spinner_main);  //스피너 초기화
-        ArrayAdapter menuAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, menu);  //menu 어댑터 생성
-        menuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(menuAdapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                menu_item = (String) spinner.getSelectedItem();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        //선택한 드롭다운에서 버튼 선택 시 - 액티비티 이동//
-        btn_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch(menu_item) {
-                    case "상자":
-                        Intent intent = new Intent(MainActivity.this, BoxActivity.class);
-                        startActivity(intent);
-                        break;
-                    case "칭호":
-                        intent = new Intent(MainActivity.this, AchivementActivity.class);
-                        startActivity(intent);
-                        break;
-                    case "설정":
-                        intent = new Intent(MainActivity.this, SettingsActivity.class);
-                        startActivity(intent);
-                        break;
-
-                }
-            }
-        });
-        //@@@@@메뉴 스피너 끝@@@@@2//
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,6 +179,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onPopupMenuButtonClick(View button) {     //더보기 버튼 클릭 시 팝업메뉴 생성
+        PopupMenu popupMenu = new PopupMenu(this, btn_menu);    //popup 메뉴 객체 생성
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());    //팝업메뉴 xml 지정
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_menu1:
+                        Intent intent = new Intent(MainActivity.this, BoxActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_menu2:
+                        intent = new Intent(MainActivity.this, AchivementActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.action_menu3:
+                        intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 
     public void onResume() {
