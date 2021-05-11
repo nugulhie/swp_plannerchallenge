@@ -35,16 +35,10 @@
      } // 보상을 얻는 함수
 
      public void boxOpen(UserController user) {
-         if (key.checkKey(user)) {
+
              getReward(user);
              user.setCnt_key(user.getCnt_key() - 1);
-             System.out.println(user.getCnt_key());
-             System.out.println("키를 사용");
              user.setBoxOpen(user.getBoxOpen()+1);
-         }
-         else{
-             Log.d("box123123123", "boxOpen: can't open");
-         }
      } // 상자 여는 함수
 
      public void boxOpenCount(UserController user){

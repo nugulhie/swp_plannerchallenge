@@ -38,7 +38,7 @@
                 app:srcCompat="@drawable/calendar2" />
 
             <TextView
-                android:id="@+id/textView_dateOfToday"
+                android:id="@+id/textview_today"
                 android:layout_width="150dp"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
@@ -84,14 +84,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView_selectedAchieve"
+                    android:id="@+id/imageView"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_weight="0"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                    android:id="@+id/textView_selectedAchieve"
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -127,7 +127,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_category"
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
@@ -176,7 +176,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_term"
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
