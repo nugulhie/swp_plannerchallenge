@@ -88,8 +88,14 @@ public class BoxActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(BoxActivity.this, PopupBoxActivity.class);
-                box.boxOpen(user);
-                startActivity(intent);
+                if(box.boxOpen(user)){
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"can'topen",Toast.LENGTH_SHORT).show();
+                }
+
+
                 Log.d("zzz123", "onClick: openButton_box");
             }
         });
