@@ -1,6 +1,5 @@
 package com.example.swp_challenge;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -20,11 +19,8 @@ import com.example.swp_challenge.controller.UserController;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.swp_challenge.controller.PlannerController;
-import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 //import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 ////
 public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 만들려고 했는데 아직 안만듬
@@ -49,9 +45,9 @@ public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 
         setContentView(R.layout.activity_popup2);
 
         content = findViewById(R.id.content_plan);
-        btn_cancel_schedule = findViewById(R.id.btn_cancel_schedule);
-        btn_submit_schedule = findViewById(R.id.btn_submit_schedule);
-        btn_delete_schedule = findViewById(R.id.btn_delete_schedule);
+        btn_cancel_schedule = findViewById(R.id.button_cancel_plan);
+        btn_submit_schedule = findViewById(R.id.button_submit_plan);
+        btn_delete_schedule = findViewById(R.id.button_delete_plan);
 
         Intent getIntent = getIntent();
         mYear = getIntent.getIntExtra("year", 0);
@@ -62,7 +58,7 @@ public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 
 
         // ↓ 일정 카테고리 스피너 ↓ //
         final String[] category = {"약속", "공부", "운동", "시험", "기타"};
-        spinner_category = findViewById(R.id.spinner_popup2);
+        spinner_category = findViewById(R.id.spinner_categoryItem_plan);
         ArrayAdapter categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, category);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_category.setAdapter(categoryAdapter);
@@ -84,6 +80,7 @@ public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 
             @Override
             public void onClick(View v) {
                 finish();
+                Log.d("zzz123", "onClick: " + "cancel_plan");
             }
         });
         btn_delete_schedule.setOnClickListener(new View.OnClickListener() { //삭제버튼
@@ -92,6 +89,7 @@ public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 
                 //데이터 제거해주는 메소드 추가해주어야함.
                 Toast.makeText(getApplicationContext(),"Data deleted!", Toast.LENGTH_SHORT).show();
                 finish();
+                Log.d("zzz123", "onClick: " + "delete_plan");
             }
         });
         btn_submit_schedule.setOnClickListener(new View.OnClickListener() { //입력버튼
@@ -101,10 +99,11 @@ public class PlanPopupActivity extends AppCompatActivity {    //popup 인텐트 
                 //plan.setPlan(content, category); //일정 추가 메소드
                 if (content.length() > 0) {
                     plan.setPlan(content.getText().toString(), category_item);
-                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate());
+                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate(),mYear,mMonth,mDay);
                     Toast.makeText(getApplicationContext(), "날짜 : "+mYear+"년 "+mMonth+"월 "+mDay+"일 "
                             + ", 카테고리 : "+category_item + ", 내용 : "+ content.getText().toString(), Toast.LENGTH_SHORT).show();
                     finish();
+                    Log.d("zzz123", "onClick: " + "insert_plan");
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
