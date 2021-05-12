@@ -2,6 +2,7 @@ package com.example.swp_challenge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -35,6 +37,7 @@ public class BoxActivity extends AppCompatActivity {
     Button btn_open;
     ImageButton btn_menu;
     TextView textKey;
+    Dialog openBox_dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,19 +90,42 @@ public class BoxActivity extends AppCompatActivity {
         btn_open.setOnClickListener(new View.OnClickListener() {    //상자열기
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BoxActivity.this, PopupBoxActivity.class);
                 if(box.boxOpen(user)){
-                    startActivity(intent);
+                    showDialog();
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"can'topen",Toast.LENGTH_SHORT).show();
                 }
 
-
                 Log.d("zzz123", "onClick: openButton_box");
             }
         });
+
+        openBox_dialog = new Dialog(BoxActivity.this);       // 뽑기결과 다이얼로그 설정
+        openBox_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
+        openBox_dialog.setContentView(R.layout.activity_popup_box);       //           "
+
     }
+
+    public void showDialog() {
+        openBox_dialog.show();
+
+        UserController user =  UserController.getInstance();
+        BoxController box =BoxController.getInstance();
+
+        Button btn_popup = openBox_dialog.findViewById(R.id.button_check_popupBox);
+        btn_popup.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View v) {
+                box.boxOpen(user);
+                box.boxOpenCount(user);
+                Log.d("zzz123", "onClick: " + "check_open");
+                openBox_dialog.dismiss();
+            }
+        });
+    }
+
     public void onPopupMenuButtonClick(View button) {     //더보기 버튼 클릭 시 팝업메뉴 생성
         PopupMenu popupMenu = new PopupMenu(this, btn_menu);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
