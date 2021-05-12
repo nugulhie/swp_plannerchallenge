@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,19 +13,26 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.swp_challenge.controller.PlannerController;
+import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
 import com.example.swp_challenge.dataController.recyclerPlanData;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +50,14 @@ public class CalendarActivity extends AppCompatActivity {
     CalendarView mcalendarView;
     private PlanRecyclerAdapter adapterplan;
     TextView textdate;
+    Dialog plan_dialog;
+
+    final String[] category = {"약속", "공부", "운동", "시험", "기타"};
+    String category_item;
+    int mYear, mMonth, mDay;
+    PlannerController plan = PlannerController.getInstance();
+    UserController user = UserController.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +108,8 @@ public class CalendarActivity extends AppCompatActivity {
         init_recycler();
         getData_recycler(plan_contents, plan_categorys, plan_dates);
 
-        /*cal = findViewById(R.id.calendarView_cal);
+        // ↓ 이거 주석 풀어야함!!
+        /*cal = findViewById(R.id.calendarView);
         cal.setSelectedDate(CalendarDay.today());
         cal.addDecorators(
                 new CalendarDecorator.SundayDecorator(),
@@ -131,11 +148,10 @@ public class CalendarActivity extends AppCompatActivity {
                 btn_add_cal.setOnClickListener(new View.OnClickListener() {         //일정 팝업 액티비티 이동
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(CalendarActivity.this, PlanPopupActivity.class);
-                        intent.putExtra("year", year);
-                        intent.putExtra("month", month+1);
-                        intent.putExtra("day", dayOfMonth);
-                        startActivity(intent);
+                        showDialog();
+                        mYear = year;
+                        mMonth = month;
+                        mDay = dayOfMonth;
                         Log.d("zzz123", "onClick: addPlanButton_calendar");
                     }
                 });
@@ -165,6 +181,11 @@ public class CalendarActivity extends AppCompatActivity {
                 Log.d("zzz123", "onClick: !unselected_date!");
             }
         });
+
+        plan_dialog = new Dialog(CalendarActivity.this);       // 일정 다이얼로그 설정
+        plan_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
+        plan_dialog.setContentView(R.layout.activity_popup2);       //           "
+
     }
 
     public void onPopupMenuButtonClick(View button) {     //더보기 버튼 클릭 시 팝업메뉴 생성
@@ -197,6 +218,65 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
         popupMenu.show();
+    }
+
+    public void showDialog() {  //일정 다이얼로그 생성 함수
+        plan_dialog.show();
+
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // ↓ 일정 카테고리 스피너 ↓
+        Spinner spinner_category = plan_dialog.findViewById(R.id.spinner_categoryItem_plan);
+        ArrayAdapter categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, category);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_category.setAdapter(categoryAdapter);
+        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category_item = (String) spinner_category.getSelectedItem();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        // ↑ 일정 카테고리 스피너 ↑
+        EditText content = plan_dialog.findViewById(R.id.content_plan);     //일정 본문
+        ImageButton btn_delete = plan_dialog.findViewById(R.id.button_delete_plan); //삭제 버튼
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {   //데이터 삭제 메소드 추가할 것
+                plan_dialog.dismiss();
+                Toast.makeText(getApplicationContext(),"일정 삭제", Toast.LENGTH_SHORT).show();
+                Log.d("zzz123", "onClick: " + "delete_plan");
+            }
+        });
+        Button btn_cancel = plan_dialog.findViewById(R.id.button_cancel_plan);  //취소 버튼
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                plan_dialog.dismiss();
+                Log.d("zzz123", "onClick: " + "cancel_plan");
+            }
+        });
+        Button btn_submit = plan_dialog.findViewById(R.id.button_submit_plan);  //제출 버튼
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (content.length() > 0) {
+                    plan.setPlan(content.getText().toString(), category_item);
+                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate(),mYear,mMonth,mDay);
+                    Toast.makeText(getApplicationContext(), "날짜 : "+mYear+"년 "+mMonth+"월 "+mDay+"일 "
+                            + ", 카테고리 : "+category_item + ", 내용 : "+ content.getText().toString(), Toast.LENGTH_SHORT).show();
+                    plan_dialog.dismiss();
+                    Log.d("zzz123", "onClick: " + "insert_plan");
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    plan_dialog.dismiss();
+                }
+            }
+        });
     }
 
     private void init_recycler(){ //RecyclerView initiate method

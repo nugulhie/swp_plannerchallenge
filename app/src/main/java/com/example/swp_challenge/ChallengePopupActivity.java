@@ -164,7 +164,7 @@ public class ChallengePopupActivity extends AppCompatActivity {    //popup 인�
         });
     }
     //↓ 시작일, 종료일 불러오기 ↓
-    public void processDatePickerResult(int year, int month, int day){  //기간1 날짜데이터 불러오기 이벤트
+    /*public void processDatePickerResult(int year, int month, int day){  //기간1 날짜데이터 불러오기 이벤트
         String month_string = Integer.toString(month+1);
         String day_string = Integer.toString(day);
         String year_string = Integer.toString(year);
@@ -183,7 +183,7 @@ public class ChallengePopupActivity extends AppCompatActivity {    //popup 인�
         d2 = dateMessage;
         ((TextView) findViewById(R.id.textView_date2_challenge)).setText(d2);
         Toast.makeText(this,"Date: " + dateMessage,Toast.LENGTH_SHORT).show();
-    }
+    }*/
     // ↑ 시작일, 종료일 불러오기 ↑
     public boolean onTouchEvent(MotionEvent event) { //바깥 레이어 클릭해도 팝업 안 닫히게 하기.
         if(event.getAction()==MotionEvent.ACTION_OUTSIDE) {
