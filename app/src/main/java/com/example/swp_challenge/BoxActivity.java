@@ -90,6 +90,7 @@ public class BoxActivity extends AppCompatActivity {
         btn_open.setOnClickListener(new View.OnClickListener() {    //상자열기
             @Override
             public void onClick(View v) {
+
                 if(box.boxOpen(user)){
                     showDialog();
                 }
@@ -118,8 +119,6 @@ public class BoxActivity extends AppCompatActivity {
             @Override
 
             public void onClick(View v) {
-                box.boxOpen(user);
-                box.boxOpenCount(user);
                 Log.d("zzz123", "onClick: " + "check_open");
                 openBox_dialog.dismiss();
             }

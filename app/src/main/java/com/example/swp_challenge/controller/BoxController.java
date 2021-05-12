@@ -38,9 +38,8 @@
          if (key.checkKey(user)) {
              getReward(user);
              user.setCnt_key(user.getCnt_key() - 1);
-             System.out.println(user.getCnt_key());
-             System.out.println("키를 사용");
              user.setBoxOpen(user.getBoxOpen()+1);
+             Log.d("159753", "boxOpen: "+user.getCnt_key()+user.getBoxOpen());
              return true;
          }
          else{

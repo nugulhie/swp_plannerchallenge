@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
-
+        user.setCnt_key(1);
 //------------------------------------------------------------------------------------------------------
         String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
 
@@ -212,8 +212,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("zzz123", "onClick:" + "addChallengeButton_main");
             }
         });
-
-
 
     }
 

@@ -31,12 +31,12 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
             @Override
             public void run() {
                 if(temp){
-                    Intent intent = new Intent(getApplicationContext(),IntroActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),IntroActivity.class); //사용자가 처음 어플을 사용할 때
                     startActivity(intent);
                     finish();
                 }
                 else{
-                    Intent intent =new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent =new Intent(getApplicationContext(), MainActivity.class); //사용자가 어플을 사용 해봤을 때
                     startActivity(intent);
                     finish();
                 }

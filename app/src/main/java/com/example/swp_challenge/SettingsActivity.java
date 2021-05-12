@@ -1,23 +1,36 @@
 package com.example.swp_challenge;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceFragmentCompat;
 ////
 public class SettingsActivity extends AppCompatActivity {
     ImageButton img_cal;
     ImageButton btn_menu;
+    private static String CHANNEL_ID = "channel1";
+    private static String CHANNEL_NAME = "Channel1";
 
+    private static String CHANNEL_ID2 = "channel2";
+    private static String CHANNEL_NAME2 = "Channel2;";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +47,50 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }*/
+//-----------------------------------------------------------------------------------------------
+ /*       Button button1 = findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNoti1();
+            }
+        });
+        Button button2 = findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View v) {
+                showNoti2();
+            }
+        });
+    }*/
+//    Timer timer = new Timer();
+//    TimerTask timerTask = new TimerTask() {
+//        public void run() {
+//            makePostToServer()
+//        }
+//    };
+//timer.scheduleAtFixedRate(timerTask, getDate(), 1000 * 60 * 60 * 24); // 24 h
+//    private Date getDate() {
+//        Calendar cal = Calendar.getInstance();
+//        cal.add(Calendar.DATE, 1);
+//        cal.set(Calendar.HOUR_OF_DAY, 2);
+//        cal.set(Calendar.MINUTE, 0);
+//        cal.set(Calendar.SECOND, 0);
+//        return cal.getTime();
+//    }
+
+
+        //   notificationManager.notify(1, builder.build());
+//NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//    Intent intent = new Intent(this, MainActivity.class);
+//    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//    Notification.Builder builder = new Notification.Builder(this);
+
+
+
+
+    //--------------------------------------------------------------------------------------------
         img_cal=findViewById(R.id.button_calendar_setting);
         btn_menu = findViewById(R.id.button_menu_setting);
 
@@ -77,6 +133,77 @@ public class SettingsActivity extends AppCompatActivity {
         });
         popupMenu.show();
     }
+
+    public void showNoti1() {
+
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification.Builder builder = new Notification.Builder(this);
+
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),android.R.drawable.star_on));
+        builder.setSmallIcon(android.R.drawable.star_on);
+        builder.setContentTitle("오늘의 일정");
+        builder.setWhen(System.currentTimeMillis());
+        builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+        builder.setContentIntent(pendingIntent);
+        builder.setAutoCancel(true);
+        builder.setNumber(999);
+
+        Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
+
+        for(int i = 0; i < 10 ; i++)
+        {
+            inboxStyle.addLine("DB data" +i); // DB에서 일정 갯수 확인 후 for문 돌려야 함
+        }
+
+        inboxStyle.setSummaryText("더 보기");
+        builder.setStyle(inboxStyle);
+
+        notificationManager.notify(1, builder.build());
+
+
+    }
+/*
+
+
+
+    public void showNoti2() {
+        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (manager.getNotificationChannel(CHANNEL_ID2) == null) {
+                manager.createNotificationChannel(new NotificationChannel(
+                        CHANNEL_ID2, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT
+                ));
+
+
+                builder = new NotificationCompat.Builder(this, CHANNEL_ID2);
+            }
+        } else {
+            builder = new NotificationCompat.Builder(this);
+        }
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder.setContentTitle("오늘의 챌린지는 다 완수하셨나요?");
+        //builder.setContentText("알림 메시지2");
+        builder.setSmallIcon(android.R.drawable.ic_menu_view);
+        builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+        builder.setAutoCancel(true);
+        builder.setContentIntent(pendingIntent);
+
+        manager.notify(2, builder.build());
+
+*/
+
+
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override

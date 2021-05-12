@@ -13,6 +13,8 @@ import android.widget.EditText;
 import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
+import java.text.SimpleDateFormat;
+
 public class IntroActivity extends AppCompatActivity {
     public Button next_btn;
     public EditText username;
