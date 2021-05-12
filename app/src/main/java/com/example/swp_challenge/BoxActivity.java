@@ -67,8 +67,10 @@ public class BoxActivity extends AppCompatActivity {
                 null,
                 null
         );
+        //String temp = Integer.toString(userCursor.getInt((userCursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY))));
+        //Log.d("159753", "onCreate: "+temp);
 
-        textKey.setText("x "+Integer.toString(userCursor.getInt(userCursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY))));
+        //textKey.setText("x "+Integer.toString(userCursor.getInt(userCursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY))));
         userCursor.close();
         //------------------------------------------------------------------------------
         //intent 넘기기 함수 밑으로 인자
