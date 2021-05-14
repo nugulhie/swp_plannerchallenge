@@ -20,15 +20,6 @@
             android:name="com.google.android.actions"
             android:resource="@xml/menu" />
 
-        <activity
-            android:name=".ChallengePopupActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name=".PlanPopupActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name=".PopupBoxActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

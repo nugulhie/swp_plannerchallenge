@@ -37,7 +37,6 @@ public class IntroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dbHelper.insertUsername(username.getText().toString(), birth.getText().toString());
                 PreferenceManager.setBoolean(IntroActivity.this,"check",false);
-
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
 

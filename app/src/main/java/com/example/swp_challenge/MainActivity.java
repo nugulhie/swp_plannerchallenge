@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -64,6 +65,19 @@ public class MainActivity extends AppCompatActivity {
     TextView textdate;
     int count = 0;
     Dialog challenge_dialog;
+    public static Context temp;
+    Button test;
+    public static boolean flag = false;
+
+    public static List plan_id = new ArrayList<>();
+    public static List plan_contents = new ArrayList<>();
+    public static List plan_categorys = new ArrayList<>();
+    public static List plan_dates = new ArrayList<>();
+    public static List challenge_id = new ArrayList<>();
+    public static List challenge_contents = new ArrayList<>();
+    public static List challenge_ratings = new ArrayList<>();
+    public static List challenge_dates = new ArrayList<>();
+
 
     private long backKeyPressedTime = 0;    //마지막으로 뒤로가기 눌렀던 시간 저장
     private Toast toast;    //첫번째 뒤로가기 버튼 누를때 표시
@@ -74,78 +88,27 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        mActivity = MainActivity.this;
-
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        SimpleDateFormat dateFormat = new SimpleDateFormat();
-        user.setCnt_key(1);
-//------------------------------------------------------------------------------------------------------
-        String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
 
-        Cursor plancursor = db.query(
-                swp_database.PlanDB.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                sortOrder
-        );
-        List plan_id = new ArrayList<>();
-        List plan_contents = new ArrayList<>();
-        List plan_categorys = new ArrayList<>();
-        List plan_dates = new ArrayList<>();
+        SimpleDateFormat daychanger = new SimpleDateFormat("dd");
+        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
+        Date date = Calendar.getInstance().getTime();
+        test = findViewById(R.id.testbutton);
+        textdate = findViewById(R.id.textView_dateOfToday);
+        button_Add_challenge = findViewById(R.id.button_addChall_main);
+        img_cal = findViewById(R.id.button_calendar_main);
+        btn_menu = findViewById(R.id.button_menu_main);
 
-        while (plancursor.moveToNext()){
-            String plan_date = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
-                    plan_dates.add(plan_date);
-            String plan_category = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
-                    plan_categorys.add(plan_category);
-            String plan_content = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
-                    plan_contents.add(plan_content);
-            int planItems = plancursor.getInt(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
-            plan_id.add(planItems);
-        }
-
-        plancursor.close();
-        String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
-
-        Cursor challengecursor = db.query(
-                swp_database.ChallengeDB.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                sortOrder1
-        );
-        List challenge_id = new ArrayList<>();
-        List challenge_contents = new ArrayList<>();
-        List challenge_ratings = new ArrayList<>();
-        List challenge_dates = new ArrayList<>();
+        textdate.setText(korDate.format(date));
 
 
-        while (challengecursor.moveToNext()){
-            String challenge_date = challengecursor.getString(
-                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DATE));
-            challenge_dates.add(challenge_date);
-            String challenge_content = challengecursor.getString(
-                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
-            challenge_contents.add(challenge_content);
-            Float challenge_rating = challengecursor.getFloat(
-                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
-            challenge_ratings.add(challenge_rating);
-            int challengeItems = challengecursor.getInt(
-                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
-            challenge_id.add(challengeItems);
-        }
+        challenge_dialog = new Dialog(MainActivity.this);       // 도전과제 다이얼로그 설정
+        challenge_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
+        challenge_dialog.setContentView(R.layout.activity_popup);       //           "
 
-
+        temp = MainActivity.this;
+        loadDB(temp, flag);
         init_recycler();
         getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
@@ -153,49 +116,25 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.updatePass(challenge.getContents(),1);
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
-        Date date = Calendar.getInstance().getTime();
-        textdate = findViewById(R.id.textView_dateOfToday);
-        button_Add_challenge = findViewById(R.id.button_addChall_main);
-        //button_detail = findViewById(R.id.button_detail_main);
-        img_cal = findViewById(R.id.button_calendar_main);
-
-        challenge_dialog = new Dialog(MainActivity.this);       // 도전과제 다이얼로그 설정
-        challenge_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
-        challenge_dialog.setContentView(R.layout.activity_popup);       //           "
 
         //도전과제 진행도 예시
-        Button btn_minus = findViewById(R.id.button_minus);
-        Button btn_plus = findViewById(R.id.button_plus);
-        ProgressBar progressBar = findViewById(R.id.progressBar_todayChallenge);
 
-        btn_minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (count < 0) {
-                    count = 0;
-                    progressBar.setProgress(0);
-                }
-                else
-                    progressBar.setProgress(--count);
-            }
-        });
-        btn_plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (count > 3) {
-                    count = 3;
-                    progressBar.setProgress(3);
-                }
-                else
-                    progressBar.setProgress(++count);
-            }
-        });//도전과제 진척도 예시
 
         //banner set date in korean
-        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
-        textdate.setText(korDate.format(date));
 
-        btn_menu = findViewById(R.id.button_menu_main);
+
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag = true;
+                for(int i =0;i<adapterplan.getItemCount();i++){
+                    adapterplan.removeItem(i);
+                }
+                loadDB(temp, flag);
+                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
+                flag = false;
+            }
+        });
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "할일: " + content.getText().toString() +", 중요도: "+ (int)ratingBar.getRating() +
                         ", 기간(str): " +d1 +" ~ "+ d2+", 시각: "+hour+":"+minute+", 기간(date):"+date1.toString() +" ~ "+ date2.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("zzz123", "onClick: " + "insert_challenge");
-                MainActivity.mActivity.recreate();
                 challenge_dialog.dismiss();
             }
             else {
@@ -401,6 +339,11 @@ public class MainActivity extends AppCompatActivity {
     }
     // ↑ 시작일, 종료일 불러오기 ↑
 
+
+
+
+
+
     private void init_recycler(){ //RecyclerView initiate method
         RecyclerView recyclerView_plan = findViewById(R.id.recycler_plan);
         RecyclerView recyclerView_challenge = findViewById(R.id.recycler_challenge);
@@ -429,6 +372,7 @@ public class MainActivity extends AppCompatActivity {
             plandata.setTitle(listPlanCategory.get(i));
             plandata.setContent(listPlanContent.get(i));
             plandata.setDate(listplanDate.get(i));
+
             adapterplan.addItem(plandata);
         }
 
@@ -445,4 +389,96 @@ public class MainActivity extends AppCompatActivity {
         adapterchallenge.notifyDataSetChanged();
     }
 
+
+
+
+    public void loadDB(Context temp, boolean flag){
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SimpleDateFormat daychanger = new SimpleDateFormat("dd");
+        Date date = Calendar.getInstance().getTime();
+//------------------------------------------------------------------------------------------------------
+        String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
+        String selection = swp_database.PlanDB.PLAN_DAY + " = ? ";
+        String[] selectionArgs = {daychanger.format(date)};
+        if (flag){
+            selectionArgs = null;
+            selection = null;
+        }
+        Cursor plancursor = db.query(
+                swp_database.PlanDB.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+        List plan_id_temp = new ArrayList<>();
+        List plan_contents_temp = new ArrayList<>();
+        List plan_categorys_temp = new ArrayList<>();
+        List plan_dates_temp = new ArrayList<>();
+
+        while (plancursor.moveToNext()){
+            String plan_date = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
+            plan_dates_temp.add(plan_date);
+            String plan_category = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
+            plan_categorys_temp.add(plan_category);
+            String plan_content = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
+            plan_contents_temp.add(plan_content);
+            int planItems = plancursor.getInt(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
+            plan_id_temp.add(planItems);
+        }
+
+        plan_id = plan_id_temp;
+        plan_contents = plan_contents_temp;
+        plan_categorys= plan_categorys_temp;
+        plan_dates = plan_dates_temp;
+
+        plancursor.close();
+
+        String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
+        String selection1 = swp_database.ChallengeDB.CHALLENGE_DAY + " = ?";
+        String[] selectionArgs1 = {daychanger.format(date)};
+        Cursor challengecursor = db.query(
+                swp_database.ChallengeDB.TABLE_NAME,
+                null,
+                selection1,
+                selectionArgs1,
+                null,
+                null,
+                sortOrder1
+        );
+        List challenge_id_temp = new ArrayList<>();
+        List challenge_contents_temp = new ArrayList<>();
+        List challenge_ratings_temp = new ArrayList<>();
+        List challenge_dates_temp = new ArrayList<>();
+
+
+        while (challengecursor.moveToNext()){
+            String challenge_date = challengecursor.getString(
+                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DATE));
+            challenge_dates_temp.add(challenge_date);
+            String challenge_content = challengecursor.getString(
+                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
+            challenge_contents_temp.add(challenge_content);
+            Float challenge_rating = challengecursor.getFloat(
+                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
+            challenge_ratings_temp.add(challenge_rating);
+            int challengeItems = challengecursor.getInt(
+                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
+            challenge_id_temp.add(challengeItems);
+        }
+        challenge_id = challenge_id_temp;
+        challenge_contents = challenge_contents_temp;
+        challenge_ratings = challenge_ratings_temp;
+        challenge_dates = challenge_dates_temp;
+
+        challengecursor.close();
+
+    }
 }

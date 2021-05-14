@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.swp_challenge.IntroActivity;
 import com.example.swp_challenge.controller.UserController;
 
 import java.text.SimpleDateFormat;
@@ -43,26 +45,28 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
 
     //----------------------------PLANDB-----------------------------
-    public void insertPlan(String contents, String category,  Date date, int year, int month, int day) {
+    public void insertPlan(String contents, String category, int year, int month, int day) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        String fullday =year+"-"+month+"-"+day;
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
         values.put(swp_database.PlanDB.PLAN_CONTENTS, contents);
         values.put(swp_database.PlanDB.PLAN_CATEGORY, category);
         values.put(swp_database.PlanDB.PLAN_YEAR, year);
         values.put(swp_database.PlanDB.PLAN_MONTH, month);
         values.put(swp_database.PlanDB.PLAN_DAY, day);
-        values.put(swp_database.PlanDB.PLAN_DATE, dateFormat.format(date));
+        values.put(swp_database.PlanDB.PLAN_DATE, fullday);
         long newRowId = db.insert(swp_database.PlanDB.TABLE_NAME, null, values);
     }
-
     public void updatePlan(String oldcontents, String newcontents, String category,  Date date){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동이상무 ID값으로 가져오거나 해당 문자열로 검색은 문제가 있을 것같음
         values.put(swp_database.PlanDB.PLAN_CONTENTS, newcontents); //예전값을 들고올때 컨트롤러에 값을 세팅을 하던가 바로 검색한 변수값을 넣던가 선택해야함
         values.put(swp_database.PlanDB.PLAN_CATEGORY, category);
         values.put(swp_database.PlanDB.PLAN_DATE, dateFormat.format(date));
+
 
         String selection = swp_database.PlanDB.PLAN_CONTENTS + " LIKE ?"; //도전과제와 마찬가지 선택날짜에 해당하는 값을 DB에서 검색하여 넘겨야함
         String[] selectionArgs = {oldcontents};
@@ -80,10 +84,12 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
+        SimpleDateFormat dayChanger = new SimpleDateFormat("dd");
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,contents);
         values.put(swp_database.ChallengeDB.CHALLENGE_DATE,dateFormat.format(date));
         values.put(swp_database.ChallengeDB.CHALLENGE_PASS,0);
         values.put(swp_database.ChallengeDB.CHALLENGE_RATING, rating);
+        values.put(swp_database.ChallengeDB.CHALLENGE_DAY, Integer.parseInt(dayChanger.format(date)));
         long newRowId = db.insert(swp_database.ChallengeDB.TABLE_NAME, null, values);
     }
 
@@ -138,7 +144,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(swp_database.UserDB.BOX_RANK, box_rank);
-        String selection = swp_database.UserDB.BOX_RANK+ " LIKE ?";
+        String selection = swp_database.UserDB.USER_NAME+ " LIKE ?";
         String[] selectionArgs = {user_name};
 
         int count = db.update(
@@ -151,7 +157,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(swp_database.UserDB.BOX_OPEN_CNT, box_cnt);
-        String selection = swp_database.UserDB.BOX_OPEN_CNT+ " LIKE ?";
+        String selection = swp_database.UserDB.USER_NAME+ " LIKE ?";
         String[] selectionArgs = {user_name};
 
         int count = db.update(
@@ -164,7 +170,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(swp_database.UserDB.USER_KEY, key_cnt);
-        String selection = swp_database.UserDB.USER_KEY+ " LIKE ?";
+        String selection = swp_database.UserDB.USER_NAME+ " LIKE ?";
         String[] selectionArgs = {user_name};
 
         int count = db.update(
@@ -172,6 +178,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 values,
                 selection,
                 selectionArgs);
+        Log.d("159753", "updateUserKeyCount: "+count);
     }
 
 

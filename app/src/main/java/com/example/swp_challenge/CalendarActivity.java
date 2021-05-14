@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -41,9 +42,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//
+
 public class CalendarActivity extends AppCompatActivity {
-//
+
     Button btn_challHistory;
     ImageButton img_cal, btn_add_cal;
     ImageButton btn_menu;
@@ -54,10 +55,17 @@ public class CalendarActivity extends AppCompatActivity {
 
     final String[] category = {"약속", "공부", "운동", "시험", "기타"};
     String category_item;
-    int mYear, mMonth, mDay;
+    public static int mYear, mMonth, mDay;
+    public static List plan_id = new ArrayList<>();
+    public static List plan_contents = new ArrayList<>();
+    public static List plan_categorys = new ArrayList<>();
+    public static List plan_dates = new ArrayList<>();
+    public static int size_of_recycler;
+
+
     PlannerController plan = PlannerController.getInstance();
     UserController user = UserController.getInstance();
-
+    public Context temp = CalendarActivity.this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,51 +73,25 @@ public class CalendarActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_calendar);
 
-        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        SimpleDateFormat dateFormat = new SimpleDateFormat();
+        SimpleDateFormat daychanger = new SimpleDateFormat("dd");
+        SimpleDateFormat monthchanger = new SimpleDateFormat("MM");
+        SimpleDateFormat yearchanger = new SimpleDateFormat("yyyy");
+        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
+        img_cal = findViewById(R.id.button_calendar_cal);
+        btn_add_cal = findViewById(R.id.button_addCalendar_cal);
+        btn_challHistory = findViewById(R.id.button_challengeHistory_cal);
+        textdate = findViewById(R.id.textView_dateOfToday);
+        Date date = Calendar.getInstance().getTime();
+        textdate.setText(korDate.format(date));
+        btn_menu = findViewById(R.id.button_menu_cal);
 
 
-
-        String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
-
-        Cursor plancursor = db.query(
-                swp_database.PlanDB.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                sortOrder
-        );
-        List plan_id = new ArrayList<>();
-        List plan_contents = new ArrayList<>();
-        List plan_categorys = new ArrayList<>();
-        List plan_dates = new ArrayList<>();
-
-        while (plancursor.moveToNext()){
-            String plan_date = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
-            plan_dates.add(plan_date);
-            String plan_category = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
-            plan_categorys.add(plan_category);
-            String plan_content = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
-            plan_contents.add(plan_content);
-            int planItems = plancursor.getInt(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
-            plan_id.add(planItems);
-        }
-
-        plancursor.close();
-
-
+        loadDB(temp, Integer.parseInt(daychanger.format(date)), Integer.parseInt(monthchanger.format(date)), Integer.parseInt(yearchanger.format(date)));
+        Log.d("15922", "onCreate: "+Integer.parseInt(monthchanger.format(date))+"="+Integer.parseInt(yearchanger.format(date)));
         init_recycler();
         getData_recycler(plan_contents, plan_categorys, plan_dates);
 
-        // ↓ 이거 주석 풀어야함!!
-        /*cal = findViewById(R.id.calendarView);
+   /*     // ↓ 이거 주석 풀어야함!!
         cal.setSelectedDate(CalendarDay.today());
         cal.addDecorators(
                 new CalendarDecorator.SundayDecorator(),
@@ -118,18 +100,7 @@ public class CalendarActivity extends AppCompatActivity {
                 //new CalendarDecorator.MySelectorDecorator(this)
         );*/
 
-        img_cal = findViewById(R.id.button_calendar_cal);
-        btn_add_cal = findViewById(R.id.button_addCalendar_cal);
-        btn_challHistory = findViewById(R.id.button_challengeHistory_cal);
-
-        //banner set date in korean
-        textdate = findViewById(R.id.textView_dateOfToday);
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
-        textdate.setText(korDate.format(date));
-
-        btn_menu = findViewById(R.id.button_menu_cal);
-
+        Log.d("159753", "onCreate: "+size_of_recycler);
         // 밑으로 전부 인텐트 함수
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,15 +114,23 @@ public class CalendarActivity extends AppCompatActivity {
 
         mcalendarView = findViewById(R.id.calendarView);
         mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {  //캘린더뷰 선택한 날짜에 해당하는
+                init_recycler();
+                loadDB(temp, dayOfMonth, month+1, year);
+                getData_recycler(plan_contents, plan_categorys, plan_dates);
+                Log.d("159753", "onSelectedDayChange: "+dayOfMonth);
+
                 btn_add_cal.setOnClickListener(new View.OnClickListener() {         //일정 팝업 액티비티 이동
                     @Override
                     public void onClick(View v) {
                         showDialog();
                         mYear = year;
-                        mMonth = month;
+                        mMonth = month + 1;
                         mDay = dayOfMonth;
+                        Log.d("15922", "onSelectedDayChange: "+mMonth);
+                        Log.d("15922", "onSelectedDayChange: "+mYear);
                         Log.d("zzz123", "onClick: addPlanButton_calendar");
                     }
                 });
@@ -265,9 +244,10 @@ public class CalendarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (content.length() > 0) {
                     plan.setPlan(content.getText().toString(), category_item);
-                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),plan.getDate(),mYear,mMonth,mDay);
-                    Toast.makeText(getApplicationContext(), "날짜 : "+mYear+"년 "+mMonth+"월 "+mDay+"일 "
-                            + ", 카테고리 : "+category_item + ", 내용 : "+ content.getText().toString(), Toast.LENGTH_SHORT).show();
+                    dbHelper.insertPlan(plan.getPlanContents(),plan.getCategory(),mYear, mMonth,mDay);
+                    loadDB(temp, mDay, mMonth, mYear);
+                    init_recycler();
+                    getData_recycler(plan_contents, plan_categorys, plan_dates);
                     plan_dialog.dismiss();
                     Log.d("zzz123", "onClick: " + "insert_plan");
                 }
@@ -282,7 +262,6 @@ public class CalendarActivity extends AppCompatActivity {
     private void init_recycler(){ //RecyclerView initiate method
         RecyclerView recyclerView_calendar = findViewById(R.id.recycler_calendar);
 
-
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         recyclerView_calendar.setLayoutManager(linearLayoutManager1);
 
@@ -291,6 +270,8 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates){
+
+
         List<String> listPlanCategory = plan_categorys;
         List<String> listPlanContent = plan_contents;
         List<String> listplanDate = plan_dates;
@@ -302,9 +283,67 @@ public class CalendarActivity extends AppCompatActivity {
             plandata.setDate(listplanDate.get(i));
             adapterplan.addItem(plandata);
         }
-
+        Log.d("159753", "getData_recycler: "+size_of_recycler);
+            size_of_recycler = listPlanCategory.size();
         adapterplan.notifyDataSetChanged();
-    }
 
+    }
+    public static void loadDB(Context temp, int day, int mMonth, int mYear){
+        SimpleDateFormat dayChanger = new SimpleDateFormat("dd");
+        SimpleDateFormat monthChanger = new SimpleDateFormat("MM");
+        SimpleDateFormat yearChanger = new SimpleDateFormat("yyyy");
+        Date date = Calendar.getInstance().getTime();
+        List plan_id_temp = new ArrayList<>();
+        List plan_contents_temp = new ArrayList<>();
+        List plan_categorys_temp = new ArrayList<>();
+        List plan_dates_temp = new ArrayList<>();
+        //------------------------------------------------------------------------------------------
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String selection = swp_database.PlanDB.PLAN_DAY + " = ?";
+        String[] selectionArgs = {Integer.toString(day)};
+        String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
+
+        Cursor plancursor = db.query(
+                swp_database.PlanDB.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+
+
+        while (plancursor.moveToNext()){
+            Log.d("15922", "loadDB: "+ plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_MONTH)));
+            Log.d("15922", "loadDB: "+mMonth);
+            Log.d("15922", "loadDB: "+mYear);
+
+            if(plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_MONTH)) ==
+                    mMonth && plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_YEAR)) == mYear) {
+                String plan_date = plancursor.getString(
+                        plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
+                plan_dates_temp.add(plan_date);
+                String plan_category = plancursor.getString(
+                        plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
+                plan_categorys_temp.add(plan_category);
+                String plan_content = plancursor.getString(
+                        plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
+                plan_contents_temp.add(plan_content);
+                int planItems = plancursor.getInt(
+                        plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
+                plan_id_temp.add(planItems);
+            }
+        }
+
+        plancursor.close();
+        plan_id = plan_id_temp;
+        plan_contents = plan_contents_temp;
+        plan_categorys = plan_categorys_temp;
+        plan_dates = plan_dates_temp;
+        //------------------------------------------------------------------------------------------
+
+    }
 
 }

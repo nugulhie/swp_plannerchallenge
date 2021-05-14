@@ -30,6 +30,7 @@ public class PlanRecyclerAdapter extends RecyclerView.Adapter<PlanRecyclerAdapte
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
         holder.onBind(listData.get(position));
+
     }
 
     @Override
@@ -37,10 +38,19 @@ public class PlanRecyclerAdapter extends RecyclerView.Adapter<PlanRecyclerAdapte
         // RecyclerView의 총 개수 입니다.
         return listData.size();
     }
-
+    public void updateData(ArrayList<recyclerPlanData> data) {
+        listData.clear();
+        listData.addAll(data);
+        notifyDataSetChanged();
+    }
     public void addItem(recyclerPlanData data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
+    }
+    public void removeItem(int position){
+        listData.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, listData.size());
     }
 
     // RecyclerView의 핵심인 ViewHolder 입니다.

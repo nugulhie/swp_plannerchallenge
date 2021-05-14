@@ -151,17 +151,30 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/textView_titlePlan"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/maplestory_bold"
-                android:text="일정"
-                android:textColor="#45D6AD"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_titlePlan"
+                    android:layout_width="279dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/maplestory_bold"
+                    android:text="일정"
+                    android:textColor="#45D6AD"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/testbutton"
+                    android:layout_width="69dp"
+                    android:layout_height="25dp"
+                    android:text="Button" />
+            </LinearLayout>
 
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
@@ -249,44 +262,6 @@
 
             </FrameLayout>
 
-            <ProgressBar
-                android:id="@+id/progressBar_todayChallenge"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:progressDrawable="@drawable/custom_progressbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
-                android:layout_gravity="center_vertical"
-                android:max="3"/>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/button_minus"
-                    android:layout_width="40dp"
-                    android:layout_height="35dp"
-                    android:text="-" />
-
-                <TextView
-                    android:id="@+id/textView_todayChallenge_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:text="진행도 (예시)"
-                    android:fontFamily="@font/cookierun_bold"
-                    android:textSize="22sp" />
-
-                <Button
-                    android:id="@+id/button_plus"
-                    android:layout_width="40dp"
-                    android:layout_height="35dp"
-                    android:text="+" />
-            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_challenge"

@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
@@ -17,6 +18,7 @@ import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 ////
 public class SplashActivity extends AppCompatActivity { //스플래시 화면 메소드 여기는 개발 완료 수정 x
         boolean temp = true;
+        UserController user = UserController.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +26,8 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         temp = PreferenceManager.getBoolean(this,"check");
-        Log.d("159753", "onCreate: "+Boolean.toString(PreferenceManager.getBoolean(this,"check")));
+
+
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
