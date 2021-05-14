@@ -139,6 +139,7 @@ public class CalendarActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(CalendarActivity.this, ChallhistoryActivity.class);
+                        intent.putExtra("selectday", dayOfMonth);
                         startActivity(intent);
                         Log.d("zzz123", "onClick: challengeHistoryButton_calendar");
                     }

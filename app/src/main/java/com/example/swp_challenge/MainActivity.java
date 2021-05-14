@@ -251,6 +251,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 challenge.setChallenge(ratingBar.getRating(),content.getText().toString());
                 dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating());
+                loadDB(temp, flag);
+                init_recycler();
+                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
                 Log.d("159753", "onClick: insertChallenge"+challenge.getContents());
                 Toast.makeText(getApplicationContext(), "할일: " + content.getText().toString() +", 중요도: "+ (int)ratingBar.getRating() +
                         ", 기간(str): " +d1 +" ~ "+ d2+", 시각: "+hour+":"+minute+", 기간(date):"+date1.toString() +" ~ "+ date2.toString(), Toast.LENGTH_SHORT).show();
