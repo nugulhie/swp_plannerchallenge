@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.example.swp_challenge.controller.BoxController;
 import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.UserController;
+import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
@@ -154,15 +156,13 @@ public class BoxActivity extends AppCompatActivity {
         UserController user = UserController.getInstance();
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        List<Integer> itemids = new ArrayList<Integer>();
-        String[] projection = {
-                swp_database.UserDB.USER_KEY
-        };
+        String check = PreferenceManager.getString(BoxActivity.this,"username");
+        List itemids = new ArrayList<>();
         String selection = swp_database.UserDB.USER_NAME + " = ? ";
-        String[] selectionArgs = {"hwang"};
+        String[] selectionArgs = {check};
         Cursor userCursor = db.query(
                 swp_database.UserDB.TABLE_NAME,
-                projection,
+                null,
                 selection,
                 selectionArgs,
                 null,
@@ -176,11 +176,11 @@ public class BoxActivity extends AppCompatActivity {
             itemids.add(itemId);
         }
         //db load
-
-            temp = itemids.get(0);
-            Log.d("159753", "dbfrom "+temp);
+        for(int i =0; i< itemids.size();i++) {
+            temp = (int) itemids.get(i);
+            Log.d("159753", "dbfrom " + temp);
             user.setCnt_key(temp);
-            Log.d("159753", "user"+user.getCnt_key());
-
+            Log.d("159753", "user" + user.getCnt_key());
+            }
         }
     }

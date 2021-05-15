@@ -105,7 +105,7 @@ public class ChallhistoryActivity extends AppCompatActivity {
 
             if (challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS)) == 1) {
                 String challenge_date = challengecursor.getString(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DATE));
+                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
                 challenge_dates_pass.add(challenge_date);
                 String challenge_content = challengecursor.getString(
                         challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
@@ -121,7 +121,7 @@ public class ChallhistoryActivity extends AppCompatActivity {
                 challenge_pass_pass.add(challenge_pass);
             } else {
                 String challenge_date = challengecursor.getString(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DATE));
+                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
                 challenge_dates_false.add(challenge_date);
                 String challenge_content = challengecursor.getString(
                         challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));

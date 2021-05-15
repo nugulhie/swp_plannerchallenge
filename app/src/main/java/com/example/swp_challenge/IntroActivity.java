@@ -28,7 +28,7 @@ public class IntroActivity extends AppCompatActivity {
         next_btn = findViewById(R.id.button_next21);
         username = findViewById(R.id.textview_username1);
         birth = findViewById(R.id.textView_birth);
-        PreferenceManager.setString(this,"check",username.getText().toString());
+        PreferenceManager.setString(this,"username",username.getText().toString());
 
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
 

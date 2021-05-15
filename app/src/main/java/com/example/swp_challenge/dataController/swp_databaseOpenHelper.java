@@ -83,13 +83,19 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
     public void insertChallenge(String contents, Date date, float rating, int selectDay1, int selectDay2, int selectMonth1, int selectMonth2, int selectYear1, int selectYear2){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        String select1 = selectYear1+"-"+selectMonth1+"-"+selectDay1; // 문제 발생 도전과제는 하루를 기준으로 설정이 가능하다.
-        String select2 = selectYear2+"-"+selectMonth2+"-"+selectDay2;
+        String select1 = selectYear1+"년"+selectMonth1+"월"+selectDay1+"일"; // 문제 발생 도전과제는 하루를 기준으로 설정이 가능하다.
+        String select2 = " ~ "+selectYear2+"년"+selectMonth2+"월"+selectDay2+"일";
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
         SimpleDateFormat dayChanger = new SimpleDateFormat("dd");
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,contents);
-        values.put(swp_database.ChallengeDB.CHALLENGE_DATE,dateFormat.format(date));
+        values.put(swp_database.ChallengeDB.CHALLENGE_DUE, select1+select2);
         values.put(swp_database.ChallengeDB.CHALLENGE_PASS,0);
+        values.put(swp_database.ChallengeDB.CHALLENGE_YEAR1, selectYear1);
+        values.put(swp_database.ChallengeDB.CHALLENGE_MONTH1, selectMonth1);
+        values.put(swp_database.ChallengeDB.CHALLENGE_DAY1, selectDay1);
+        values.put(swp_database.ChallengeDB.CHALLENGE_YEAR2, selectYear2);
+        values.put(swp_database.ChallengeDB.CHALLENGE_MONTH2, selectMonth2);
+        values.put(swp_database.ChallengeDB.CHALLENGE_DAY2, selectDay2);
         values.put(swp_database.ChallengeDB.CHALLENGE_RATING, rating);
         values.put(swp_database.ChallengeDB.CHALLENGE_DAY, Integer.parseInt(dayChanger.format(date)));
         long newRowId = db.insert(swp_database.ChallengeDB.TABLE_NAME, null, values);
@@ -100,7 +106,6 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues(); //작동 이상무 설계 해야할듯 ID값을 기준으로 가져오는게 편할것 같음
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //예전값을 들고올때 컨트롤러에 값을 세팅을 해주고 넣던가 바로 검색한 변수값을 넣던가 해야할듯 설계 하자
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,newcontents);
-        values.put(swp_database.ChallengeDB.CHALLENGE_DATE,dateFormat.format(newdate));
         values.put(swp_database.ChallengeDB.CHALLENGE_RATING, newrating);
         String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS + " LIKE ?"; //조건식에 오늘 날짜에 해당 혹은 선택 날짜에 해당하는 DB에서 값을 검색해서 넘겨야함 잘못되면 같은 문자열을 전부 업데이트함
         String[] selectionArgs = {oldcontents};

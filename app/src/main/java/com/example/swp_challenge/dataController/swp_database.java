@@ -56,8 +56,13 @@ public final class swp_database {
         public static final String CHALLENGE_RATING = "CHALLENGE_RATING";
         public static final String CHALLENGE_CONTENTS = "CHALLENGE_CONTENTS";
         public static final String CHALLENGE_PASS = "CHALLENGE_PASS";
-        public static final String CHALLENGE_DATE = "CHALLENGE_DATE";
         public static final String CHALLENGE_DUE = "CHALLENGE_DUE";
+        public static final String CHALLENGE_YEAR1 = "CHALLENGE_YEAR1";
+        public static final String CHALLENGE_MONTH1 = "CHALLENGE_MONTH1";
+        public static final String CHALLENGE_DAY1= "CHALLENGE_DAY1";
+        public static final String CHALLENGE_YEAR2 = "CHALLENGE_YEAR2";
+        public static final String CHALLENGE_MONTH2 = "CHALLENGE_MONTH2";
+        public static final String CHALLENGE_DAY2= "CHALLENGE_DAY2";
         public static final String CHALLENGE_DAY = "CHALLENGE_DAY";
         public static final String SQL_CREATE =
                 "CREATE TABLE "+ ChallengeDB.TABLE_NAME+ " ("
@@ -65,9 +70,14 @@ public final class swp_database {
                 +ChallengeDB.CHALLENGE_RATING+ " REAL,"
                 +ChallengeDB.CHALLENGE_CONTENTS+" TEXT,"
                 +ChallengeDB.CHALLENGE_PASS+" INTEGER,"
-                +ChallengeDB.CHALLENGE_DATE+" TEXT,"
                 +ChallengeDB.CHALLENGE_DUE+" TEXT,"
-                +ChallengeDB.CHALLENGE_DAY+" INTEGER)";
+                        +ChallengeDB.CHALLENGE_YEAR1+" INTEGER,"
+                        +ChallengeDB.CHALLENGE_MONTH1+" INTEGER, "
+                        +ChallengeDB.CHALLENGE_DAY1+" INTEGER, "
+                        +ChallengeDB.CHALLENGE_YEAR2+" INTEGER, "
+                        +ChallengeDB.CHALLENGE_MONTH2+" INTEGER, "
+                        +ChallengeDB.CHALLENGE_DAY2+" INTEGER, "
+                        +ChallengeDB.CHALLENGE_DAY+" INTEGER)";
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + ChallengeDB.TABLE_NAME;
     }

@@ -169,11 +169,6 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/testbutton"
-                    android:layout_width="69dp"
-                    android:layout_height="25dp"
-                    android:text="Button" />
             </LinearLayout>
 
             <ProgressBar
