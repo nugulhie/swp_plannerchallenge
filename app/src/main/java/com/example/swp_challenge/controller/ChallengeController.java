@@ -13,7 +13,7 @@ public class ChallengeController {
     private String contents;
     private int chall_pass;
     private Date date;
-
+//
     public void setChallenge(float rating, String contents){
         this.rating = rating;
         this.contents = contents;

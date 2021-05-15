@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.swp_challenge.R;
 
 import java.util.ArrayList;
-
+//
 public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecyclerAdapter.ItemViewHolder> {
     //
     // adapter에 들어갈 list 입니다.

@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 
-//
+////
 public final class swp_database {
     private swp_database(){}
     public static final class UserDB implements BaseColumns { //사용자 데이터베이스

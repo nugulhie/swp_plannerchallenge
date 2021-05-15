@@ -14,7 +14,7 @@ import com.example.swp_challenge.controller.UserController;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-//
+////
 public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
@@ -80,9 +80,11 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
 
 
     //-----------------------------CHALENGEDB----------------------------
-    public void insertChallenge(String contents, Date date, float rating){
+    public void insertChallenge(String contents, Date date, float rating, int selectDay1, int selectDay2, int selectMonth1, int selectMonth2, int selectYear1, int selectYear2){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        String select1 = selectYear1+"-"+selectMonth1+"-"+selectDay1; // 문제 발생 도전과제는 하루를 기준으로 설정이 가능하다.
+        String select2 = selectYear2+"-"+selectMonth2+"-"+selectDay2;
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
         SimpleDateFormat dayChanger = new SimpleDateFormat("dd");
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,contents);

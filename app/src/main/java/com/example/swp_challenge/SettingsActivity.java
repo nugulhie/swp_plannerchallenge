@@ -22,7 +22,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceFragmentCompat;
-////
+//////
 public class SettingsActivity extends AppCompatActivity {
     ImageButton img_cal;
     ImageButton btn_menu;

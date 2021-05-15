@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
+//
 public class MainActivity2 extends AppCompatActivity { // 캘린더 외부 소스
 
     public String fname=null;

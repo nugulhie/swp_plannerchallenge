@@ -12,7 +12,7 @@ public class KeyController {
             return false;
         }
     } // 사용자가 열쇠를 가지고 있는지 확인하는 함수
-
+//
 
     public void getKey(UserController user, int hint) {
         user.setCnt_key(user.getCnt_key()+hint);

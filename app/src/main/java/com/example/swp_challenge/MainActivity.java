@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     String d1, d2, tempD, hour, minute;
     Date date1, date2, tempDate;
     TextView textdate;
-    int count = 0;
+    public static int count = 0, selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2;
     Dialog challenge_dialog;
     public static Context temp;
     Button test;
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
                     minute = timePicker.getCurrentMinute() + "";
                 }
                 challenge.setChallenge(ratingBar.getRating(),content.getText().toString());
-                dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating());
+                dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating(), selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2);
                 loadDB(temp, flag);
                 init_recycler();
                 getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
@@ -321,8 +321,13 @@ public class MainActivity extends AppCompatActivity {
 
     //↓ 시작일, 종료일 불러오기 ↓
     public void processDatePickerResult(int year, int month, int day){  //기간1 날짜데이터 불러오기 이벤트
+        selectDay1 = day;
+        selectMonth1 = month+1;
+        Log.d("123123", "processDatePickerResult: "+month);
+        selectYear1 = year;
         String month_string = Integer.toString(month+1);
         String day_string = Integer.toString(day);
+        Log.d("123123", "processDatePickerResult: "+day_string);
         String year_string = Integer.toString(year);
         String dateMessage = (year_string + "-" + month_string + "-" + day_string);
 
@@ -331,8 +336,12 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this,"Date: " + dateMessage,Toast.LENGTH_SHORT).show();
     }
     public void processDatePicker2Result(int year, int month, int day){  //기간2 날짜데이터 불러오기 이벤트
+        selectDay2 = day;
+        selectMonth2 = month+1;
+        selectYear2 = year;
         String month_string = Integer.toString(month+1);
         String day_string = Integer.toString(day);
+        Log.d("123123", "processDatePicker2Result: "+day_string);
         String year_string = Integer.toString(year);
         String dateMessage = (year_string + "-" + month_string + "-" + day_string);
 
@@ -341,11 +350,6 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this,"Date: " + dateMessage,Toast.LENGTH_SHORT).show();
     }
     // ↑ 시작일, 종료일 불러오기 ↑
-
-
-
-
-
 
     private void init_recycler(){ //RecyclerView initiate method
         RecyclerView recyclerView_plan = findViewById(R.id.recycler_plan);
@@ -399,6 +403,8 @@ public class MainActivity extends AppCompatActivity {
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat daychanger = new SimpleDateFormat("dd");
+        SimpleDateFormat monthchanger = new SimpleDateFormat("MM");
+        SimpleDateFormat yearchanger = new SimpleDateFormat("yyyy");
         Date date = Calendar.getInstance().getTime();
 //------------------------------------------------------------------------------------------------------
         String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";

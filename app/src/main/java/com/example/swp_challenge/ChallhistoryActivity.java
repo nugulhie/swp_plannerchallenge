@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ChallhistoryActivity extends AppCompatActivity {
-    ////
+    //////
     ImageButton img_cal;
     TextView textdate;
     List challenge_id_pass = new ArrayList<>();

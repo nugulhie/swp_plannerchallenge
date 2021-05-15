@@ -8,7 +8,7 @@ import com.example.swp_challenge.MainActivity;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 import android.*;
 import com.example.swp_challenge.controller.PlannerController;
-
+//
 public class UserController{
     private static final UserController user = new UserController();
     public static UserController getInstance(){

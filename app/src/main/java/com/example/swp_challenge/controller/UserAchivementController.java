@@ -4,7 +4,7 @@ public class UserAchivementController {
     public static UserAchivementController getInstance(){
         return achive;
     }
-
+//
     void initAchivement(){
         String[] achs = new String[10];
         achs[0] = "뉴비";

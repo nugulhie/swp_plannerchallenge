@@ -14,7 +14,7 @@ import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
-
+//
 ////
 public class SplashActivity extends AppCompatActivity { //스플래시 화면 메소드 여기는 개발 완료 수정 x
         boolean temp = true;

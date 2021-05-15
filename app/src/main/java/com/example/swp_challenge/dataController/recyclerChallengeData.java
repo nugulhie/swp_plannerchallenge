@@ -1,7 +1,7 @@
 package com.example.swp_challenge.dataController;
 
 import java.util.Date;
-
+//
 public class recyclerChallengeData {
     private float rating;
     private String content;
