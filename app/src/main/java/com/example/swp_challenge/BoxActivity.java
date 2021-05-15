@@ -157,6 +157,7 @@ public class BoxActivity extends AppCompatActivity {
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String check = PreferenceManager.getString(BoxActivity.this,"username");
+        Log.d("159753", "updateDB: "+check);
         List itemids = new ArrayList<>();
         String selection = swp_database.UserDB.USER_NAME + " = ? ";
         String[] selectionArgs = {check};

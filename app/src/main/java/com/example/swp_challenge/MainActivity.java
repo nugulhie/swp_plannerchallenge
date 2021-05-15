@@ -222,6 +222,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // ↑ date 크기 비교해서 순서 바꿔주기 ↑
                 challenge.setChallenge(ratingBar.getRating(),content.getText().toString());
+                if(selectDay1 > selectDay2){
+                    int tempday = selectDay1;
+                    selectDay1 = selectDay2;
+                    selectDay2 = tempday;
+                }
+                if(selectMonth1 > selectMonth2){
+                    int tempmonth = selectMonth1;
+                    selectMonth1 = selectMonth2;
+                    selectMonth2 = tempmonth;
+                }
+                if(selectYear1 > selectYear2){
+                    int tempyear = selectYear1;
+                    selectYear1 = selectYear2;
+                    selectYear2 = tempyear;
+                }
                 dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating(), selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2);
                 loadDB(temp);
                 init_recycler();
@@ -367,8 +382,6 @@ public class MainActivity extends AppCompatActivity {
         adapterplan.notifyDataSetChanged();
         adapterchallenge.notifyDataSetChanged();
     }
-
-
 
 
     public void loadDB(Context temp){

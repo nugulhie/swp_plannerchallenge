@@ -48,6 +48,10 @@ public class ChallhistoryActivity extends AppCompatActivity {
     private ChallengeRecyclerAdapter adapterchallenge_false;
     public static Context temp;
 
+    public static int day;
+    public static int month;
+    public static int year;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,9 @@ public class ChallhistoryActivity extends AppCompatActivity {
         textdate.setText(korDate.format(date));
         img_cal = findViewById(R.id.img_cal_history);
         Intent intent = getIntent();
-        int day = intent.getIntExtra("selectday",0);
+        day = intent.getIntExtra("selectday",0);
+        month = intent.getIntExtra("selectmonth", 0);
+        year = intent.getIntExtra("selectyear", 0);
         Log.d("222222", "onCreate: "+day);
         init_recycler();
         loadDB(temp,day);
@@ -87,13 +93,11 @@ public class ChallhistoryActivity extends AppCompatActivity {
         Date date = Calendar.getInstance().getTime();
 
         String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
-        String selection1 = swp_database.ChallengeDB.CHALLENGE_DAY + " = ?";
-        String[] selectionArgs1 = {Integer.toString(day)};
         Cursor challengecursor = db.query(
                 swp_database.ChallengeDB.TABLE_NAME,
                 null,
-                selection1,
-                selectionArgs1,
+                null,
+                null,
                 null,
                 null,
                 sortOrder1
@@ -102,39 +106,65 @@ public class ChallhistoryActivity extends AppCompatActivity {
 
 
         while (challengecursor.moveToNext()) {
-
-            if (challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS)) == 1) {
-                String challenge_date = challengecursor.getString(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
-                challenge_dates_pass.add(challenge_date);
-                String challenge_content = challengecursor.getString(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
-                challenge_contents_pass.add(challenge_content);
-                Float challenge_rating = challengecursor.getFloat(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
-                challenge_ratings_pass.add(challenge_rating);
-                int challengeItems = challengecursor.getInt(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
-                challenge_id_pass.add(challengeItems);
-                int challenge_pass = challengecursor.getInt(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS));
-                challenge_pass_pass.add(challenge_pass);
-            } else {
-                String challenge_date = challengecursor.getString(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
-                challenge_dates_false.add(challenge_date);
-                String challenge_content = challengecursor.getString(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
-                challenge_contents_false.add(challenge_content);
-                Float challenge_rating = challengecursor.getFloat(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
-                challenge_ratings_false.add(challenge_rating);
-                int challengeItems = challengecursor.getInt(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
-                challenge_id_false.add(challengeItems);
-                int challenge_pass = challengecursor.getInt(
-                        challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS));
-                challenge_pass_false.add(challenge_pass);
+            int day1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DAY1));
+            int day2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DAY2));
+            int month1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_MONTH1));
+            int month2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_MONTH2));
+            int year1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_YEAR1));
+            int year2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_YEAR2));
+            if(day1 > day2){
+                int tempday = day1;
+                day1 = day2;
+                day2 = tempday;
+            }
+            if(month1 > month2){
+                int tempmonth = month1;
+                month1 = month2;
+                month2 = tempmonth;
+            }
+            if(year1 > year2){
+                int tempyear = year1;
+                year1 = year2;
+                year2 = tempyear;
+            }
+            if (year1 <= year && year <= year2) { // year1 과 year2 사이의 현재 날짜가 있는가?
+                if (month1 <= month && month <= month2) { // month1 과 month2 사이의 현재 날짜가 있는가?
+                    if (day1 <= day && day <= day2) { // day1과 day2사이의 현재 날짜가 있는가? (도전과제 범위 안에서의 출력
+                        if (challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS)) == 1) {
+                            String challenge_date = challengecursor.getString(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
+                            challenge_dates_pass.add(challenge_date);
+                            String challenge_content = challengecursor.getString(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
+                            challenge_contents_pass.add(challenge_content);
+                            Float challenge_rating = challengecursor.getFloat(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
+                            challenge_ratings_pass.add(challenge_rating);
+                            int challengeItems = challengecursor.getInt(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
+                            challenge_id_pass.add(challengeItems);
+                            int challenge_pass = challengecursor.getInt(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS));
+                            challenge_pass_pass.add(challenge_pass);
+                        } else {
+                            String challenge_date = challengecursor.getString(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
+                            challenge_dates_false.add(challenge_date);
+                            String challenge_content = challengecursor.getString(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
+                            challenge_contents_false.add(challenge_content);
+                            Float challenge_rating = challengecursor.getFloat(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
+                            challenge_ratings_false.add(challenge_rating);
+                            int challengeItems = challengecursor.getInt(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
+                            challenge_id_false.add(challengeItems);
+                            int challenge_pass = challengecursor.getInt(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS));
+                            challenge_pass_false.add(challenge_pass);
+                        }
+                    }
+                }
             }
         }
     }

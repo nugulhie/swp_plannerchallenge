@@ -27,7 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity2" />
         <activity android:name=".MainActivity" />
         <activity android:name=".BoxActivity" />
         <activity android:name=".CalendarActivity" />

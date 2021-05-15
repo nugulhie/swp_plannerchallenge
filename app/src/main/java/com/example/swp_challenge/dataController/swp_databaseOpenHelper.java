@@ -83,12 +83,22 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
     public void insertChallenge(String contents, Date date, float rating, int selectDay1, int selectDay2, int selectMonth1, int selectMonth2, int selectYear1, int selectYear2){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        String select1 = selectYear1+"년"+selectMonth1+"월"+selectDay1+"일"; // 문제 발생 도전과제는 하루를 기준으로 설정이 가능하다.
-        String select2 = " ~ "+selectYear2+"년"+selectMonth2+"월"+selectDay2+"일";
+        String select1, select2, select3;
+        select1 = selectYear1+"년"+selectMonth1+"월"+selectDay1+"일"; // 문제 발생 도전과제는 하루를 기준으로 설정이 가능하다.
+        select2 = " ~ "+selectYear2+"년"+selectMonth2+"월"+selectDay2+"일";
+        select3 = select1 + select2;
+        if(selectDay1 == selectDay2){
+            if(selectMonth1 == selectMonth2){
+                if(selectYear1 == selectYear2){
+                   select3 = selectYear1 + "년" + selectMonth1 + "월" + selectDay1+"일";
+                }
+            }
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
         SimpleDateFormat dayChanger = new SimpleDateFormat("dd");
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,contents);
-        values.put(swp_database.ChallengeDB.CHALLENGE_DUE, select1+select2);
+        values.put(swp_database.ChallengeDB.CHALLENGE_DUE, select3);
         values.put(swp_database.ChallengeDB.CHALLENGE_PASS,0);
         values.put(swp_database.ChallengeDB.CHALLENGE_YEAR1, selectYear1);
         values.put(swp_database.ChallengeDB.CHALLENGE_MONTH1, selectMonth1);
