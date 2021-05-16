@@ -1,7 +1,9 @@
 package com.example.swp_challenge.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -32,6 +35,8 @@ import com.example.swp_challenge.controller.PlannerController;
 import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
 import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
+import com.example.swp_challenge.dataController.SwipeController;
+import com.example.swp_challenge.dataController.SwipeControllerActions;
 import com.example.swp_challenge.dataController.recyclerChallengeData;
 import com.example.swp_challenge.dataController.recyclerPlanData;
 import com.example.swp_challenge.dataController.swp_database;
@@ -55,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
     public static Activity mActivity;
     private PlanRecyclerAdapter adapterplan;
     private ChallengeRecyclerAdapter adapterchallenge;
-    public ImageButton button_Add_challenge;
+    public Button button_Add_challenge;
     ImageButton btn_menu, img_cal;
     String d1, d2, tempD, hour, minute;
     Date date1, date2, tempDate;
     TextView textdate;
     public static int count = 0, selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2;
-    Dialog challenge_dialog;
+    Dialog challenge_dialog, challenge_edit_dialog;
     public static Context temp;
 
     public static List plan_id = new ArrayList<>();
@@ -101,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
         challenge_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
         challenge_dialog.setContentView(R.layout.activity_popup);       //           "
 
+        challenge_edit_dialog = new Dialog(MainActivity.this);  // 도전과제 편집창
+        challenge_edit_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        challenge_edit_dialog.setContentView(R.layout.activity_challengepopup_edit);
+
         temp = MainActivity.this;
         loadDB(temp);
         init_recycler();
@@ -111,12 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
 
-        //도전과제 진행도 예시
-
-
         //banner set date in korean
-
-
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,6 +257,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void showDialog2() { //도전과제 편집창
+        challenge_edit_dialog.show();
+
+        RatingBar ratingBar;//여기 클릭한 리사이클러 데이터 불러와줘야함...
+        EditText content;   //
+
+        ratingBar = challenge_edit_dialog.findViewById(R.id.ratingBar_challenge_challedit);  //중요도
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {  // 도전과제 중요도 별점
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if(ratingBar.getRating() < 1.0f) {
+                    ratingBar.setRating(1); //중요도 최소 별 1개로 설정.
+                }
+            }
+        });
+
+        content = challenge_edit_dialog.findViewById(R.id.content_challenge_challedit);   //내용
+
+        Button btn_submit = challenge_edit_dialog.findViewById(R.id.button_submit_challedit);    //수정 버튼
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (content.length() > 0)
+                {
+                    //해당 데이터 수정해주는 메소드...집어넣어야합니다1
+                    challenge_dialog.dismiss();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    challenge_dialog.dismiss();
+                }
+            }
+        });
+    }
 
     public void onPopupMenuButtonClick(View button) {     //더보기 버튼 클릭 시 팝업메뉴 생성
         PopupMenu popupMenu = new PopupMenu(this, btn_menu);    //popup 메뉴 객체 생성
@@ -349,6 +387,30 @@ public class MainActivity extends AppCompatActivity {
         adapterchallenge = new ChallengeRecyclerAdapter();
         recyclerView_plan.setAdapter(adapterplan);
         recyclerView_challenge.setAdapter(adapterchallenge);
+
+        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {    //리사이클러 삭제
+            @Override
+            public void onRightClicked(int position) {
+                adapterchallenge.removeItem(position);
+                adapterchallenge.notifyItemRemoved(position);
+                adapterchallenge.notifyItemRangeChanged(position, adapterchallenge.getItemCount());
+            }
+
+            @Override
+            public void onLeftClicked(int position) {   //리사이클러 수정
+                showDialog2();
+
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(recyclerView_challenge);
+
+        recyclerView_challenge.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
     }
     private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates, List challenge_ratings, List challenge_contents, List challenge_dates){
         List<String> listPlanCategory = plan_categorys;
