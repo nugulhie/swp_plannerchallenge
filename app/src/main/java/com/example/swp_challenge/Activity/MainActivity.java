@@ -1,17 +1,19 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,18 +24,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.ChallengeController;
 import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.PlannerController;
 import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
 import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
+import com.example.swp_challenge.dataController.SwipeController;
+import com.example.swp_challenge.dataController.SwipeControllerActions;
 import com.example.swp_challenge.dataController.recyclerChallengeData;
 import com.example.swp_challenge.dataController.recyclerPlanData;
 import com.example.swp_challenge.dataController.swp_database;
@@ -57,13 +60,24 @@ public class MainActivity extends AppCompatActivity {
     public static Activity mActivity;
     private PlanRecyclerAdapter adapterplan;
     private ChallengeRecyclerAdapter adapterchallenge;
-    public ImageButton button_Add_challenge;
+    public Button button_Add_challenge;
     ImageButton btn_menu, img_cal;
     String d1, d2, tempD, hour, minute;
     Date date1, date2, tempDate;
     TextView textdate;
-    int count = 0;
-    Dialog challenge_dialog;
+    public static int count = 0, selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2;
+    Dialog challenge_dialog, challenge_edit_dialog;
+    public static Context temp;
+
+    public static List plan_id = new ArrayList<>();
+    public static List plan_contents = new ArrayList<>();
+    public static List plan_categorys = new ArrayList<>();
+    public static List plan_dates = new ArrayList<>();
+    public static List challenge_id = new ArrayList<>();
+    public static List challenge_contents = new ArrayList<>();
+    public static List challenge_ratings = new ArrayList<>();
+    public static List challenge_dates = new ArrayList<>();
+
 
     private long backKeyPressedTime = 0;    //마지막으로 뒤로가기 눌렀던 시간 저장
     private Toast toast;    //첫번째 뒤로가기 버튼 누를때 표시
@@ -74,78 +88,30 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        mActivity = MainActivity.this;
-
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        SimpleDateFormat dateFormat = new SimpleDateFormat();
 
-//------------------------------------------------------------------------------------------------------
-        String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
+        SimpleDateFormat daychanger = new SimpleDateFormat("dd");
+        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
+        Date date = Calendar.getInstance().getTime();
+        textdate = findViewById(R.id.textView_dateOfToday);
+        button_Add_challenge = findViewById(R.id.button_addChall_main);
+        img_cal = findViewById(R.id.button_calendar_main);
+        btn_menu = findViewById(R.id.button_menu_main);
 
-        Cursor plancursor = db.query(
-                swp_database.PlanDB.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                sortOrder
-        );
-        List plan_id = new ArrayList<>();
-        List plan_contents = new ArrayList<>();
-        List plan_categorys = new ArrayList<>();
-        List plan_dates = new ArrayList<>();
-
-        while (plancursor.moveToNext()){
-            String plan_date = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
-                    plan_dates.add(plan_date);
-            String plan_category = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
-                    plan_categorys.add(plan_category);
-            String plan_content = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
-                    plan_contents.add(plan_content);
-            int planItems = plancursor.getInt(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
-            plan_id.add(planItems);
-        }
-
-        plancursor.close();
-        String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
-
-        Cursor challengecursor = db.query(
-                swp_database.ChallengeDB.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                sortOrder1
-        );
-        List challenge_id = new ArrayList<>();
-        List challenge_contents = new ArrayList<>();
-        List challenge_ratings = new ArrayList<>();
-        List challenge_dates = new ArrayList<>();
+        textdate.setText(korDate.format(date));
 
 
-        while (challengecursor.moveToNext()){
-            String challenge_date = challengecursor.getString(
-                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DATE));
-            challenge_dates.add(challenge_date);
-            String challenge_content = challengecursor.getString(
-                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
-            challenge_contents.add(challenge_content);
-            Float challenge_rating = challengecursor.getFloat(
-                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
-            challenge_ratings.add(challenge_rating);
-            int challengeItems = challengecursor.getInt(
-                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
-            challenge_id.add(challengeItems);
-        }
+        challenge_dialog = new Dialog(MainActivity.this);       // 도전과제 다이얼로그 설정
+        challenge_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
+        challenge_dialog.setContentView(R.layout.activity_popup);       //           "
 
+        challenge_edit_dialog = new Dialog(MainActivity.this);  // 도전과제 편집창
+        challenge_edit_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        challenge_edit_dialog.setContentView(R.layout.activity_challengepopup_edit);
 
+        temp = MainActivity.this;
+        loadDB(temp);
         init_recycler();
         getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
@@ -153,49 +119,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.updatePass(challenge.getContents(),1);
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
-        Date date = Calendar.getInstance().getTime();
-        textdate = findViewById(R.id.textView_dateOfToday);
-        button_Add_challenge = findViewById(R.id.button_addChall_main);
-        //button_detail = findViewById(R.id.button_detail_main);
-        img_cal = findViewById(R.id.button_calendar_main);
-
-        challenge_dialog = new Dialog(MainActivity.this);       // 도전과제 다이얼로그 설정
-        challenge_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
-        challenge_dialog.setContentView(R.layout.activity_popup);       //           "
-
-        //도전과제 진행도 예시
-        Button btn_minus = findViewById(R.id.button_minus);
-        Button btn_plus = findViewById(R.id.button_plus);
-        ProgressBar progressBar = findViewById(R.id.progressBar_todayChallenge);
-
-        btn_minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (count < 0) {
-                    count = 0;
-                    progressBar.setProgress(0);
-                }
-                else
-                    progressBar.setProgress(--count);
-            }
-        });
-        btn_plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (count > 3) {
-                    count = 3;
-                    progressBar.setProgress(3);
-                }
-                else
-                    progressBar.setProgress(++count);
-            }
-        });//도전과제 진척도 예시
 
         //banner set date in korean
-        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
-        textdate.setText(korDate.format(date));
-
-        btn_menu = findViewById(R.id.button_menu_main);
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,8 +137,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("zzz123", "onClick:" + "addChallengeButton_main");
             }
         });
-
-
 
     }
 
@@ -250,13 +173,6 @@ public class MainActivity extends AppCompatActivity {
                 DialogFragment newFragment = new DatePicker2Fragment();
                 newFragment.show(getSupportFragmentManager(),"datePicker");
                 Log.d("zzz123", "onClick: datePicker2_challenge");
-            }
-        });
-        TimePicker timePicker = challenge_dialog.findViewById(R.id.timePicker);
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {   // 도전과제 시각
-            @Override
-            public void onTimeChanged(TimePicker timePicker, int hour, int min) {
-
             }
         });
 
@@ -305,20 +221,30 @@ public class MainActivity extends AppCompatActivity {
                     d2 = tempD;
                 }
                 // ↑ date 크기 비교해서 순서 바꿔주기 ↑
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //tmepicker spinner 도전과제 시각 불러오기
-                    hour = timePicker.getHour() + "";
-                    minute = timePicker.getMinute() + "";
-                } else {
-                    hour = timePicker.getCurrentHour() + "";
-                    minute = timePicker.getCurrentMinute() + "";
-                }
                 challenge.setChallenge(ratingBar.getRating(),content.getText().toString());
-                dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating());
+                if(selectDay1 > selectDay2){
+                    int tempday = selectDay1;
+                    selectDay1 = selectDay2;
+                    selectDay2 = tempday;
+                }
+                if(selectMonth1 > selectMonth2){
+                    int tempmonth = selectMonth1;
+                    selectMonth1 = selectMonth2;
+                    selectMonth2 = tempmonth;
+                }
+                if(selectYear1 > selectYear2){
+                    int tempyear = selectYear1;
+                    selectYear1 = selectYear2;
+                    selectYear2 = tempyear;
+                }
+                dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating(), selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2);
+                loadDB(temp);
+                init_recycler();
+                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
                 Log.d("159753", "onClick: insertChallenge"+challenge.getContents());
                 Toast.makeText(getApplicationContext(), "할일: " + content.getText().toString() +", 중요도: "+ (int)ratingBar.getRating() +
                         ", 기간(str): " +d1 +" ~ "+ d2+", 시각: "+hour+":"+minute+", 기간(date):"+date1.toString() +" ~ "+ date2.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("zzz123", "onClick: " + "insert_challenge");
-                MainActivity.mActivity.recreate();
                 challenge_dialog.dismiss();
             }
             else {
@@ -331,6 +257,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void showDialog2() { //도전과제 편집창
+        challenge_edit_dialog.show();
+
+        RatingBar ratingBar;//여기 클릭한 리사이클러 데이터 불러와줘야함...
+        EditText content;   //
+
+        ratingBar = challenge_edit_dialog.findViewById(R.id.ratingBar_challenge_challedit);  //중요도
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {  // 도전과제 중요도 별점
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if(ratingBar.getRating() < 1.0f) {
+                    ratingBar.setRating(1); //중요도 최소 별 1개로 설정.
+                }
+            }
+        });
+
+        content = challenge_edit_dialog.findViewById(R.id.content_challenge_challedit);   //내용
+
+        Button btn_submit = challenge_edit_dialog.findViewById(R.id.button_submit_challedit);    //수정 버튼
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (content.length() > 0)
+                {
+                    //해당 데이터 수정해주는 메소드...집어넣어야합니다1
+                    challenge_edit_dialog.dismiss();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    challenge_edit_dialog.dismiss();
+                }
+            }
+        });
+    }
 
     public void onPopupMenuButtonClick(View button) {     //더보기 버튼 클릭 시 팝업메뉴 생성
         PopupMenu popupMenu = new PopupMenu(this, btn_menu);    //popup 메뉴 객체 생성
@@ -364,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         adapterchallenge.notifyDataSetChanged();
+        adapterplan.notifyDataSetChanged();
     }
 
     public void onBackPressed() {   //뒤로가기 두번 눌러서 앱 종료
@@ -382,8 +343,13 @@ public class MainActivity extends AppCompatActivity {
 
     //↓ 시작일, 종료일 불러오기 ↓
     public void processDatePickerResult(int year, int month, int day){  //기간1 날짜데이터 불러오기 이벤트
+        selectDay1 = day;
+        selectMonth1 = month+1;
+        Log.d("123123", "processDatePickerResult: "+month);
+        selectYear1 = year;
         String month_string = Integer.toString(month+1);
         String day_string = Integer.toString(day);
+        Log.d("123123", "processDatePickerResult: "+day_string);
         String year_string = Integer.toString(year);
         String dateMessage = (year_string + "-" + month_string + "-" + day_string);
 
@@ -392,8 +358,12 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this,"Date: " + dateMessage,Toast.LENGTH_SHORT).show();
     }
     public void processDatePicker2Result(int year, int month, int day){  //기간2 날짜데이터 불러오기 이벤트
+        selectDay2 = day;
+        selectMonth2 = month+1;
+        selectYear2 = year;
         String month_string = Integer.toString(month+1);
         String day_string = Integer.toString(day);
+        Log.d("123123", "processDatePicker2Result: "+day_string);
         String year_string = Integer.toString(year);
         String dateMessage = (year_string + "-" + month_string + "-" + day_string);
 
@@ -417,6 +387,30 @@ public class MainActivity extends AppCompatActivity {
         adapterchallenge = new ChallengeRecyclerAdapter();
         recyclerView_plan.setAdapter(adapterplan);
         recyclerView_challenge.setAdapter(adapterchallenge);
+
+        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {    //리사이클러 삭제
+            @Override
+            public void onRightClicked(int position) {
+                adapterchallenge.removeItem(position);
+                adapterchallenge.notifyItemRemoved(position);
+                adapterchallenge.notifyItemRangeChanged(position, adapterchallenge.getItemCount());
+            }
+
+            @Override
+            public void onLeftClicked(int position) {   //리사이클러 수정
+                showDialog2();
+
+            }
+        });
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(recyclerView_challenge);
+
+        recyclerView_challenge.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
     }
     private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates, List challenge_ratings, List challenge_contents, List challenge_dates){
         List<String> listPlanCategory = plan_categorys;
@@ -431,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
             plandata.setTitle(listPlanCategory.get(i));
             plandata.setContent(listPlanContent.get(i));
             plandata.setDate(listplanDate.get(i));
+
             adapterplan.addItem(plandata);
         }
 
@@ -447,4 +442,102 @@ public class MainActivity extends AppCompatActivity {
         adapterchallenge.notifyDataSetChanged();
     }
 
+
+    public void loadDB(Context temp){
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SimpleDateFormat daychanger = new SimpleDateFormat("dd");
+        SimpleDateFormat monthchanger = new SimpleDateFormat("MM");
+        SimpleDateFormat yearchanger = new SimpleDateFormat("yyyy");
+        Date date = Calendar.getInstance().getTime();
+//------------------------------------------------------------------------------------------------------
+        String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
+        String selection = swp_database.PlanDB.PLAN_DAY + " = ? ";
+        String[] selectionArgs = {daychanger.format(date)};
+        Cursor plancursor = db.query(
+                swp_database.PlanDB.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+        List plan_id_temp = new ArrayList<>();
+        List plan_contents_temp = new ArrayList<>();
+        List plan_categorys_temp = new ArrayList<>();
+        List plan_dates_temp = new ArrayList<>();
+
+        while (plancursor.moveToNext()){
+            String plan_date = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
+            plan_dates_temp.add(plan_date);
+            String plan_category = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
+            plan_categorys_temp.add(plan_category);
+            String plan_content = plancursor.getString(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
+            plan_contents_temp.add(plan_content);
+            int planItems = plancursor.getInt(
+                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
+            plan_id_temp.add(planItems);
+        }
+
+        plan_id = plan_id_temp;
+        plan_contents = plan_contents_temp;
+        plan_categorys= plan_categorys_temp;
+        plan_dates = plan_dates_temp;
+
+        plancursor.close();
+
+        String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
+        Cursor challengecursor = db.query(
+                swp_database.ChallengeDB.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                sortOrder1
+        );
+        List challenge_id_temp = new ArrayList<>();
+        List challenge_contents_temp = new ArrayList<>();
+        List challenge_ratings_temp = new ArrayList<>();
+        List challenge_dates_temp = new ArrayList<>();
+        while (challengecursor.moveToNext()){
+            Log.d("159753", "loadDB: "+123123123);
+            int day1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DAY1));
+            int day2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DAY2));
+            int month1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_MONTH1));
+            int month2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_MONTH2));
+            int year1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_YEAR1));
+            int year2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_YEAR2));
+            if(year1 <= Integer.parseInt(yearchanger.format(date))&& Integer.parseInt(yearchanger.format(date))<=year2) { // year1 과 year2 사이의 현재 날짜가 있는가?
+                if (month1 <= Integer.parseInt(monthchanger.format(date)) && Integer.parseInt(monthchanger.format(date)) <= month2) { // month1 과 month2 사이의 현재 날짜가 있는가?
+                    if (day1 <= Integer.parseInt(daychanger.format(date)) && Integer.parseInt(daychanger.format(date)) <= day2) { // day1과 day2사이의 현재 날짜가 있는가? (도전과제 범위 안에서의 출력
+
+                        String challenge_date = challengecursor.getString(
+                                challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
+                        challenge_dates_temp.add(challenge_date);
+                        String challenge_content = challengecursor.getString(
+                                challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
+                        challenge_contents_temp.add(challenge_content);
+                        Float challenge_rating = challengecursor.getFloat(
+                                challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
+                        challenge_ratings_temp.add(challenge_rating);
+                        int challengeItems = challengecursor.getInt(
+                                challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
+                        challenge_id_temp.add(challengeItems);
+                    }
+                }
+            }
+        }
+        challenge_id = challenge_id_temp;
+        challenge_contents = challenge_contents_temp;
+        challenge_ratings = challenge_ratings_temp;
+        challenge_dates = challenge_dates_temp;
+
+        challengecursor.close();
+
+    }
 }

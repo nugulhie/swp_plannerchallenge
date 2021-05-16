@@ -5,14 +5,14 @@ public class KeyController {
     public static KeyController getInstance(){
         return key;
     }
-    boolean checkKey(UserController user) {
+    public boolean checkKey(UserController user) {
         if (user.getCnt_key() > 0) {
             return true;
         } else {
             return false;
         }
     } // 사용자가 열쇠를 가지고 있는지 확인하는 함수
-
+//
 
     public void getKey(UserController user, int hint) {
         user.setCnt_key(user.getCnt_key()+hint);

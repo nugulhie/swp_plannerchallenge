@@ -14,37 +14,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Swp_challenge">
-        <activity android:name=".IntroActivity"></activity>
+        <activity android:name=".Activity.IntroActivity"></activity>
 
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/menu" />
 
-        <activity
-            android:name=".ChallengePopupActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name=".PlanPopupActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name=".PopupBoxActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity2" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".BoxActivity" />
-        <activity android:name=".CalendarActivity" />
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.BoxActivity" />
+        <activity android:name=".Activity.CalendarActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Activity.SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".ChallhistoryActivity" />
-        <activity android:name=".AchivementActivity" />
+        <activity android:name=".Activity.ChallhistoryActivity" />
+        <activity android:name=".Activity.AchivementActivity" />
     </application>
 
 </manifest>

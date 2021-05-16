@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.swp_challenge.R;
 
 import java.util.ArrayList;
-
+//
 public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecyclerAdapter.ItemViewHolder> {
     //
     // adapter에 들어갈 list 입니다.
@@ -38,10 +38,18 @@ public class ChallengeRecyclerAdapter extends RecyclerView.Adapter<ChallengeRecy
         // RecyclerView의 총 개수 입니다.
         return listData.size();
     }
-
+    public void updateData(ArrayList<recyclerChallengeData> data) {
+        listData.clear();
+        listData.addAll(data);
+        notifyDataSetChanged();
+    }
     public void addItem(recyclerChallengeData data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
+    }
+    public void removeItem(int position) {
+        listData.remove(position);
+        notifyItemRemoved(position);
     }
 
     // RecyclerView의 핵심인 ViewHolder 입니다.

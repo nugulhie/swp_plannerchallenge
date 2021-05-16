@@ -1,4 +1,4 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    //
+    ////
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

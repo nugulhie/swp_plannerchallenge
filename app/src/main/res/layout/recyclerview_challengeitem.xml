@@ -4,21 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rs"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
     //
+
     <TextView
         android:id="@+id/recycler_challengecontents"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center|center_horizontal|center_vertical"
-        android:gravity="center"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/layout_bg_mint"
+        android:fontFamily="@font/cookierun_bold"
+        android:gravity="center_vertical"
         android:hint="stringcontetns"
+        android:paddingLeft="10dp"
         android:singleLine="true"
-        android:textSize="10sp"
+        android:textColor="@color/black"
+        android:textColorLink="#FFFFFF"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/recycler_challengedate"
-        app:layout_constraintStart_toEndOf="@+id/recycler_ratingbar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_ratingbar"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -26,21 +34,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_horizontal|center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="2dp"
         android:hint="date"
+        android:fontFamily="@font/neodgm_pro"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_challengecontents"
+        app:layout_constraintStart_toEndOf="@+id/recycler_ratingbar"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <RatingBar
         android:id="@+id/recycler_ratingbar"
         style="?android:attr/ratingBarStyleSmall"
-        android:numStars="3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:numStars="3"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/recycler_challengecontents"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />

@@ -2,7 +2,7 @@ package com.example.swp_challenge.dataController;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
+//
 
 public class PreferenceManager {
 
@@ -11,6 +11,8 @@ public class PreferenceManager {
     private static final boolean DEFAULT_VALUE_BOOLEAN = true;
 
     private static final String DEFAULT_VALUE_STRING = "";
+
+    private  static final int DEFAULT_VALUE_INT = 0;
 
     private static SharedPreferences getPreferences(Context context) {
 
@@ -28,6 +30,23 @@ public class PreferenceManager {
 
         editor.commit();
 
+    }
+    public static void setInt(Context context, String key, int value){
+
+        SharedPreferences prefs = getPreferences(context);
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putInt(key, value);
+    }
+
+    public static int getInt(Context context, String key){
+
+        SharedPreferences prefs = getPreferences(context);
+
+        int value = prefs.getInt(key, DEFAULT_VALUE_INT);
+
+        return value;
     }
 
     public static String getString(Context context, String key) {

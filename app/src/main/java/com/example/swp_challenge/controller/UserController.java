@@ -1,14 +1,9 @@
 package com.example.swp_challenge.controller;
 
 
-import android.app.Application;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 
-import com.example.swp_challenge.MainActivity;
-import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
-import android.*;
-import com.example.swp_challenge.controller.PlannerController;
-
+//
 public class UserController{
     private static final UserController user = new UserController();
     public static UserController getInstance(){
@@ -16,12 +11,21 @@ public class UserController{
     }
     PlannerController plan = PlannerController.getInstance();
     ChallengeController challenge =ChallengeController.getInstance();
+    private Context context;
     private String userName;
     private int cnt_key = 0;
     private int boxRank;
     private float getChance = 0.6f;
     private int boxOpen=0;
     private boolean[] hasAchivement = new boolean[100];
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public int getCnt_key() {
         return cnt_key;

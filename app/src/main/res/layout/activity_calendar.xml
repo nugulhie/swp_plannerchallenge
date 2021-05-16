@@ -120,11 +120,14 @@
                 android:layout_height="wrap_content" />
 
 
-            <CalendarView
+            <com.example.swp_challenge.CustomCalendarView.CustomCalendar
                 android:id="@+id/calendarView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:selectedDateVerticalBar="@android:color/transparent"
+                android:selectedWeekBackgroundColor="#FFFFFF"
+                app:cellSize="150" />
 
             <ImageButton
                 android:id="@+id/button_addCalendar_cal"

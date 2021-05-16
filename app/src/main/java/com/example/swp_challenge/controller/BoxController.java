@@ -2,7 +2,7 @@
 
  import android.util.Log;
  import android.widget.Toast;
-//
+////
  public class BoxController {
      private static final BoxController box = new BoxController();
      public static BoxController getInstance(){
@@ -34,18 +34,11 @@
 
      } // 보상을 얻는 함수
 
-     public boolean boxOpen(UserController user) {
-         if (key.checkKey(user)) {
+     public void boxOpen(UserController user) {
              getReward(user);
              user.setCnt_key(user.getCnt_key() - 1);
-             System.out.println(user.getCnt_key());
-             System.out.println("키를 사용");
              user.setBoxOpen(user.getBoxOpen()+1);
-             return true;
-         }
-         else{
-             return false;
-         }
+             Log.d("159753", "boxOpen: "+user.getCnt_key());
      } // 상자 여는 함수
 
      public void boxOpenCount(UserController user){

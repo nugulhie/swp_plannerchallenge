@@ -1,4 +1,4 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,8 +18,11 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.BoxController;
+import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.UserController;
+import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
@@ -30,7 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//
+////
 public class BoxActivity extends AppCompatActivity {
     ImageButton img_cal;
     TextView textdate;
@@ -38,6 +41,8 @@ public class BoxActivity extends AppCompatActivity {
     ImageButton btn_menu;
     TextView textKey;
     Dialog openBox_dialog;
+    public static int temp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,26 +61,13 @@ public class BoxActivity extends AppCompatActivity {
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
-
-        //------------------------------------------------------------------------------
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor userCursor = db.query(
-                swp_database.UserDB.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-        //String temp = Integer.toString(userCursor.getInt((userCursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY))));
-        //Log.d("159753", "onCreate: "+temp);
+        //DB Load Method sector
+       updateDB();
+        textKey.setText("x "+temp);
 
-        //textKey.setText("x "+Integer.toString(userCursor.getInt(userCursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY))));
-        userCursor.close();
-        //------------------------------------------------------------------------------
         //intent 넘기기 함수 밑으로 인자
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,8 +82,15 @@ public class BoxActivity extends AppCompatActivity {
         btn_open.setOnClickListener(new View.OnClickListener() {    //상자열기
             @Override
             public void onClick(View v) {
-                if(box.boxOpen(user)){
+                KeyController key = KeyController.getInstance();
+
+                if(key.checkKey(user)){
                     showDialog();
+                    box.boxOpen(user);
+
+                    dbHelper.updateUserKeyCount("hwang", user.getCnt_key());
+                    updateDB();
+                    textKey.setText("x "+temp);
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"can'topen",Toast.LENGTH_SHORT).show();
@@ -118,8 +117,6 @@ public class BoxActivity extends AppCompatActivity {
             @Override
 
             public void onClick(View v) {
-                box.boxOpen(user);
-                box.boxOpenCount(user);
                 Log.d("zzz123", "onClick: " + "check_open");
                 openBox_dialog.dismiss();
             }
@@ -154,4 +151,36 @@ public class BoxActivity extends AppCompatActivity {
         });
         popupMenu.show();
     }
-}
+    public void updateDB(){
+        UserController user = UserController.getInstance();
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String check = PreferenceManager.getString(BoxActivity.this,"username");
+        Log.d("159753", "updateDB: "+check);
+        List itemids = new ArrayList<>();
+        String selection = swp_database.UserDB.USER_NAME + " = ? ";
+        String[] selectionArgs = {check};
+        Cursor userCursor = db.query(
+                swp_database.UserDB.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while(userCursor.moveToNext()) {
+            int itemId = userCursor.getInt(
+                    userCursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY));
+            itemids.add(itemId);
+        }
+        //db load
+        for(int i =0; i< itemids.size();i++) {
+            temp = (int) itemids.get(i);
+            Log.d("159753", "dbfrom " + temp);
+            user.setCnt_key(temp);
+            Log.d("159753", "user" + user.getCnt_key());
+            }
+        }
+    }
