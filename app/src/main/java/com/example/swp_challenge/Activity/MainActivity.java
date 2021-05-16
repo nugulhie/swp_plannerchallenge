@@ -282,11 +282,11 @@ public class MainActivity extends AppCompatActivity {
                 if (content.length() > 0)
                 {
                     //해당 데이터 수정해주는 메소드...집어넣어야합니다1
-                    challenge_dialog.dismiss();
+                    challenge_edit_dialog.dismiss();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    challenge_dialog.dismiss();
+                    challenge_edit_dialog.dismiss();
                 }
             }
         });
