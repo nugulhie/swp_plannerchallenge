@@ -1,4 +1,4 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +29,7 @@ import com.example.swp_challenge.CustomCalendarView.CustomCalendar;
 import com.example.swp_challenge.CustomCalendarView.Helpers.Badge;
 import com.example.swp_challenge.CustomCalendarView.Helpers.CalenderDate;
 import com.example.swp_challenge.CustomCalendarView.Helpers.ClickInterface;
+import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.PlannerController;
 import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
@@ -54,7 +54,7 @@ public class CalendarActivity extends AppCompatActivity {
     private PlanRecyclerAdapter adapterplan;
     TextView textdate;
     Dialog plan_dialog;
-
+    public static int count=0;
     final String[] category = {"약속", "공부", "운동", "시험", "기타"};
     String category_item;
     public static int mYear, mMonth, mDay;
@@ -62,8 +62,9 @@ public class CalendarActivity extends AppCompatActivity {
     public static List plan_contents = new ArrayList<>();
     public static List plan_categorys = new ArrayList<>();
     public static List plan_dates = new ArrayList<>();
+    public static List plan_days = new ArrayList<>();
     public static int size_of_recycler;
-
+    public static int[] a = new int[32];
 
     PlannerController plan = PlannerController.getInstance();
     UserController user = UserController.getInstance();
@@ -89,13 +90,12 @@ public class CalendarActivity extends AppCompatActivity {
         btn_menu = findViewById(R.id.button_menu_cal);
         mcalendarView = (CustomCalendar)findViewById(R.id.calendarView);
         loadDB(temp, Integer.parseInt(daychanger.format(date)), Integer.parseInt(monthchanger.format(date)), Integer.parseInt(yearchanger.format(date)));
+        init_recycler();
+        getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
         loadEvent(temp);
         user.setContext(temp);
-
-
         Log.d("15922", "onCreate: " + Integer.parseInt(monthchanger.format(date)) + "=" + Integer.parseInt(yearchanger.format(date)));
-        init_recycler();
-        getData_recycler(plan_contents, plan_categorys, plan_dates);
+
         Log.d("159753", "onCreate: " + size_of_recycler);
 
         // 밑으로 전부 인텐트 함수
@@ -118,7 +118,7 @@ public class CalendarActivity extends AppCompatActivity {
                 Log.d("159753", "setDateClicked: "+dayOfMonth+ month+ year);
                 init_recycler();
                 loadDB(temp, dayOfMonth, month, year);
-                getData_recycler(plan_contents, plan_categorys, plan_dates);
+                getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
                 Log.d("159753", "onSelectedDayChange: "+dayOfMonth);
 
                 btn_add_cal.setOnClickListener(new View.OnClickListener() {         //일정 팝업 액티비티 이동
@@ -310,7 +310,7 @@ mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     dbHelper.insertPlan(plan.getPlanContents(), plan.getCategory(), mYear, mMonth, mDay);
                     loadDB(temp, mDay, mMonth, mYear);
                     init_recycler();
-                    getData_recycler(plan_contents, plan_categorys, plan_dates);
+                    getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
                     plan_dialog.dismiss();
                     Log.d("zzz123", "onClick: " + "insert_plan");
                 } else {
@@ -331,9 +331,15 @@ mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
         recyclerView_calendar.setAdapter(adapterplan);
     }
 
-    private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates) {
-
-
+    private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates, List plan_days) {
+        if((int)plan_dates.size() != 0){
+        for(int i =0;i<32;i++){
+            a[i] = 0;
+        }
+        a[(int)plan_days.get(0)] = plan_categorys.size();
+        }
+        
+        Log.d("111111", "getData_recycler: "+plan_categorys.size());
         List<String> listPlanCategory = plan_categorys;
         List<String> listPlanContent = plan_contents;
         List<String> listplanDate = plan_dates;
@@ -343,6 +349,7 @@ mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             plandata.setTitle(listPlanCategory.get(i));
             plandata.setContent(listPlanContent.get(i));
             plandata.setDate(listplanDate.get(i));
+
             adapterplan.addItem(plandata);
         }
         Log.d("159753", "getData_recycler: " + size_of_recycler);
@@ -360,6 +367,7 @@ mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
         List plan_contents_temp = new ArrayList<>();
         List plan_categorys_temp = new ArrayList<>();
         List plan_dates_temp = new ArrayList<>();
+        List plan_days_temp = new ArrayList<>();
         //------------------------------------------------------------------------------------------
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -397,6 +405,8 @@ mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 int planItems = plancursor.getInt(
                         plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
                 plan_id_temp.add(planItems);
+                int plandays = plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DAY));
+                plan_days_temp.add(plandays);
             }
         }
 
@@ -405,6 +415,7 @@ mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
         plan_contents = plan_contents_temp;
         plan_categorys = plan_categorys_temp;
         plan_dates = plan_dates_temp;
+        plan_days = plan_days_temp;
         //------------------------------------------------------------------------------------------
 
     }
@@ -428,11 +439,11 @@ mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             plan_month.add(month);
             int day = plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DAY));
             plan_day.add(day);
-
         }
         List<Badge> badges = new ArrayList<>();
-        for(int i =0 ;i<plan_day.size();i++){
-            badges.add(new Badge(i,(int)plan_day.get(i),(int)plan_month.get(i)));
+        for(int i =0 ;i<plan_day.size();i++){ // 각 날짜의 일정 개수가 몇개인지 생각해야함
+            badges.add(new Badge(a[(int)plan_day.get(i)],(int)plan_day.get(i),(int)plan_month.get(i)));
+            Log.d("111111", "loadEvent: "+a[(int)plan_day.get(i)]);
         }
         plancursor.close();
         mcalendarView.setBadgeDateList(badges);

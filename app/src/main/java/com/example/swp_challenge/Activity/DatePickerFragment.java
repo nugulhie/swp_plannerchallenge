@@ -1,4 +1,4 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

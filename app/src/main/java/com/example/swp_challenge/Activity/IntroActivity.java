@@ -1,19 +1,17 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.swp_challenge.R;
 import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
-import java.text.SimpleDateFormat;//
 //
 public class IntroActivity extends AppCompatActivity {
     public Button next_btn;

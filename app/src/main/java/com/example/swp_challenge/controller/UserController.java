@@ -1,14 +1,8 @@
 package com.example.swp_challenge.controller;
 
 
-import android.app.Application;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.example.swp_challenge.MainActivity;
-import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
-import android.*;
-import com.example.swp_challenge.controller.PlannerController;
 //
 public class UserController{
     private static final UserController user = new UserController();

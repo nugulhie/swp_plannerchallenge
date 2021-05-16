@@ -1,4 +1,4 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -6,13 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,12 +21,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.ChallengeController;
 import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.PlannerController;
@@ -47,7 +44,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 //
 public class MainActivity extends AppCompatActivity {
@@ -290,6 +286,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         adapterchallenge.notifyDataSetChanged();
+        adapterplan.notifyDataSetChanged();
     }
 
     public void onBackPressed() {   //뒤로가기 두번 눌러서 앱 종료

@@ -1,27 +1,25 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.example.swp_challenge.R;
+
 //////
 public class SettingsActivity extends AppCompatActivity {
     ImageButton img_cal;

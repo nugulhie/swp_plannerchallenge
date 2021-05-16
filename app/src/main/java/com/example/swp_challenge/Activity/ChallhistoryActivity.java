@@ -1,4 +1,4 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,10 +15,9 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.swp_challenge.R;
 import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
-import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
 import com.example.swp_challenge.dataController.recyclerChallengeData;
-import com.example.swp_challenge.dataController.recyclerPlanData;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 

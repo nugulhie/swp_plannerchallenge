@@ -2,15 +2,9 @@ package com.example.swp_challenge.dataController;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
-
-import com.example.swp_challenge.IntroActivity;
-import com.example.swp_challenge.controller.UserController;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

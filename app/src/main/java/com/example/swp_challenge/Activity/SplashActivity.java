@@ -1,19 +1,16 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.WindowManager;
 
+import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.PreferenceManager;
-import com.example.swp_challenge.dataController.swp_database;
-import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
+
 //
 ////
 public class SplashActivity extends AppCompatActivity { //스플래시 화면 메소드 여기는 개발 완료 수정 x

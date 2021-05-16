@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:background="#E0E0E0E0"
     app:layout_anchorGravity="center"
-    tools:context=".MainActivity">
+    tools:context=".Activity.MainActivity">
 
     <!--메인화면1(일정, 도전과제) !-->
 

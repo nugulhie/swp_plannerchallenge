@@ -1,14 +1,12 @@
-package com.example.swp_challenge;
+package com.example.swp_challenge.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +18,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.BoxController;
 import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.UserController;

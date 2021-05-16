@@ -15,7 +15,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.swp_challenge.CalendarActivity;
+import com.example.swp_challenge.Activity.CalendarActivity;
 import com.example.swp_challenge.CustomCalendarView.Adapters.MyCalenderAdapter;
 import com.example.swp_challenge.CustomCalendarView.Helpers.Badge;
 import com.example.swp_challenge.CustomCalendarView.Helpers.ClickInterface;
