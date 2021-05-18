@@ -34,10 +34,6 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-
-
-
-
     //----------------------------PLANDB-----------------------------
     public void insertPlan(String contents, String category, int year, int month, int day) {
         SQLiteDatabase db = getWritableDatabase();
@@ -70,6 +66,12 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 values,
                 selection,
                 selectionArgs);
+    }
+    public void plandelete(String contents){
+        SQLiteDatabase db =getWritableDatabase();
+        String selection = swp_database.PlanDB.PLAN_CONTENTS + " LIKE ?";
+        String[] selectionArgs = { contents };
+        int deletedRows = db.delete(swp_database.PlanDB.TABLE_NAME, selection, selectionArgs);
     }
 
 
@@ -105,7 +107,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         long newRowId = db.insert(swp_database.ChallengeDB.TABLE_NAME, null, values);
     }
 
-    public void updateChallenge(String oldcontents, String newcontents, Date newdate, float newrating){
+    public void updateChallenge(String oldcontents, String newcontents,float newrating){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues(); //작동 이상무 설계 해야할듯 ID값을 기준으로 가져오는게 편할것 같음
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //예전값을 들고올때 컨트롤러에 값을 세팅을 해주고 넣던가 바로 검색한 변수값을 넣던가 해야할듯 설계 하자
@@ -136,7 +138,12 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selectionArgs);
 
     }
-
+    public void challengedelete(String contents){
+        SQLiteDatabase db = getWritableDatabase();
+        String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS + " LIKE ?";
+        String[] selectionArgs = {contents};
+        int deleteRows = db.delete(swp_database.ChallengeDB.TABLE_NAME,selection,selectionArgs);
+    }
 
     //----------------------------------USERDB------------------------------------
     public void insertUsername(String username, String birth){
@@ -147,6 +154,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.UserDB.BIRTH, birth);
         values.put(swp_database.UserDB.BOX_OPEN_CNT, 0);
         values.put(swp_database.UserDB.BOX_RANK, 1);
+        values.put(swp_database.UserDB.USER_ACHIVE, "칭호없음");
         long newRowId = db.insert(swp_database.UserDB.TABLE_NAME, null, values);
     }
 
@@ -191,6 +199,20 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selectionArgs);
         Log.d("159753", "updateUserKeyCount: "+count);
     }
+    public void updateUserAchive(String username, String achive){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.USER_ACHIVE, achive);
+        String selection = swp_database.UserDB.USER_NAME+ " LIKE ?";
+        String[] selectionArgs = {username};
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+        Log.d("159753", "updateUserKeyCount: "+count);
+    }
+
 
 
 //populate table

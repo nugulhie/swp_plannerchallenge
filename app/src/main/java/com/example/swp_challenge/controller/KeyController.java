@@ -15,7 +15,8 @@ public class KeyController {
 //
 
     public void getKey(UserController user, int hint) {
-        user.setCnt_key(user.getCnt_key()+hint);
+        int cnt_key = user.getCnt_key() + hint;
+        user.setCnt_key(cnt_key);
     } // 열쇠를 얻는 함수
     public void givekey(UserController user, int chall_pass){
         if(1==chall_pass){

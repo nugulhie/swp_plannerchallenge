@@ -71,7 +71,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="0"
                     android:fontFamily="@font/maplestory_bold"
-                    android:text="교촌치킨닭다리권위자"
+                    android:text="hint"
                     android:textColor="#3C3C3C" />
 
             </LinearLayout>

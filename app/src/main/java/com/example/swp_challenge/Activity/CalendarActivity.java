@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,7 +77,6 @@ public class CalendarActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_calendar);
-
         SimpleDateFormat daychanger = new SimpleDateFormat("dd");
         SimpleDateFormat monthchanger = new SimpleDateFormat("MM");
         SimpleDateFormat yearchanger = new SimpleDateFormat("yyyy");
@@ -90,10 +90,12 @@ public class CalendarActivity extends AppCompatActivity {
         btn_menu = findViewById(R.id.button_menu_cal);
         mcalendarView = (CustomCalendar)findViewById(R.id.calendarView);
         loadDB(temp, Integer.parseInt(daychanger.format(date)), Integer.parseInt(monthchanger.format(date)), Integer.parseInt(yearchanger.format(date)));
+        loadDB(temp, Integer.parseInt(daychanger.format(date)), Integer.parseInt(monthchanger.format(date)), Integer.parseInt(yearchanger.format(date)));
         init_recycler();
         getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
         loadEvent(temp);
         user.setContext(temp);
+
         Log.d("15922", "onCreate: " + Integer.parseInt(monthchanger.format(date)) + "=" + Integer.parseInt(yearchanger.format(date)));
 
         Log.d("159753", "onCreate: " + size_of_recycler);
@@ -108,6 +110,7 @@ public class CalendarActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         mcalendarView.setOnClickDate(new ClickInterface() {
             @Override
             public void setDateClicked(CalenderDate date) {
@@ -148,44 +151,6 @@ public class CalendarActivity extends AppCompatActivity {
             }
 
         });
-/*
-mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {  //캘린더뷰 선택한 날짜에 해당하는
-                init_recycler();
-                loadDB(temp, dayOfMonth, month+1, year);
-                getData_recycler(plan_contents, plan_categorys, plan_dates);
-                Log.d("159753", "onSelectedDayChange: "+dayOfMonth);
-
-                btn_add_cal.setOnClickListener(new View.OnClickListener() {         //일정 팝업 액티비티 이동
-                    @Override
-                    public void onClick(View v) {
-                        showDialog();
-                        mYear = year;
-                        mMonth = month + 1;
-                        mDay = dayOfMonth;
-                        Log.d("15922", "onSelectedDayChange: "+mMonth);
-                        Log.d("15922", "onSelectedDayChange: "+mYear);
-                        Log.d("zzz123", "onClick: addPlanButton_calendar");
-                    }
-                });
-
-                btn_challHistory.setOnClickListener(new View.OnClickListener() {    //도전과제 내역 액티비티 이동
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(CalendarActivity.this, ChallhistoryActivity.class);
-                        intent.putExtra("selectday", dayOfMonth);
-                        intent.putExtra("selectmonth", month + 1);
-                        intent.putExtra("selectyear", year);
-                        startActivity(intent);
-                        Log.d("zzz123", "onClick: challengeHistoryButton_calendar");
-                    }
-                });
-            }
-        });
-*/
-
         btn_add_cal.setOnClickListener(new View.OnClickListener() {         //날짜 선택 안하고 버튼 클릭시 알림
             @Override
             public void onClick(View v) {
@@ -226,7 +191,18 @@ mcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             }
 
-
+    private long backKeyPressedTime = 0;
+    public void onBackPressed() {   //뒤로가기 두번 눌러서 앱 종료
+        //super.onBackPressed();
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Intent intent = getIntent();
+                Intent intents = new Intent(CalendarActivity.this,MainActivity.class);
+                startActivity(intents);
+                finish();
+            return;
+        }
+    }
 
 
     public void onPopupMenuButtonClick(View button) {     //더보기 버튼 클릭 시 팝업메뉴 생성

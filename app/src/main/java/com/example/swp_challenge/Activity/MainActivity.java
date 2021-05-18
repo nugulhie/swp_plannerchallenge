@@ -64,10 +64,11 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btn_menu, img_cal;
     String d1, d2, tempD, hour, minute;
     Date date1, date2, tempDate;
-    TextView textdate;
+    TextView textdate, textAchive;
     public static int count = 0, selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2;
     Dialog challenge_dialog, challenge_edit_dialog;
     public static Context temp;
+    public String achive;
 
     public static List plan_id = new ArrayList<>();
     public static List plan_contents = new ArrayList<>();
@@ -98,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
         button_Add_challenge = findViewById(R.id.button_addChall_main);
         img_cal = findViewById(R.id.button_calendar_main);
         btn_menu = findViewById(R.id.button_menu_main);
-
+        textAchive = findViewById(R.id.textView_selectedAchieve);
+        achive = "칭호없음";
         textdate.setText(korDate.format(date));
 
 
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         temp = MainActivity.this;
         loadDB(temp);
+        textAchive.setText("< "+achive+" >");
         init_recycler();
         getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
+                finish();
                 Log.d("zzz123", "onClick:" + "calendarButton_main");
             }
         });
@@ -259,9 +263,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void showDialog2() { //도전과제 편집창
         challenge_edit_dialog.show();
-
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         RatingBar ratingBar;//여기 클릭한 리사이클러 데이터 불러와줘야함...
         EditText content;   //
+
 
         ratingBar = challenge_edit_dialog.findViewById(R.id.ratingBar_challenge_challedit);  //중요도
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {  // 도전과제 중요도 별점
@@ -275,14 +281,24 @@ public class MainActivity extends AppCompatActivity {
 
         content = challenge_edit_dialog.findViewById(R.id.content_challenge_challedit);   //내용
 
+
+
         Button btn_submit = challenge_edit_dialog.findViewById(R.id.button_submit_challedit);    //수정 버튼
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String contents;
+                float ratings;
+                contents = content.getText().toString();
                 if (content.length() > 0)
                 {
-                    //해당 데이터 수정해주는 메소드...집어넣어야합니다1
+                    String a =challenge_contents.get(count).toString();
+                    ratings = ratingBar.getRating();
+                    dbHelper.updateChallenge(a, contents, ratings);
                     challenge_edit_dialog.dismiss();
+                    init_recycler();
+                    loadDB(temp);
+                    getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -302,16 +318,19 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_menu1:
                         Intent intent = new Intent(MainActivity.this, BoxActivity.class);
                         startActivity(intent);
+                        finish();
                         Log.d("zzz123", "onMenuItemClick: " + "boxMenu_main");
                         break;
                     case R.id.action_menu2:
                         intent = new Intent(MainActivity.this, AchivementActivity.class);
                         startActivity(intent);
+                        finish();
                         Log.d("zzz123", "onMenuItemClick: " + "achieveMenu_main");
                         break;
                     case R.id.action_menu3:
                         intent = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(intent);
+                        finish();
                         Log.d("zzz123", "onMenuItemClick: " + "settingMenu_main");
                         break;
                 }
@@ -376,8 +395,7 @@ public class MainActivity extends AppCompatActivity {
     private void init_recycler(){ //RecyclerView initiate method
         RecyclerView recyclerView_plan = findViewById(R.id.recycler_plan);
         RecyclerView recyclerView_challenge = findViewById(R.id.recycler_challenge);
-
-
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         recyclerView_plan.setLayoutManager(linearLayoutManager1);
@@ -388,17 +406,20 @@ public class MainActivity extends AppCompatActivity {
         recyclerView_plan.setAdapter(adapterplan);
         recyclerView_challenge.setAdapter(adapterchallenge);
 
-        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {    //리사이클러 삭제
+        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
+                count = position;
                 adapterchallenge.removeItem(position);
                 adapterchallenge.notifyItemRemoved(position);
                 adapterchallenge.notifyItemRangeChanged(position, adapterchallenge.getItemCount());
+                dbHelper.challengedelete(challenge_contents.get(position).toString());
             }
 
             @Override
             public void onLeftClicked(int position) {   //리사이클러 수정
                 showDialog2();
+                count = position;
 
             }
         });
@@ -446,10 +467,12 @@ public class MainActivity extends AppCompatActivity {
     public void loadDB(Context temp){
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+
         SimpleDateFormat daychanger = new SimpleDateFormat("dd");
         SimpleDateFormat monthchanger = new SimpleDateFormat("MM");
         SimpleDateFormat yearchanger = new SimpleDateFormat("yyyy");
         Date date = Calendar.getInstance().getTime();
+
 //------------------------------------------------------------------------------------------------------
         String sortOrder = swp_database.PlanDB.PLAN_ID + " DESC";
         String selection = swp_database.PlanDB.PLAN_DAY + " = ? ";
@@ -488,7 +511,6 @@ public class MainActivity extends AppCompatActivity {
         plan_categorys= plan_categorys_temp;
         plan_dates = plan_dates_temp;
 
-        plancursor.close();
 
         String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
         Cursor challengecursor = db.query(
@@ -537,7 +559,21 @@ public class MainActivity extends AppCompatActivity {
         challenge_ratings = challenge_ratings_temp;
         challenge_dates = challenge_dates_temp;
 
-        challengecursor.close();
+
+        Cursor usercursor = db.query(
+                swp_database.UserDB.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        while (usercursor.moveToNext()){
+        achive = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_ACHIVE));}
+
+
 
     }
+
 }

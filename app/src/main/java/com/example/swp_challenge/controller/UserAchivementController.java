@@ -1,12 +1,15 @@
 package com.example.swp_challenge.controller;
+
+import android.util.Log;
+
 public class UserAchivementController {
     private static final UserAchivementController achive = new UserAchivementController();
     public static UserAchivementController getInstance(){
         return achive;
     }
-//
-    void initAchivement(){
-        String[] achs = new String[10];
+    public static String[] achs = new String[10];
+    public static int randoms = 0;
+    public void initAchivement(){
         achs[0] = "뉴비";
         achs[1] = "드디어 첫 상자!";
         achs[2] = "이제 적응했음!";
@@ -20,15 +23,22 @@ public class UserAchivementController {
         //1~ 30
     }
 
-    void giveAchivements(UserController user, int i){
+    public void giveAchivements(UserController user, int i){
         user.giveAchivement(i);
     } //사용자에게 칭호를 주는 함수
 
-    void getUserAchivements(int userSelect_Achive_){ //사용자가 선택한 칭호의 number로 칭호를 선택한 후에 인텐트로 보내준다.
-
+    public void getUserAchivements(int userSelect_Achive_){ //사용자가 선택한 칭호의 number로 칭호를 선택한 후에 인텐트로 보내준다.
 
     } // 사용자가 가지고 있는 칭호를 가져오는 함수
 
+    public void setrandoms(int i){
+        randoms = i;
+        Log.d("achive", "setrandoms: "+i);
+    }
+    public String rewardAchive(){
+        Log.d("achive", "rewardAchive: "+achs[randoms]);
+        return achs[randoms];
+    }
     void setUserAchivements(){
 
     } // 시스템에 칭호 데이터를 주는 함수
