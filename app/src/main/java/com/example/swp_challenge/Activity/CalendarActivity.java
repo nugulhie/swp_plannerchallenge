@@ -1,6 +1,8 @@
 package com.example.swp_challenge.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -34,6 +37,8 @@ import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.PlannerController;
 import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
+import com.example.swp_challenge.dataController.SwipeController1;
+import com.example.swp_challenge.dataController.SwipeControllerActions;
 import com.example.swp_challenge.dataController.recyclerPlanData;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
@@ -54,7 +59,7 @@ public class CalendarActivity extends AppCompatActivity {
     public static CustomCalendar mcalendarView;
     private PlanRecyclerAdapter adapterplan;
     TextView textdate;
-    Dialog plan_dialog;
+    Dialog plan_dialog, plan_edit_dialog;
     public static int count=0;
     final String[] category = {"약속", "공부", "운동", "시험", "기타"};
     String category_item;
@@ -88,6 +93,11 @@ public class CalendarActivity extends AppCompatActivity {
         textdate.setText(korDate.format(date));
         btn_menu = findViewById(R.id.button_menu_cal);
         mcalendarView = (CustomCalendar)findViewById(R.id.calendarView);
+
+        plan_edit_dialog = new Dialog(CalendarActivity.this);       // 일정 다이얼로그 설정
+        plan_edit_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
+        plan_edit_dialog.setContentView(R.layout.activity_popup2);       //           "
+
         loadDB(temp, Integer.parseInt(daychanger.format(date)), Integer.parseInt(monthchanger.format(date)), Integer.parseInt(yearchanger.format(date)));
         loadEvent(temp);
         init_recycler();
@@ -300,15 +310,89 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
     }
+    public void showDialog1(){
+        plan_edit_dialog.show();
 
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
+        Button submit = plan_edit_dialog.findViewById(R.id.button_submit_plan);
+        Button cancel = plan_edit_dialog.findViewById(R.id.button_cancel_plan);
+        EditText contents = plan_edit_dialog.findViewById(R.id.content_plan);
+        contents.setText("");
+        Spinner spinner_category = plan_edit_dialog.findViewById(R.id.spinner_categoryItem_plan);
+        ArrayAdapter categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, category);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_category.setAdapter(categoryAdapter);
+        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category_item = (String) spinner_category.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String temp = contents.getText().toString();
+                dbHelper.updatePlan(plan_contents.get(count).toString(),temp,category_item);
+                plan_edit_dialog.dismiss();
+                loadDB(CalendarActivity.this, mDay, mMonth, mYear);
+                init_recycler();
+                getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
+                loadEvent(CalendarActivity.this);
+
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                plan_edit_dialog.dismiss();
+            }
+        });
+
+
+    }
     private void init_recycler() { //RecyclerView initiate method
         RecyclerView recyclerView_calendar = findViewById(R.id.recycler_calendar);
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         recyclerView_calendar.setLayoutManager(linearLayoutManager1);
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
 
         adapterplan = new PlanRecyclerAdapter();
         recyclerView_calendar.setAdapter(adapterplan);
+        SwipeController1 swipeController1 = new SwipeController1(new SwipeControllerActions() {
+            @Override
+        public void onRightClicked(int position) {
+            count = position;
+            adapterplan.removeItem(position);
+            adapterplan.notifyItemRemoved(position);
+            adapterplan.notifyItemRangeChanged(position, adapterplan.getItemCount());
+            dbHelper.plandelete(plan_contents.get(position).toString());
+                loadDB(temp, mDay, mMonth, mYear);
+                init_recycler();
+                getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
+                loadEvent(temp);
+        }
+
+            @Override
+            public void onLeftClicked(int position) {   //리사이클러 수정
+                showDialog1();
+                count = position;
+
+            }
+        });
+        ItemTouchHelper itemTouchHelper1 = new ItemTouchHelper(swipeController1);
+        itemTouchHelper1.attachToRecyclerView(recyclerView_calendar);
+        recyclerView_calendar.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController1.onDraw(c);
+            }
+        });
     }
 
     private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates, List plan_days) {
