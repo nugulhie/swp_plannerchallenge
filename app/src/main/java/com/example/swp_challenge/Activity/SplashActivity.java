@@ -5,16 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.PreferenceManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 //
 ////
 public class SplashActivity extends AppCompatActivity { //스플래시 화면 메소드 여기는 개발 완료 수정 x
         boolean temp = true;
+        Date date = Calendar.getInstance().getTime();
         UserController user = UserController.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +29,9 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         temp = PreferenceManager.getBoolean(this,"check");
-
-
+        SimpleDateFormat day = new SimpleDateFormat("dd");
+        PreferenceManager.setString(this,"today",day.format(date));
+        Log.d("159753", "onCreate: "+day.format(date));
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -32,9 +33,11 @@ import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.ChallengeController;
 import com.example.swp_challenge.controller.KeyController;
 import com.example.swp_challenge.controller.PlannerController;
+import com.example.swp_challenge.controller.UserAchivementController;
 import com.example.swp_challenge.controller.UserController;
 import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
 import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
+import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.SwipeController;
 import com.example.swp_challenge.dataController.SwipeControllerActions;
 import com.example.swp_challenge.dataController.recyclerChallengeData;
@@ -52,12 +55,9 @@ import java.util.Locale;
 
 //
 public class MainActivity extends AppCompatActivity {
-    KeyController key = KeyController.getInstance();
     UserController user =UserController.getInstance();
-    PlannerController plan = PlannerController.getInstance();
     ChallengeController challenge = ChallengeController.getInstance();
     //
-    public static Activity mActivity;
     private PlanRecyclerAdapter adapterplan;
     private ChallengeRecyclerAdapter adapterchallenge;
     public Button button_Add_challenge;
@@ -68,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
     public static int count = 0, selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2;
     Dialog challenge_dialog, challenge_edit_dialog;
     public static Context temp;
-    public String achive;
-
+    public String achive, username;
+    public int keys;
+    ImageView img;
     public static List plan_id = new ArrayList<>();
     public static List plan_contents = new ArrayList<>();
     public static List plan_categorys = new ArrayList<>();
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     public static List challenge_contents = new ArrayList<>();
     public static List challenge_ratings = new ArrayList<>();
     public static List challenge_dates = new ArrayList<>();
+    public static List<Integer> challenge_pass = new ArrayList<>();
 
 
     private long backKeyPressedTime = 0;    //마지막으로 뒤로가기 눌렀던 시간 저장
@@ -90,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        SimpleDateFormat daychanger = new SimpleDateFormat("dd");
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         Date date = Calendar.getInstance().getTime();
         textdate = findViewById(R.id.textView_dateOfToday);
@@ -101,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         btn_menu = findViewById(R.id.button_menu_main);
         textAchive = findViewById(R.id.textView_selectedAchieve);
         achive = "칭호없음";
+        img = findViewById(R.id.imageView_key);
         textdate.setText(korDate.format(date));
 
 
@@ -123,8 +123,12 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("159753", "onCreate: main"+user.getCnt_key());
 
-        //banner set date in korean
-
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkChellenge();
+            }
+        });
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,18 +183,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("zzz123", "onClick: datePicker2_challenge");
             }
         });
-
-
-        ImageButton btn_delete = challenge_dialog.findViewById(R.id.button_delete_chall);   //삭제 버튼
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //추후 데이터 삭제 메소드 추가해줄 것!
-                challenge_dialog.dismiss();
-                Toast.makeText(getApplicationContext(),"도전과제 삭제", Toast.LENGTH_SHORT).show();
-                Log.d("zzz123", "onClick: delete_challenge");
-            }
-        });
         Button btn_cancel = challenge_dialog.findViewById(R.id.button_cancel_chall);    //취소 버튼
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
                     selectYear1 = selectYear2;
                     selectYear2 = tempyear;
                 }
+
                 dbHelper.insertChallenge(challenge.getContents(), challenge.getDate(), challenge.getRating(), selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2);
                 loadDB(temp);
                 init_recycler();
@@ -280,7 +273,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         content = challenge_edit_dialog.findViewById(R.id.content_challenge_challedit);   //내용
-
+        ImageButton btn_delete = challenge_edit_dialog.findViewById(R.id.button_delete_chall2);   //삭제 버튼
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbHelper.challengedelete(challenge_contents.get(count).toString());
+                challenge_edit_dialog.dismiss();
+                loadDB(temp);
+                init_recycler();
+                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
+                Toast.makeText(getApplicationContext(),"도전과제 삭제", Toast.LENGTH_SHORT).show();
+                Log.d("zzz123", "onClick: delete_challenge");
+            }
+        });
 
 
         Button btn_submit = challenge_edit_dialog.findViewById(R.id.button_submit_challedit);    //수정 버튼
@@ -413,7 +418,8 @@ public class MainActivity extends AppCompatActivity {
                 adapterchallenge.removeItem(position);
                 adapterchallenge.notifyItemRemoved(position);
                 adapterchallenge.notifyItemRangeChanged(position, adapterchallenge.getItemCount());
-                dbHelper.challengedelete(challenge_contents.get(position).toString());
+                dbHelper.updatePass(challenge_contents.get(position).toString(),1);
+                //dbHelper.challengedelete(challenge_contents.get(position).toString());
             }
 
             @Override
@@ -526,30 +532,36 @@ public class MainActivity extends AppCompatActivity {
         List challenge_contents_temp = new ArrayList<>();
         List challenge_ratings_temp = new ArrayList<>();
         List challenge_dates_temp = new ArrayList<>();
-        while (challengecursor.moveToNext()){
-            Log.d("159753", "loadDB: "+123123123);
+        List challenge_pass_temp = new ArrayList<>();
+        while (challengecursor.moveToNext()) {
+            Log.d("159753", "loadDB: " + 123123123);
             int day1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DAY1));
             int day2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DAY2));
             int month1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_MONTH1));
             int month2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_MONTH2));
             int year1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_YEAR1));
             int year2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_YEAR2));
-            if(year1 <= Integer.parseInt(yearchanger.format(date))&& Integer.parseInt(yearchanger.format(date))<=year2) { // year1 과 year2 사이의 현재 날짜가 있는가?
-                if (month1 <= Integer.parseInt(monthchanger.format(date)) && Integer.parseInt(monthchanger.format(date)) <= month2) { // month1 과 month2 사이의 현재 날짜가 있는가?
-                    if (day1 <= Integer.parseInt(daychanger.format(date)) && Integer.parseInt(daychanger.format(date)) <= day2) { // day1과 day2사이의 현재 날짜가 있는가? (도전과제 범위 안에서의 출력
+            int pass = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS));
+            if (pass != 1) {
+                if (year1 <= Integer.parseInt(yearchanger.format(date)) && Integer.parseInt(yearchanger.format(date)) <= year2) { // year1 과 year2 사이의 현재 날짜가 있는가?
+                    if (month1 <= Integer.parseInt(monthchanger.format(date)) && Integer.parseInt(monthchanger.format(date)) <= month2) { // month1 과 month2 사이의 현재 날짜가 있는가?
+                        if (day1 <= Integer.parseInt(daychanger.format(date)) && Integer.parseInt(daychanger.format(date)) <= day2) { // day1과 day2사이의 현재 날짜가 있는가? (도전과제 범위 안에서의 출력
 
-                        String challenge_date = challengecursor.getString(
-                                challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
-                        challenge_dates_temp.add(challenge_date);
-                        String challenge_content = challengecursor.getString(
-                                challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
-                        challenge_contents_temp.add(challenge_content);
-                        Float challenge_rating = challengecursor.getFloat(
-                                challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
-                        challenge_ratings_temp.add(challenge_rating);
-                        int challengeItems = challengecursor.getInt(
-                                challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
-                        challenge_id_temp.add(challengeItems);
+                            String challenge_date = challengecursor.getString(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DUE));
+                            challenge_dates_temp.add(challenge_date);
+                            String challenge_content = challengecursor.getString(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS));
+                            challenge_contents_temp.add(challenge_content);
+                            Float challenge_rating = challengecursor.getFloat(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_RATING));
+                            challenge_ratings_temp.add(challenge_rating);
+                            int challengeItems = challengecursor.getInt(
+                                    challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_ID));
+                            challenge_id_temp.add(challengeItems);
+                            int challengePass = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS));
+                            challenge_pass_temp.add(challengePass);
+                        }
                     }
                 }
             }
@@ -558,7 +570,7 @@ public class MainActivity extends AppCompatActivity {
         challenge_contents = challenge_contents_temp;
         challenge_ratings = challenge_ratings_temp;
         challenge_dates = challenge_dates_temp;
-
+        challenge_pass = challenge_pass_temp;
 
         Cursor usercursor = db.query(
                 swp_database.UserDB.TABLE_NAME,
@@ -570,10 +582,42 @@ public class MainActivity extends AppCompatActivity {
                 null
         );
         while (usercursor.moveToNext()){
-        achive = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_ACHIVE));}
-
-
-
+        achive = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.CURRENT_ACHIVE));
+        username = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_NAME));
+        keys = usercursor.getInt(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY));
+        }
+        user.setCnt_key(keys);
     }
 
+    public void checkChellenge() {
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
+        KeyController key = KeyController.getInstance();
+        SimpleDateFormat day = new SimpleDateFormat("dd");
+        Date date = Calendar.getInstance().getTime();
+        int checkcount = 0;
+        for (int i = 0; i < challenge_pass.size(); i++) {
+            if (challenge_pass.get(i) == 1) {
+                checkcount++;
+            }
+        }
+        if(!PreferenceManager.getString(MainActivity.this,"today").equals(day.format(date))) {
+            Log.d("159753", "checkChellenge: "+PreferenceManager.getString(MainActivity.this,"today"));
+            Log.d("159753", "checkChellenge: "+day.format(date));
+            PreferenceManager.setString(MainActivity.this,"today",day.format(date));
+            PreferenceManager.setBoolean(MainActivity.this,"todayCheck",true);
+        }
+
+        if(PreferenceManager.getBoolean(MainActivity.this,"todayCheck")) {
+            if (key.givekey(user, checkcount, temp)) {
+                dbHelper.updateUserKeyCount(username, user.getCnt_key());
+                Toast.makeText(temp, "도전과제를 완료하셔서 열쇠를 얻으셨습니다!", Toast.LENGTH_SHORT).show();
+                PreferenceManager.setBoolean(MainActivity.this,"todayCheck",false);
+            } else {
+                Toast.makeText(temp, "도전과제가 남았어요!", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            Toast.makeText(temp, "오늘은 이미 열쇠를 받으셨어요!", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

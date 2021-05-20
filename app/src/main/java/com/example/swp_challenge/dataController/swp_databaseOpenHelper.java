@@ -2,6 +2,7 @@ package com.example.swp_challenge.dataController;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -154,7 +155,8 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.UserDB.BIRTH, birth);
         values.put(swp_database.UserDB.BOX_OPEN_CNT, 0);
         values.put(swp_database.UserDB.BOX_RANK, 1);
-        values.put(swp_database.UserDB.USER_ACHIVE, "칭호없음");
+        values.put(swp_database.UserDB.USER_ACHIVE, 0);
+        values.put(swp_database.UserDB.CURRENT_ACHIVE, "뉴비");
         long newRowId = db.insert(swp_database.UserDB.TABLE_NAME, null, values);
     }
 
@@ -199,18 +201,32 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selectionArgs);
         Log.d("159753", "updateUserKeyCount: "+count);
     }
-    public void updateUserAchive(String username, String achive){
+    public void updateUserAchive(String username, int achivenumber, String currentAchive) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(swp_database.UserDB.USER_ACHIVE, achive);
-        String selection = swp_database.UserDB.USER_NAME+ " LIKE ?";
+        String temps = currentAchive + "-" + Integer.toString(achivenumber);
+        values.put(swp_database.UserDB.USER_ACHIVE, temps);
+        String selection = swp_database.UserDB.USER_NAME + " LIKE ?";
         String[] selectionArgs = {username};
         int count = db.update(
                 swp_database.UserDB.TABLE_NAME,
                 values,
                 selection,
                 selectionArgs);
-        Log.d("159753", "updateUserKeyCount: "+count);
+        Log.d("159753", "updateUserKeyCount: " + count);
+    }
+    public void updateCurrentAchive(String username, String achive){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.CURRENT_ACHIVE, achive);
+        String selection = swp_database.UserDB.USER_NAME+" LIKE ?";
+        String[] selectionArgs = {username};
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
     }
 
 

@@ -4,12 +4,15 @@ import android.util.Log;
 
 public class UserAchivementController {
     private static final UserAchivementController achive = new UserAchivementController();
-    public static UserAchivementController getInstance(){
+
+    public static UserAchivementController getInstance() {
         return achive;
     }
+
     public static String[] achs = new String[10];
     public static int randoms = 0;
-    public void initAchivement(){
+
+    public void initAchivement() {
         achs[0] = "뉴비";
         achs[1] = "드디어 첫 상자!";
         achs[2] = "이제 적응했음!";
@@ -23,34 +26,28 @@ public class UserAchivementController {
         //1~ 30
     }
 
-    public void giveAchivements(UserController user, int i){
-        user.giveAchivement(i);
+    public int[] giveAchivements(String currentAchivements) {
+        int temps[] = new int[currentAchivements.length() / 2 + 1];
+        String temp[] = currentAchivements.split("-");
+        for (int i = 0; i < temp.length; i++) {
+            temps[i] = Integer.parseInt(temp[i]);
+        }
+        return temps;
     } //사용자에게 칭호를 주는 함수
 
-    public void getUserAchivements(int userSelect_Achive_){ //사용자가 선택한 칭호의 number로 칭호를 선택한 후에 인텐트로 보내준다.
+    public String getAchivements(int userSelect_Achive_) { //사용자가 선택한 칭호의 number로 칭호를 선택한 후에 인텐트로 보내준다.
 
+        return achs[userSelect_Achive_];
     } // 사용자가 가지고 있는 칭호를 가져오는 함수
 
-    public void setrandoms(int i){
+    public void setrandoms(int i) {
         randoms = i;
-        Log.d("achive", "setrandoms: "+i);
+        Log.d("achive", "setrandoms: " + i);
     }
-    public String rewardAchive(){
-        Log.d("achive", "rewardAchive: "+achs[randoms]);
+
+    public String rewardAchive() {
+        Log.d("achive", "rewardAchive: " + achs[randoms]);
         return achs[randoms];
     }
-    void setUserAchivements(){
 
-    } // 시스템에 칭호 데이터를 주는 함수
-
-    void checkAchivements(UserController user, int achiveNumber){
-        for(int i =100;i<100;i++){
-            if(user.getAchivement(i)){ //boolean값을 이용해서 if문 진입
-                if(i == achiveNumber){ //가지고있음
-
-                }
-            }
-        }
-    } // 사용자가 가지고 있는 칭호를 확인하는 함수
-}//시스템에 호출할때 user -> 정수값 / 정수값을
-////
+}////

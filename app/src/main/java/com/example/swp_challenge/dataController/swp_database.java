@@ -17,6 +17,7 @@ public final class swp_database {
         public static final String BOX_RANK = "BOX_RANK";
         public static final String BOX_OPEN_CNT = "BOX_OPEN_CNT";
         public static final String USER_ACHIVE = "USER_ACHIVE";
+        public static final String CURRENT_ACHIVE= "CURRENT_ACHIVE";
         public static final String SQL_CREATE =
                 "CREATE TABLE "+ UserDB.TABLE_NAME+ " ("
                 +UserDB.USER_NAME+ " TEXT,"
@@ -24,7 +25,8 @@ public final class swp_database {
                 +UserDB.USER_KEY+" INTEGER DEFAULT 0,"
                 +UserDB.BIRTH+" TEXT,"
                 +UserDB.BOX_OPEN_CNT+" INTEGER DEFAULT 0,"
-                +UserDB.USER_ACHIVE+" TEXT, "
+                +UserDB.USER_ACHIVE+" TEXT DEFAULT 0,"
+                +UserDB.CURRENT_ACHIVE+" TEXT,"
                 +UserDB.BOX_RANK+" INTEGER)";
         public static final String SQL_DELETE =
                 "DROP TABLE IF EXISTS " + UserDB.TABLE_NAME;
