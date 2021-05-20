@@ -5,25 +5,41 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.swp_challenge.R;
+import com.example.swp_challenge.dataController.PreferenceManager;
+import com.example.swp_challenge.dataController.swp_database;
+import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
+
+import java.util.List;
 
 //////
 public class SettingsActivity extends AppCompatActivity {
     ImageButton img_cal;
+    TextView user;
+    EditText insert_user;
     ImageButton btn_menu;
+    Button submit_name;
+    TextView achives;
+    public String currentAchive, username;
     private static String CHANNEL_ID = "channel1";
     private static String CHANNEL_NAME = "Channel1";
 
@@ -35,6 +51,8 @@ public class SettingsActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.settings_activity);
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(SettingsActivity.this);
+        loadDB();
         /*if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -84,13 +102,19 @@ public class SettingsActivity extends AppCompatActivity {
 //    Intent intent = new Intent(this, MainActivity.class);
 //    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 //    Notification.Builder builder = new Notification.Builder(this);
+        insert_user = findViewById(R.id.editText_userName);
+        achives = findViewById(R.id.textView_selectedAchieve);
+        submit_name = findViewById(R.id.button_userName_setting);
+        String check = PreferenceManager.getString(SettingsActivity.this, "username");
+        user = findViewById(R.id.textView_userName);
+        user.setText(check);
+        achives.setText(currentAchive);
+        //--------------------------------------------------------------------------------------------
 
 
-
-
-    //--------------------------------------------------------------------------------------------
         img_cal=findViewById(R.id.button_calendar_setting);
         btn_menu = findViewById(R.id.button_menu_setting);
+
 
         img_cal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +123,16 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
                 Log.d("zzz123", "onClick: calendarButton_setting");
                 finish();
+            }
+        });
+        submit_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String insert_name = insert_user.getText().toString();
+                PreferenceManager.setString(SettingsActivity.this,"username",insert_name);
+                dbHelper.updateUsername(check, insert_name);
+                user.setText(insert_name);
+                insert_user.setText("");
             }
         });
     }
@@ -208,5 +242,27 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
+    }
+
+    public void loadDB(){
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(SettingsActivity.this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String achive = "";
+        String username= "";
+        Cursor usercursor = db.query(
+                swp_database.UserDB.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        while (usercursor.moveToNext()){
+            achive = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.CURRENT_ACHIVE));
+            username = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_NAME));
+        }
+        currentAchive = achive;
+        this.username = username;
     }
 }

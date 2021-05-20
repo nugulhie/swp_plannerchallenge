@@ -49,15 +49,13 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.PlanDB.PLAN_DATE, fullday);
         long newRowId = db.insert(swp_database.PlanDB.TABLE_NAME, null, values);
     }
-    public void updatePlan(String oldcontents, String newcontents, String category,  Date date){
+    public void updatePlan(String oldcontents, String newcontents, String category){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동이상무 ID값으로 가져오거나 해당 문자열로 검색은 문제가 있을 것같음
         values.put(swp_database.PlanDB.PLAN_CONTENTS, newcontents); //예전값을 들고올때 컨트롤러에 값을 세팅을 하던가 바로 검색한 변수값을 넣던가 선택해야함
         values.put(swp_database.PlanDB.PLAN_CATEGORY, category);
-        values.put(swp_database.PlanDB.PLAN_DATE, dateFormat.format(date));
-
 
         String selection = swp_database.PlanDB.PLAN_CONTENTS + " LIKE ?"; //도전과제와 마찬가지 선택날짜에 해당하는 값을 DB에서 검색하여 넘겨야함
         String[] selectionArgs = {oldcontents};
@@ -219,6 +217,19 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(swp_database.UserDB.CURRENT_ACHIVE, achive);
+        String selection = swp_database.UserDB.USER_NAME+" LIKE ?";
+        String[] selectionArgs = {username};
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
+    }
+    public void updateUsername(String username, String newname){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.USER_NAME, newname);
         String selection = swp_database.UserDB.USER_NAME+" LIKE ?";
         String[] selectionArgs = {username};
         int count = db.update(

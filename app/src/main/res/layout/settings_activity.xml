@@ -173,9 +173,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/bmjua"
-                android:text="홍길동"
+                android:hint="홍길동"
                 android:textColor="@color/black"
-                android:textSize="28sp"/>
+                android:textSize="28sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

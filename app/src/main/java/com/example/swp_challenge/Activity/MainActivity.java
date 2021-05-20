@@ -20,12 +20,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ import com.example.swp_challenge.dataController.ChallengeRecyclerAdapter;
 import com.example.swp_challenge.dataController.PlanRecyclerAdapter;
 import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.SwipeController;
+import com.example.swp_challenge.dataController.SwipeController1;
 import com.example.swp_challenge.dataController.SwipeControllerActions;
 import com.example.swp_challenge.dataController.recyclerChallengeData;
 import com.example.swp_challenge.dataController.recyclerPlanData;
@@ -66,9 +70,11 @@ public class MainActivity extends AppCompatActivity {
     Date date1, date2, tempDate;
     TextView textdate, textAchive;
     public static int count = 0, selectDay1, selectDay2, selectMonth1, selectMonth2, selectYear1, selectYear2;
-    Dialog challenge_dialog, challenge_edit_dialog;
+    Dialog challenge_dialog, challenge_edit_dialog, plan_dialog;
     public static Context temp;
     public String achive, username;
+    String category_item;
+    final String[] category = {"약속", "공부", "운동", "시험", "기타"};
     public int keys;
     ImageView img;
     public static List plan_id = new ArrayList<>();
@@ -112,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
         challenge_edit_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         challenge_edit_dialog.setContentView(R.layout.activity_challengepopup_edit);
 
+        plan_dialog = new Dialog(MainActivity.this);
+        plan_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        plan_dialog.setContentView(R.layout.activity_popup2);
+
         temp = MainActivity.this;
         loadDB(temp);
         textAchive.setText("< "+achive+" >");
@@ -147,7 +157,50 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    public void showDialog3(){
+        plan_dialog.show();
 
+        swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(getApplicationContext());
+        Button submit = plan_dialog.findViewById(R.id.button_submit_plan);
+        Button cancel = plan_dialog.findViewById(R.id.button_cancel_plan);
+        EditText contents = plan_dialog.findViewById(R.id.content_plan);
+        contents.setText("");
+        Spinner spinner_category = plan_dialog.findViewById(R.id.spinner_categoryItem_plan);
+        ArrayAdapter categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, category);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_category.setAdapter(categoryAdapter);
+        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category_item = (String) spinner_category.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String temp = contents.getText().toString();
+                dbHelper.updatePlan(plan_contents.get(count).toString(),temp,category_item);
+                plan_dialog.dismiss();
+                init_recycler();
+                loadDB(MainActivity.this);
+                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
+
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                plan_dialog.dismiss();
+            }
+        });
+
+
+    }
     public void showDialog() {  //도전과제 다이얼로그 생성 함수
         challenge_dialog.show();
 
@@ -156,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         RatingBar ratingBar = challenge_dialog.findViewById(R.id.ratingBar_challenge);  //중요도
+        ratingBar.setRating(2.0f);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {  // 도전과제 중요도 별점
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -165,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         EditText content = challenge_dialog.findViewById(R.id.content_challenge);   //내용
+        content.setText("");
         ImageButton btn_date1 = challenge_dialog.findViewById(R.id.button_date1_chall); //날짜버튼1
         btn_date1.setOnClickListener(new View.OnClickListener() {   // 달력버튼1 선택시 달력1 dialogFragment 생성 이벤트
             @Override
@@ -239,8 +294,6 @@ public class MainActivity extends AppCompatActivity {
                 init_recycler();
                 getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
                 Log.d("159753", "onClick: insertChallenge"+challenge.getContents());
-                Toast.makeText(getApplicationContext(), "할일: " + content.getText().toString() +", 중요도: "+ (int)ratingBar.getRating() +
-                        ", 기간(str): " +d1 +" ~ "+ d2+", 시각: "+hour+":"+minute+", 기간(date):"+date1.toString() +" ~ "+ date2.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("zzz123", "onClick: " + "insert_challenge");
                 challenge_dialog.dismiss();
             }
@@ -263,6 +316,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ratingBar = challenge_edit_dialog.findViewById(R.id.ratingBar_challenge_challedit);  //중요도
+        ratingBar.setRating(2.0f);
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {  // 도전과제 중요도 별점
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -273,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         content = challenge_edit_dialog.findViewById(R.id.content_challenge_challedit);   //내용
+        content.setText("");
         ImageButton btn_delete = challenge_edit_dialog.findViewById(R.id.button_delete_chall2);   //삭제 버튼
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -429,13 +484,41 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        SwipeController1 swipeController1 = new SwipeController1(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                count = position;
+                adapterplan.removeItem(position);
+                adapterplan.notifyItemRemoved(position);
+                adapterplan.notifyItemRangeChanged(position, adapterplan.getItemCount());
+                dbHelper.plandelete(plan_contents.get(position).toString());
+            }
+
+            @Override
+            public void onLeftClicked(int position) {   //리사이클러 수정
+                showDialog3();
+                count = position;
+
+            }
+        });
+
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView_challenge);
+        ItemTouchHelper itemTouchHelper1 = new ItemTouchHelper(swipeController1);
+        itemTouchHelper1.attachToRecyclerView(recyclerView_plan);
 
         recyclerView_challenge.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 swipeController.onDraw(c);
+            }
+        });
+        recyclerView_plan.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController1.onDraw(c);
             }
         });
     }
