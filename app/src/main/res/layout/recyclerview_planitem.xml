@@ -44,12 +44,13 @@
             android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_weight="10"
             android:fontFamily="@font/maplestory_bold"
+            android:textStyle="bold"
             android:gravity="center"
             android:hint="stringcontetns"
             android:singleLine="true"
             android:textColor="#000000"
             android:textColorHint="#FFFFFF"
-            android:textSize="10sp"
+            android:textSize="12sp"
             tools:ignore="MissingConstraints" />
 
         <TextView

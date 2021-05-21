@@ -106,6 +106,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_history_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="20dp" />
+
                 <ImageView
                     android:id="@+id/imageView5"
                     android:layout_width="150dp"
@@ -113,13 +120,6 @@
                     android:layout_gravity="right|bottom"
                     android:layout_margin="10dp"
                     app:srcCompat="@drawable/success" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView_history_pass"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginBottom="20dp" />
 
             </FrameLayout>
         </LinearLayout>
@@ -156,19 +156,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="right|bottom"
-                    app:srcCompat="@drawable/fail" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_history_false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginBottom="20dp" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="right|bottom"
+                    app:srcCompat="@drawable/fail" />
 
             </FrameLayout>
         </LinearLayout>

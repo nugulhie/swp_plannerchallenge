@@ -40,7 +40,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.github.lakue119:LakuePopupActivity:1.0.1'
     implementation 'com.vamsi:customcalendar:1.0.0'
-
+    implementation 'com.airbnb.android:lottie:3.0.7'    //lottie animation
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'    // tutorial pages
     dependencies {
 
         // Required -- JUnit 4 framework

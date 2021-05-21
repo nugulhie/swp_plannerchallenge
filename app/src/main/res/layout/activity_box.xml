@@ -161,7 +161,7 @@
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_marginTop="60dp"
-            app:srcCompat="@drawable/box" />
+            app:srcCompat="@drawable/treasure_box" />
 
         <FrameLayout
             android:layout_width="match_parent"

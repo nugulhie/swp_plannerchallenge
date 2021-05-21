@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 init_recycler();
                 loadDB(MainActivity.this);
                 getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
+                Toast.makeText(getApplicationContext(), "일정 수정", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -222,7 +223,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         EditText content = challenge_dialog.findViewById(R.id.content_challenge);   //내용
-        content.setText("");
+        content.setText(null);
+        ((TextView) challenge_dialog.findViewById(R.id.textView_date1_challenge)).setText("date");
+        ((TextView) challenge_dialog.findViewById(R.id.textView_date2_challenge)).setText("date");
         ImageButton btn_date1 = challenge_dialog.findViewById(R.id.button_date1_chall); //날짜버튼1
         btn_date1.setOnClickListener(new View.OnClickListener() {   // 달력버튼1 선택시 달력1 dialogFragment 생성 이벤트
             @Override
@@ -359,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
                     init_recycler();
                     loadDB(temp);
                     getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
+                    Toast.makeText(getApplicationContext(), "도전과제 수정", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     challenge_edit_dialog.dismiss();
@@ -470,11 +474,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRightClicked(int position) {
                 count = position;
+
                 adapterchallenge.removeItem(position);
                 adapterchallenge.notifyItemRemoved(position);
                 adapterchallenge.notifyItemRangeChanged(position, adapterchallenge.getItemCount());
                 dbHelper.updatePass(challenge_contents.get(position).toString(), 1);
                 //dbHelper.challengedelete(challenge_contents.get(position).toString());
+
+                Toast.makeText(getApplicationContext(), "도전과제 완료!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -493,6 +500,7 @@ public class MainActivity extends AppCompatActivity {
                 adapterplan.notifyItemRemoved(position);
                 adapterplan.notifyItemRangeChanged(position, adapterplan.getItemCount());
                 dbHelper.plandelete(plan_contents.get(position).toString());
+                Toast.makeText(getApplicationContext(), "일정 삭제.", Toast.LENGTH_SHORT).show();
             }
 
             @Override

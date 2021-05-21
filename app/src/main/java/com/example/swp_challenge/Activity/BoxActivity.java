@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,10 +15,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.BoxController;
 import com.example.swp_challenge.controller.KeyController;
@@ -63,6 +66,7 @@ public class BoxActivity extends AppCompatActivity {
         textKey = findViewById(R.id.textView_amountOfKey);
         btn_open = findViewById(R.id.button_openBox);
         btn_menu = findViewById(R.id.button_menu_box); //메뉴 더보기 버튼
+
         //banner set date in korean
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
@@ -113,28 +117,30 @@ public class BoxActivity extends AppCompatActivity {
         openBox_dialog = new Dialog(BoxActivity.this);       // 뽑기결과 다이얼로그 설정
         openBox_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //           "
         openBox_dialog.setContentView(R.layout.activity_popup_box);       //           "
-
-
     }
-
     public void showDialog() {
         openBox_dialog.show();
+        ImageView image_reward = openBox_dialog.findViewById(R.id.imageView_newAchieve);
         achivetext = openBox_dialog.findViewById(R.id.textView_newAchieve);
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         UserController user = UserController.getInstance();
         switch (hints) {
             case 0:
+                image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 1개");
                 break;
             case 1:
+                image_reward.setImageResource(R.drawable.trophy);
                 achivetext.setText("칭호 " + "'" + achivestr + "'");
                 checkAchivement(achivenumber, randomAchive);
                 break;
             case 2:
+                image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 " + hints + "개");
                 break;
             case 3:
+                image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 " + hints + "개");
                 break;
         }
