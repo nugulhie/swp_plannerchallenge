@@ -272,16 +272,6 @@ public class CalendarActivity extends AppCompatActivity {
         // ↑ 일정 카테고리 스피너 ↑
         EditText content = plan_dialog.findViewById(R.id.content_plan);
         content.setText(""); //일정 본문
-        ImageButton btn_delete = plan_dialog.findViewById(R.id.button_delete_plan); //삭제 버튼
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {   //데이터 삭제 메소드 추가할 것
-                //dbHelper.plandelete(plan_contents.get());
-                plan_dialog.dismiss();
-                Toast.makeText(getApplicationContext(), "일정 삭제", Toast.LENGTH_SHORT).show();
-                Log.d("zzz123", "onClick: " + "delete_plan");
-            }
-        });
         Button btn_cancel = plan_dialog.findViewById(R.id.button_cancel_plan);  //취소 버튼
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override

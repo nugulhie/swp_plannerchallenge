@@ -135,8 +135,15 @@ public class SettingsActivity extends AppCompatActivity {
                 insert_user.setText("");
             }
         });
-    }
 
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
     public void onPopupMenuButtonClick(View button) {     //더보기 버튼 클릭 시 팝업메뉴 생성
         PopupMenu popupMenu = new PopupMenu(this, btn_menu);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
