@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Swp_challenge">
-        <activity android:name=".Activity.TutorialActivity"></activity>
+        <activity android:name=".Activity.LoadingActivity"
+            android:theme="@style/MyTheme.noTitle.Dialog"/>
+        <activity android:name=".Activity.TutorialActivity" />
         <activity android:name=".Activity.IntroActivity" />
 
         <meta-data
