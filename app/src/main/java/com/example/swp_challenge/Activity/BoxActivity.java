@@ -72,7 +72,7 @@ public class BoxActivity extends AppCompatActivity {
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         textdate.setText(korDate.format(date));
 
-        achive.initAchivement();
+
 
         //DB Load Method sector
         loadDB();

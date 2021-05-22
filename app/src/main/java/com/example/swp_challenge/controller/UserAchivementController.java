@@ -5,14 +5,9 @@ import android.util.Log;
 public class UserAchivementController {
     private static final UserAchivementController achive = new UserAchivementController();
 
-    public static UserAchivementController getInstance() {
-        return achive;
-    }
-
     public static String[] achs = new String[10];
     public static int randoms = 0;
-
-    public void initAchivement() {
+    public static UserAchivementController getInstance() {
         achs[0] = "뉴비";
         achs[1] = "드디어 첫 상자!";
         achs[2] = "이제 적응했음!";
@@ -24,7 +19,11 @@ public class UserAchivementController {
         achs[8] = "첫 승급!";
         achs[9] = "여기까지는 기본!";
         //1~ 30
+
+        return achive;
     }
+
+
 
     public int[] giveAchivements(String currentAchivements) {
         int temps[] = new int[currentAchivements.length() / 2 + 1];

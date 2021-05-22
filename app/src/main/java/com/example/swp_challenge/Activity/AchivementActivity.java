@@ -160,7 +160,6 @@ public class AchivementActivity extends AppCompatActivity {
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(AchivementActivity.this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         UserAchivementController AC = new UserAchivementController();
-        AC.initAchivement();
         Cursor usercursor = db.query(
                 swp_database.UserDB.TABLE_NAME,
                 null,
