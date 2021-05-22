@@ -1,5 +1,11 @@
 package com.example.swp_challenge.controller;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.example.swp_challenge.Activity.MainActivity;
+
 public class KeyController {
     private static final KeyController key = new KeyController();
     public static KeyController getInstance(){
@@ -14,15 +20,12 @@ public class KeyController {
     } // 사용자가 열쇠를 가지고 있는지 확인하는 함수
 //
 
-    public void getKey(UserController user, int hint) {
-        user.setCnt_key(user.getCnt_key()+hint);
-    } // 열쇠를 얻는 함수
-    public void givekey(UserController user, int chall_pass){
-        if(1==chall_pass){
+    public boolean givekey(UserController user, int chall_pass){
+        if(3<=chall_pass){
             user.setCnt_key(user.getCnt_key()+1);
+            return true;
         }
-        //Todo ChallengeDB에서 오늘의 도전과제들의 chall_pass를 가져와야함
-        /*가져와서 chall_pass */
+        else return false;
     }
 }
 ////

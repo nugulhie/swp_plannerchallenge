@@ -4,52 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/r"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
     //
-    <TextView
-        android:id="@+id/recycler_plancategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:hint="category"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/recycler_plancontents"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/recycler_plancontents"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|center_horizontal|center_vertical"
-        android:gravity="center"
-        android:hint="stringcontetns"
-        android:singleLine="true"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/recycler_plandate"
-        app:layout_constraintStart_toEndOf="@id/recycler_plancategory"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/recycler_plandate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|center_horizontal|center_vertical"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:hint="date"
-        android:textSize="10sp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout_bg_mint"
+        android:orientation="horizontal"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recycler_plancontents"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/recycler_plancategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/layout_bg"
+            android:fontFamily="@font/maplestory_bold"
+            android:gravity="center"
+            android:hint="category"
+            android:padding="2dp"
+            android:textSize="10sp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/recycler_plancontents"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:layout_weight="10"
+            android:fontFamily="@font/maplestory_bold"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:hint="stringcontetns"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textColorHint="#FFFFFF"
+            android:textSize="12sp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/recycler_plandate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_horizontal|center_vertical"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/maplestory_bold"
+            android:gravity="center"
+            android:hint="date"
+            android:padding="2dp"
+            android:textSize="10sp"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

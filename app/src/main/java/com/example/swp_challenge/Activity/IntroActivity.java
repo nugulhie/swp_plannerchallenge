@@ -12,6 +12,10 @@ import com.example.swp_challenge.R;
 import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 //
 public class IntroActivity extends AppCompatActivity {
     public Button next_btn;
@@ -34,9 +38,9 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dbHelper.insertUsername(username.getText().toString(), birth.getText().toString());
-                PreferenceManager.setBoolean(IntroActivity.this,"check",false);
+                PreferenceManager.setBoolean(IntroActivity.this,"checks",false);
                 PreferenceManager.setString(IntroActivity.this,"username",username.getText().toString());
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(),TutorialActivity.class);
                 startActivity(intent);
 
                 finish();

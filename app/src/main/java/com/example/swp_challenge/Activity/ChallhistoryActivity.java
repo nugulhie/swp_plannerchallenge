@@ -62,12 +62,12 @@ public class ChallhistoryActivity extends AppCompatActivity {
         textdate = findViewById(R.id.textView_dateOfToday);
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
-        textdate.setText(korDate.format(date));
         img_cal = findViewById(R.id.img_cal_history);
         Intent intent = getIntent();
         day = intent.getIntExtra("selectday",0);
         month = intent.getIntExtra("selectmonth", 0);
         year = intent.getIntExtra("selectyear", 0);
+        textdate.setText(+day+"일 도전과제 내역");
         Log.d("222222", "onCreate: "+day);
         init_recycler();
         loadDB(temp,day);

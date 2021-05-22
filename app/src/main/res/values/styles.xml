@@ -3,5 +3,20 @@
     <style name="Widget.Theme.Swp_challenge.MyView" parent="">
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
+            <!-- Base application theme. -> Theme.AppCompat.Light.DarkActionBar -->
     </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--팝업창 코드 추가 -->
+    <style name="MyTheme.noTitle.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <!-- //팝업창 코드 추가 -->
+
 </resources>

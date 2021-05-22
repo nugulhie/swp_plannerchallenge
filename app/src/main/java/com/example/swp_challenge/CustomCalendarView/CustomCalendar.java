@@ -2,11 +2,13 @@ package com.example.swp_challenge.CustomCalendarView;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +44,8 @@ public class CustomCalendar extends LinearLayout {
     Calendar calendar;
 
     TextView tvMonth;
+
+    FrameLayout fcell;
 
     int iCellSize = 50;
 
@@ -98,6 +102,7 @@ public class CustomCalendar extends LinearLayout {
         llMonth.setLayoutParams(new LayoutParams(iCellSize * 7, LayoutParams.WRAP_CONTENT));
         llRecyclear.setLayoutParams(new LayoutParams(iCellSize * 7, iCellSize * 7));
 
+        fcell = findViewById(R.id.flCell);
         calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
@@ -174,6 +179,7 @@ public class CustomCalendar extends LinearLayout {
     public void setOnClickDate(ClickInterface clickDate) {
 
         this.clickDate = clickDate;
+
 
     }
 

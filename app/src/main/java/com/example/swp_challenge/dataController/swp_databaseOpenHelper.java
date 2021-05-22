@@ -2,9 +2,12 @@ package com.example.swp_challenge.dataController;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.swp_challenge.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,10 +37,6 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-
-
-
-
     //----------------------------PLANDB-----------------------------
     public void insertPlan(String contents, String category, int year, int month, int day) {
         SQLiteDatabase db = getWritableDatabase();
@@ -52,15 +51,13 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.PlanDB.PLAN_DATE, fullday);
         long newRowId = db.insert(swp_database.PlanDB.TABLE_NAME, null, values);
     }
-    public void updatePlan(String oldcontents, String newcontents, String category,  Date date){
+    public void updatePlan(String oldcontents, String newcontents, String category){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동이상무 ID값으로 가져오거나 해당 문자열로 검색은 문제가 있을 것같음
         values.put(swp_database.PlanDB.PLAN_CONTENTS, newcontents); //예전값을 들고올때 컨트롤러에 값을 세팅을 하던가 바로 검색한 변수값을 넣던가 선택해야함
         values.put(swp_database.PlanDB.PLAN_CATEGORY, category);
-        values.put(swp_database.PlanDB.PLAN_DATE, dateFormat.format(date));
-
 
         String selection = swp_database.PlanDB.PLAN_CONTENTS + " LIKE ?"; //도전과제와 마찬가지 선택날짜에 해당하는 값을 DB에서 검색하여 넘겨야함
         String[] selectionArgs = {oldcontents};
@@ -70,6 +67,12 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 values,
                 selection,
                 selectionArgs);
+    }
+    public void plandelete(String contents){
+        SQLiteDatabase db =getWritableDatabase();
+        String selection = swp_database.PlanDB.PLAN_CONTENTS + " LIKE ?";
+        String[] selectionArgs = { contents };
+        int deletedRows = db.delete(swp_database.PlanDB.TABLE_NAME, selection, selectionArgs);
     }
 
 
@@ -88,7 +91,6 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 }
             }
         }
-
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
         SimpleDateFormat dayChanger = new SimpleDateFormat("dd");
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,contents);
@@ -101,11 +103,12 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.ChallengeDB.CHALLENGE_MONTH2, selectMonth2);
         values.put(swp_database.ChallengeDB.CHALLENGE_DAY2, selectDay2);
         values.put(swp_database.ChallengeDB.CHALLENGE_RATING, rating);
+        values.put(swp_database.ChallengeDB.CHALLENGE_CHECK, 0);
         values.put(swp_database.ChallengeDB.CHALLENGE_DAY, Integer.parseInt(dayChanger.format(date)));
         long newRowId = db.insert(swp_database.ChallengeDB.TABLE_NAME, null, values);
     }
 
-    public void updateChallenge(String oldcontents, String newcontents, Date newdate, float newrating){
+    public void updateChallenge(String oldcontents, String newcontents,float newrating){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues(); //작동 이상무 설계 해야할듯 ID값을 기준으로 가져오는게 편할것 같음
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //예전값을 들고올때 컨트롤러에 값을 세팅을 해주고 넣던가 바로 검색한 변수값을 넣던가 해야할듯 설계 하자
@@ -136,6 +139,25 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selectionArgs);
 
     }
+    public void challengedelete(String contents){
+        SQLiteDatabase db = getWritableDatabase();
+        String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS + " LIKE ?";
+        String[] selectionArgs = {contents};
+        int deleteRows = db.delete(swp_database.ChallengeDB.TABLE_NAME,selection,selectionArgs);
+    }
+    public void updateCheckValue(String contents){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS+ " LIKE ?";
+        String[] selectionArgs = {contents};
+        values.put(swp_database.ChallengeDB.CHALLENGE_CHECK, 1);
+
+        int count = db.update(
+                swp_database.ChallengeDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
 
 
     //----------------------------------USERDB------------------------------------
@@ -147,6 +169,9 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.UserDB.BIRTH, birth);
         values.put(swp_database.UserDB.BOX_OPEN_CNT, 0);
         values.put(swp_database.UserDB.BOX_RANK, 1);
+        values.put(swp_database.UserDB.USER_ACHIVE, 0);
+        values.put(swp_database.UserDB.CURRENT_ACHIVE, "뉴비");
+        values.put(swp_database.UserDB.CURRENT_IMG, R.drawable.newbi);
         long newRowId = db.insert(swp_database.UserDB.TABLE_NAME, null, values);
     }
 
@@ -191,6 +216,48 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selectionArgs);
         Log.d("159753", "updateUserKeyCount: "+count);
     }
+    public void updateUserAchive(String username, int achivenumber, String currentAchive) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String temps = currentAchive + "-" + Integer.toString(achivenumber);
+        values.put(swp_database.UserDB.USER_ACHIVE, temps);
+        String selection = swp_database.UserDB.USER_NAME + " LIKE ?";
+        String[] selectionArgs = {username};
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+        Log.d("159753", "updateUserKeyCount: " + count);
+    }
+    public void updateCurrentAchive(String username, String achive, int currnetImg){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.CURRENT_ACHIVE, achive);
+        values.put(swp_database.UserDB.CURRENT_IMG, currnetImg);
+        String selection = swp_database.UserDB.USER_NAME+" LIKE ?";
+        String[] selectionArgs = {username};
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
+    }
+    public void updateUsername(String username, String newname){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(swp_database.UserDB.USER_NAME, newname);
+        String selection = swp_database.UserDB.USER_NAME+" LIKE ?";
+        String[] selectionArgs = {username};
+        int count = db.update(
+                swp_database.UserDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
+    }
+
 
 
 //populate table

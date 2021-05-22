@@ -18,4 +18,21 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+
+    <!-- intro pages string -->
+    <string name="next">다음</string>
+    <string name="skip">건너뛰기</string>
+    <string name="start">시작</string>
+
+    <string name="page_1_title">Planner Challenge는\n사용자의 자기관리를 보조해주는 도우미입니다.</string>
+    <string name="page_1_desc">첫번째 페이지 내용입니다.</string>
+
+    <string name="page_2_title">도전과제 및 일정 설정을 통해\n목표, 계획 및 일정을 등록하세요.</string>
+    <string name="page_2_desc">두번째 페이지 내용입니다.</string>
+
+    <string name="page_3_title">과제를 수행하고 열쇠를 얻으세요!</string>
+    <string name="page_3_desc">세번째 페이지 내용입니다.</string>
+
+    <string name="page_4_title">열쇠를 통해 다양한 상품을 모아봐요!</string>
+    <string name="page_4_desc">네번째 페이지 내용입니다.</string>
 </resources>

@@ -41,7 +41,7 @@
 
             <TextView
                 android:id="@+id/textView_dateOfToday"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
@@ -161,7 +161,7 @@
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_marginTop="60dp"
-            app:srcCompat="@drawable/box" />
+            app:srcCompat="@drawable/treasure_box" />
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -26,7 +26,7 @@ public class MyCalenderAdapter extends RecyclerView.Adapter<MyCalenderAdapter.Vi
 
     Context context;
     int maxDay, firstDay, month, year, tDay;
-    String[] day = {"Sun", "Mon", "Thu", "Wen", "Thr", "Fri", "Sat"};
+    String[] day = {"일", "월", "화", "수", "목", "금", "토"};
 
     int cellSize = 50;
 
@@ -85,7 +85,6 @@ public class MyCalenderAdapter extends RecyclerView.Adapter<MyCalenderAdapter.Vi
             }
 
 
-
         } else {
             holder.tvDate.setText("");
         }
@@ -94,7 +93,6 @@ public class MyCalenderAdapter extends RecyclerView.Adapter<MyCalenderAdapter.Vi
         holder.llCell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (position > (7 + firstDay - 2)) {
 
                     int toDay = (position - (7 + firstDay - 2));

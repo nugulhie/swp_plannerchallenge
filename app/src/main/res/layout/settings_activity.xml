@@ -38,7 +38,7 @@
 
             <TextView
                 android:id="@+id/textView_dateOfToday"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
@@ -173,9 +173,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:fontFamily="@font/bmjua"
-                android:text="홍길동"
+                android:hint="홍길동"
                 android:textColor="@color/black"
-                android:textSize="28sp"/>
+                android:textSize="28sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -203,48 +203,6 @@
 
         <View
             android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:text="알림 설정" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Switch
-                    android:id="@+id/switch_alertPlan"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:text="일정 알림" />
-
-                <Switch
-                    android:id="@+id/switch_alert_challenge"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:text="도전과제 알림" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />

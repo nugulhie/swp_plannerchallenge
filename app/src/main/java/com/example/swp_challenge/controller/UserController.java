@@ -17,7 +17,7 @@ public class UserController{
     private int boxRank;
     private float getChance = 0.6f;
     private int boxOpen=0;
-    private boolean[] hasAchivement = new boolean[100];
+    private String achiveNumber;
 
     public Context getContext() {
         return context;
@@ -39,8 +39,8 @@ public class UserController{
         return getChance;
     }
 
-    public boolean getAchivement(int i) {
-        return hasAchivement[i];
+    public String getAchivement() {
+        return achiveNumber;
     }
 
     public String getUserName() {
@@ -62,14 +62,14 @@ public class UserController{
         this.getChance = chance;
     }
 
-    public void sethasachivement(int i, boolean flag) {
-        this.hasAchivement[i] = flag;
+    public void sethasachivement(String achivenumber) {
+        this.achiveNumber = achivenumber;
     }
 
     public void setBoxOpen(int value){this.boxOpen = value;}
 
     public void giveAchivement(int i) {
-        this.hasAchivement[i] = true;
+
     }
     //
     float checkRank() { // 계급을 확인후 확률 부여
