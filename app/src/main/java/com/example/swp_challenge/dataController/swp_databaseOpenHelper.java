@@ -33,7 +33,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         db.execSQL(swp_database.ChallengeDB.SQL_DELETE);
         onCreate(db);
     }
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {    //DB의 자체 버전 다운그레이드. 신경 안써도 됨.
         onUpgrade(db, oldVersion, newVersion);
     }
 
