@@ -1,14 +1,21 @@
 package com.example.swp_challenge.Activity;
 
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.swp_challenge.R;
@@ -30,12 +39,16 @@ import com.example.swp_challenge.dataController.PreferenceManager;
 import com.example.swp_challenge.dataController.swp_database;
 import com.example.swp_challenge.dataController.swp_databaseOpenHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 //////
 public class SettingsActivity extends AppCompatActivity {
     ImageButton img_cal;
-    TextView user;
+    TextView user, today;
     EditText insert_user;
     ImageButton btn_menu;
     ImageView img_currentimg;
@@ -45,7 +58,6 @@ public class SettingsActivity extends AppCompatActivity {
     public String currentAchive, username;
     private static String CHANNEL_ID = "channel1";
     private static String CHANNEL_NAME = "Channel1";
-
     private static String CHANNEL_ID2 = "channel2";
     private static String CHANNEL_NAME2 = "Channel2;";
     @Override
@@ -56,6 +68,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(SettingsActivity.this);
         loadDB();
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
         /*if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -105,6 +119,10 @@ public class SettingsActivity extends AppCompatActivity {
 //    Intent intent = new Intent(this, MainActivity.class);
 //    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 //    Notification.Builder builder = new Notification.Builder(this);
+
+
+
+        today = findViewById(R.id.textView_dateOfToday);
         insert_user = findViewById(R.id.editText_userName);
         img_currentimg = findViewById(R.id.imageView_selectedAchieve);
         achives = findViewById(R.id.textView_selectedAchieve);
@@ -113,6 +131,7 @@ public class SettingsActivity extends AppCompatActivity {
         user = findViewById(R.id.textView_userName);
         user.setText(check);
         achives.setText(currentAchive);
+        today.setText(korDate.format(date));
         img_currentimg.setImageResource(currentAchiveimg);
         //--------------------------------------------------------------------------------------------
 
@@ -177,6 +196,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
         popupMenu.show();
     }
+
 
     public void showNoti1() {
 

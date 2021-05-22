@@ -42,6 +42,7 @@ dependencies {
     implementation 'com.vamsi:customcalendar:1.0.0'
     implementation 'com.airbnb.android:lottie:3.0.7'    //lottie animation
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'    // tutorial pages
+    implementation "com.android.support:support-compat:30.0.0"
     dependencies {
 
         // Required -- JUnit 4 framework

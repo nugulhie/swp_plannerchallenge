@@ -68,6 +68,7 @@ public class MyCalenderAdapter extends RecyclerView.Adapter<MyCalenderAdapter.Vi
 
         if (position < 7)
             holder.tvDate.setText("" + day[position]);
+
         else if (position > (7 + firstDay - 2)) {
 
             int toDay = (position - (7 + firstDay - 2));
@@ -84,7 +85,6 @@ public class MyCalenderAdapter extends RecyclerView.Adapter<MyCalenderAdapter.Vi
             }
 
 
-
         } else {
             holder.tvDate.setText("");
         }
@@ -98,10 +98,10 @@ public class MyCalenderAdapter extends RecyclerView.Adapter<MyCalenderAdapter.Vi
                     int toDay = (position - (7 + firstDay - 2));
 
                     CalenderDate date = new CalenderDate();
+
                     date.setDay(toDay);
                     date.setMonth(month + 1);
                     date.setYear(year);
-
 
 
                     if (CustomCalendar.staticClickInterface() != null)

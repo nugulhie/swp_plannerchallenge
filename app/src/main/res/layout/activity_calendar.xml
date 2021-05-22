@@ -46,7 +46,7 @@
 
             <TextView
                 android:id="@+id/textView_dateOfToday"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
@@ -127,7 +127,7 @@
                 android:layout_gravity="center_horizontal"
                 android:selectedDateVerticalBar="@android:color/transparent"
                 android:selectedWeekBackgroundColor="#FFFFFF"
-                app:cellSize="150" />
+                app:cellSize="120" />
 
             <ImageButton
                 android:id="@+id/button_addCalendar_cal"

@@ -123,7 +123,7 @@ public class CalendarActivity extends AppCompatActivity {
         mcalendarView.setOnClickDate(new ClickInterface() {
             @Override
             public void setDateClicked(CalenderDate date) {
-
+                Toast.makeText(getApplicationContext(),date.getDay()+"일",Toast.LENGTH_SHORT).show();
                 int dayOfMonth = date.getDay();
                 int month = date.getMonth();
                 int year = date.getYear();
