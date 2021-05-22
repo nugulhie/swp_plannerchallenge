@@ -66,9 +66,9 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
                 android:background="@android:color/transparent"
+                android:onClick="onPopupMenuButtonClick"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/more2"
-                android:onClick="onPopupMenuButtonClick"/>
+                app:srcCompat="@drawable/more2" />
 
 
         </androidx.appcompat.widget.Toolbar>
@@ -112,6 +112,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
@@ -127,7 +128,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_menuBar_setting">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
@@ -184,8 +185,8 @@
 
                 <EditText
                     android:id="@+id/editText_userName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="231dp"
+                    android:layout_height="match_parent"
                     android:layout_marginHorizontal="10dp"
                     android:layout_weight="1"
                     android:hint="사용자 입력" />
@@ -197,7 +198,7 @@
                     android:layout_marginRight="20dp"
                     android:fontFamily="@font/maplestory_bold"
                     android:text="기입"
-                    app:backgroundTint="#45D6AD"/>
+                    app:backgroundTint="#45D6AD" />
             </LinearLayout>
         </LinearLayout>
 

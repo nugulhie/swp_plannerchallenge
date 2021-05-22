@@ -52,7 +52,7 @@
 
     <EditText
         android:id="@+id/content_plan"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginStart="10dp"
@@ -73,6 +73,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/maplestory_bold"
+        android:layout_marginLeft="20dp"
         android:text="CANCEL"
         android:textColor="#959595"
         app:backgroundTint="#4D45D6AD"
@@ -85,9 +86,8 @@
         android:id="@+id/button_submit_plan"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="105dp"
-        android:layout_marginLeft="105dp"
         android:fontFamily="@font/maplestory_bold"
+        android:layout_marginRight="20dp"
         android:text="SUBMIT"
         app:backgroundTint="#45D6AD"
         app:layout_constraintBottom_toBottomOf="parent"
