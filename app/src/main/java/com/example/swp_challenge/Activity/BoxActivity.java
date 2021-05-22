@@ -92,21 +92,20 @@ public class BoxActivity extends AppCompatActivity {
         });
 
         btn_open.setOnClickListener(new View.OnClickListener() {    //상자열기
+            swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
             @Override
             public void onClick(View v) {
                 KeyController key = KeyController.getInstance();
                 randomAchive = (int) (Math.random() * 10);
                 if (key.checkKey(user)) {
+                    textKey.setText("x " + (Userkey - 1));
                     box.boxOpenCount(user);
                     showDialog();
-                    hints = box.boxOpen(user);
+                    hints = box.getReward(user);
                     if (hints == 1) {
                         achive.setrandoms(randomAchive);
                         achivestr = achive.rewardAchive();
                     }
-                    ;
-
-                    swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
                 } else {
                     Toast.makeText(getApplicationContext(), "열쇠가 없어요", Toast.LENGTH_SHORT).show();
                 }
@@ -129,20 +128,24 @@ public class BoxActivity extends AppCompatActivity {
             case 0:
                 image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 1개");
+
                 break;
             case 1:
                 image_reward.setImageResource(AC.img[randomAchive]);
                 achivetext.setText("칭호 " + "'" + AC.getAchivements(randomAchive) + "'");
                 checkAchivement(achivenumber, randomAchive);
+
                 break;
             case 2:
                 image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 " + hints + "개");
+
                 break;
             case 3:
                 image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 " + hints + "개");
                 break;
+
         }
         dbHelper.updateUserKeyCount(tempusername, user.getCnt_key());
         dbHelper.updateUserBoxOpenCnt(tempusername, user.getBoxOpen());

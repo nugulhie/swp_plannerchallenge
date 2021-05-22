@@ -13,49 +13,35 @@
 
 
      public int getReward(UserController user) {
-
+         user.setCnt_key(user.getCnt_key() - 1);
+         user.setBoxOpen(user.getBoxOpen() + 1);
          user.setChance(user.checkRank());
          int hint = 0;
          int a = (int)(Math.random() * 100 + 1);
          if (1 <= a && a <= user.getChance() * 100) {
              hint = 0;
-             key.getKey(user, hint+1);
+             user.setCnt_key(user.getCnt_key()+hint+1);
              Log.d("box123123123", "getReward: 1");
              return hint;
          } else if (user.getChance() * 100 < a && a <= user.getChance() * 100 + 30) {
              hint = 1;
              Log.d("box123123123", "getReward: achive");
+             user.setCnt_key(user.getCnt_key());
              return hint;
          } else if (user.getChance() * 100 + 30 < a && a <= user.getChance() * 100 + 30 + ((100 - (user.getChance() * 100 + 30)) / 2)) {
              hint = 2;
-             key.getKey(user,hint);
+             user.setCnt_key(user.getCnt_key()+ hint);
              Log.d("box123123123", "getReward: 2");
              return hint;
          } else {
              hint = 3;
-             key.getKey(user,hint);
+             user.setCnt_key(user.getCnt_key()+hint);
              Log.d("box123123123", "getReward: 3");
              return hint;
          }
 
 
      } // 보상을 얻는 함수
-
-     public int boxOpen(UserController user) {
-         int hints;
-         hints = getReward(user);
-         if (hints == 1) {
-             user.setCnt_key(user.getCnt_key() - 1);
-             Log.d("box", "boxOpen: "+user.getBoxOpen());
-             user.setBoxOpen(user.getBoxOpen() + 1);
-             Log.d("box", "boxOpen: "+user.getBoxOpen());
-             return hints;
-         } else {
-             user.setCnt_key(user.getCnt_key() - 1);
-             user.setBoxOpen(user.getBoxOpen() + 1);
-             return hints;
-         }
-     } // 상자 여는 함수
 
      public void boxOpenCount(UserController user){
          int rank = 1;
