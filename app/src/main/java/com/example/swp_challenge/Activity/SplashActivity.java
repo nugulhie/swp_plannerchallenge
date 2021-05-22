@@ -20,7 +20,6 @@ import java.util.Date;
 ////
 public class SplashActivity extends AppCompatActivity { //스플래시 화면 메소드 여기는 개발 완료 수정 x
         boolean temp = true;
-        Date date = Calendar.getInstance().getTime();
         UserController user = UserController.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +27,8 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
+        Date date = Calendar.getInstance().getTime();
+        Log.d("159753", "onCreate: "+PreferenceManager.getBoolean(SplashActivity.this,"check"));
         temp = PreferenceManager.getBoolean(this,"checks");
         SimpleDateFormat day = new SimpleDateFormat("dd");
         PreferenceManager.setString(this,"today",day.format(date));
@@ -39,6 +40,7 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
             public void run() {
                 if(temp){
                     Intent intent = new Intent(getApplicationContext(),IntroActivity.class); //사용자가 처음 어플을 사용할 때
+                    PreferenceManager.setBoolean(SplashActivity.this, "check", false);
                     startActivity(intent);
                     finish();
                 }
@@ -48,7 +50,6 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
                     if(Integer.parseInt(PreferenceManager.getString(SplashActivity.this, "today")) != Integer.parseInt(daychanger.format(date))) {
                         PreferenceManager.setBoolean(SplashActivity.this, "check", false);
                     }
-
                     Intent intent =new Intent(getApplicationContext(), MainActivity.class); //사용자가 어플을 사용 해봤을 때
                     startActivity(intent);
                     finish();

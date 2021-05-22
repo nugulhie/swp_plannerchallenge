@@ -133,7 +133,7 @@ public class BoxActivity extends AppCompatActivity {
                 break;
             case 1:
                 image_reward.setImageResource(AC.img[randomAchive]);
-                achivetext.setText("칭호 " + "'" + achivestr + "'");
+                achivetext.setText("칭호 " + "'" + AC.getAchivements(randomAchive) + "'");
                 checkAchivement(achivenumber, randomAchive);
                 break;
             case 2:

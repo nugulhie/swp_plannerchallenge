@@ -97,10 +97,9 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-
+        Date date = Calendar.getInstance().getTime();
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(this);
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
-        Date date = Calendar.getInstance().getTime();
         textdate = findViewById(R.id.textView_dateOfToday);
         button_Add_challenge = findViewById(R.id.button_addChall_main);
         img_cal = findViewById(R.id.button_calendar_main);
