@@ -16,9 +16,7 @@
         android:id="@+id/linearLayout_menuBar_cal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout_basic_cal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +44,7 @@
 
             <TextView
                 android:id="@+id/textView_dateOfToday"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
@@ -74,133 +72,135 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
                 android:background="@android:color/transparent"
+                android:onClick="onPopupMenuButtonClick"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/more2"
-                android:onClick="onPopupMenuButtonClick"/>
+                app:srcCompat="@drawable/more2" />
 
         </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>
     <!--하단 영역!-->
 
+
     <LinearLayout
-        android:id="@+id/linearLayout_basic_cal"
-        android:layout_width="0dp"
+        android:id="@+id/linearLayout_calendar_cal"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintVertical_weight="3"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/layout_bg"
+        android:baselineAligned="true"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout_menuBar_cal">
 
-        <LinearLayout
-            android:id="@+id/linearLayout_calendar_cal"
+
+        <TextView
+            android:id="@+id/textView_titleCalendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:background="@drawable/layout_bg"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/maplestory_bold"
+            android:text="달력"
+            android:textColor="#45D6AD"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <com.example.swp_challenge.CustomCalendarView.CustomCalendar
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:selectedDateVerticalBar="@android:color/transparent"
+            android:selectedWeekBackgroundColor="#FFFFFF"
+            app:cellSize="130" />
+
+        <ImageButton
+            android:id="@+id/button_addCalendar_cal"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/plus_mint" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="1"
+        android:layout_margin="20dp"
+        android:background="@drawable/layout_bg"
+        android:baselineAligned="true"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_calendar_cal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView_titleCalendar"
-                android:layout_width="match_parent"
+                android:id="@+id/textView_titlePlan_cal"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="7"
                 android:fontFamily="@font/maplestory_bold"
-                android:text="달력"
+                android:text="일정"
                 android:textColor="#45D6AD"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-            <com.example.swp_challenge.CustomCalendarView.CustomCalendar
-                android:id="@+id/calendarView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:selectedDateVerticalBar="@android:color/transparent"
-                android:selectedWeekBackgroundColor="#FFFFFF"
-                app:cellSize="150" />
-
-            <ImageButton
-                android:id="@+id/button_addCalendar_cal"
-                android:layout_width="40dp"
+            <Button
+                android:id="@+id/button_challengeHistory_cal"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/plus_mint" />
-
+                android:layout_marginRight="10dp"
+                android:layout_weight="4"
+                android:fontFamily="@font/maplestory_bold"
+                android:text="도전과제"
+                app:backgroundTint="#45D6AD" />
 
         </LinearLayout>
 
-
-        <LinearLayout
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/layout_bg"
-            android:baselineAligned="true"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView_titlePlan_cal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/maplestory_bold"
-                    android:text="일정"
-                    android:textColor="#45D6AD"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/button_challengeHistory_cal"
-                    android:layout_width="90dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="180dp"
-                    android:fontFamily="@font/maplestory_bold"
-                    android:text="도전과제"
-                    app:backgroundTint="#45D6AD" />
-
-            </LinearLayout>
-
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_calendar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="5dp" />
-        </LinearLayout>
-
-        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 
 
