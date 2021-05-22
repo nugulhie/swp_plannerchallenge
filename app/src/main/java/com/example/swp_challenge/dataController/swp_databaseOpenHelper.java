@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.swp_challenge.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 ////
@@ -89,7 +91,6 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 }
             }
         }
-
         SimpleDateFormat dateFormat = new SimpleDateFormat(); //작동 이상무
         SimpleDateFormat dayChanger = new SimpleDateFormat("dd");
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,contents);
@@ -102,6 +103,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.ChallengeDB.CHALLENGE_MONTH2, selectMonth2);
         values.put(swp_database.ChallengeDB.CHALLENGE_DAY2, selectDay2);
         values.put(swp_database.ChallengeDB.CHALLENGE_RATING, rating);
+        values.put(swp_database.ChallengeDB.CHALLENGE_CHECK, 0);
         values.put(swp_database.ChallengeDB.CHALLENGE_DAY, Integer.parseInt(dayChanger.format(date)));
         long newRowId = db.insert(swp_database.ChallengeDB.TABLE_NAME, null, values);
     }
@@ -143,6 +145,20 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         String[] selectionArgs = {contents};
         int deleteRows = db.delete(swp_database.ChallengeDB.TABLE_NAME,selection,selectionArgs);
     }
+    public void updateCheckValue(String contents){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS+ " LIKE ?";
+        String[] selectionArgs = {contents};
+        values.put(swp_database.ChallengeDB.CHALLENGE_CHECK, 1);
+
+        int count = db.update(
+                swp_database.ChallengeDB.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
 
     //----------------------------------USERDB------------------------------------
     public void insertUsername(String username, String birth){
@@ -155,6 +171,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.UserDB.BOX_RANK, 1);
         values.put(swp_database.UserDB.USER_ACHIVE, 0);
         values.put(swp_database.UserDB.CURRENT_ACHIVE, "뉴비");
+        values.put(swp_database.UserDB.CURRENT_IMG, R.drawable.newbi);
         long newRowId = db.insert(swp_database.UserDB.TABLE_NAME, null, values);
     }
 
@@ -213,10 +230,11 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selectionArgs);
         Log.d("159753", "updateUserKeyCount: " + count);
     }
-    public void updateCurrentAchive(String username, String achive){
+    public void updateCurrentAchive(String username, String achive, int currnetImg){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(swp_database.UserDB.CURRENT_ACHIVE, achive);
+        values.put(swp_database.UserDB.CURRENT_IMG, currnetImg);
         String selection = swp_database.UserDB.USER_NAME+" LIKE ?";
         String[] selectionArgs = {username};
         int count = db.update(

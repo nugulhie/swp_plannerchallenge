@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +38,10 @@ public class SettingsActivity extends AppCompatActivity {
     TextView user;
     EditText insert_user;
     ImageButton btn_menu;
+    ImageView img_currentimg;
     Button submit_name;
     TextView achives;
+    public int currentAchiveimg;
     public String currentAchive, username;
     private static String CHANNEL_ID = "channel1";
     private static String CHANNEL_NAME = "Channel1";
@@ -103,12 +106,14 @@ public class SettingsActivity extends AppCompatActivity {
 //    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 //    Notification.Builder builder = new Notification.Builder(this);
         insert_user = findViewById(R.id.editText_userName);
+        img_currentimg = findViewById(R.id.imageView_selectedAchieve);
         achives = findViewById(R.id.textView_selectedAchieve);
         submit_name = findViewById(R.id.button_userName_setting);
         String check = PreferenceManager.getString(SettingsActivity.this, "username");
         user = findViewById(R.id.textView_userName);
         user.setText(check);
         achives.setText(currentAchive);
+        img_currentimg.setImageResource(currentAchiveimg);
         //--------------------------------------------------------------------------------------------
 
 
@@ -268,6 +273,7 @@ public class SettingsActivity extends AppCompatActivity {
         while (usercursor.moveToNext()){
             achive = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.CURRENT_ACHIVE));
             username = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_NAME));
+            currentAchiveimg = usercursor.getInt(usercursor.getColumnIndexOrThrow(swp_database.UserDB.CURRENT_IMG));
         }
         currentAchive = achive;
         this.username = username;

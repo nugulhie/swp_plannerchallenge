@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        temp = PreferenceManager.getBoolean(this,"check");
+        temp = PreferenceManager.getBoolean(this,"checks");
         SimpleDateFormat day = new SimpleDateFormat("dd");
         PreferenceManager.setString(this,"today",day.format(date));
         Log.d("159753", "onCreate: "+day.format(date));
@@ -43,6 +43,12 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
                     finish();
                 }
                 else{
+                    SimpleDateFormat daychanger = new SimpleDateFormat("dd");
+                    Date date = Calendar.getInstance().getTime();
+                    if(Integer.parseInt(PreferenceManager.getString(SplashActivity.this, "today")) != Integer.parseInt(daychanger.format(date))) {
+                        PreferenceManager.setBoolean(SplashActivity.this, "check", false);
+                    }
+
                     Intent intent =new Intent(getApplicationContext(), MainActivity.class); //사용자가 어플을 사용 해봤을 때
                     startActivity(intent);
                     finish();

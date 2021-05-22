@@ -41,12 +41,13 @@ public class AchivementActivity extends AppCompatActivity {
     ImageButton img_cal;
     TextView textdate, textAchive;
     ImageButton btn_menu;
+    ImageView img_currnetAchiveimg;
     public String achive;
     public static int[] achiveList;
-    public int position;
+    public int position, currentimg;
     AchivementsAdpater achiveAdapter;
     List<String> achiveString = new ArrayList<>();
-    List<ImageView> achiveImage = new ArrayList<>();
+    List<Integer> achiveImage = new ArrayList<>();
     UserAchivementController AC = UserAchivementController.getInstance();
     public String currentAchive, username;
     Dialog apply_dialog;
@@ -57,6 +58,7 @@ public class AchivementActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_achivement);
         img_cal = findViewById(R.id.button_calendar_achieve);
+        img_currnetAchiveimg = findViewById(R.id.imageView_selectedAchieve);
         btn_menu = findViewById(R.id.button_menu_achieve); //메뉴 더보기 버튼
         //banner set date in korean
         textdate = findViewById(R.id.textView_dateOfToday);
@@ -72,9 +74,11 @@ public class AchivementActivity extends AppCompatActivity {
 
         loadDB();
         textAchive.setText("현재 칭호 : "+"["+currentAchive+"]");
+        img_currnetAchiveimg.setImageResource(currentimg);
         achiveList = AC.giveAchivements(achive);
         for(int i =0; i<achiveList.length;i++){
             achiveString.add(AC.getAchivements(achiveList[i]));
+            achiveImage.add(AC.getImg(achiveList[i]));
         }
         init_recycler();
         getData_recycler(achiveString, achiveImage);
@@ -113,9 +117,11 @@ public class AchivementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 currentAchive = achiveString.get(position);
+                currentimg = achiveImage.get(position);
                 swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(AchivementActivity.this);
                 textAchive.setText("현재 칭호 : "+"["+currentAchive+"]");
-                dbHelper.updateCurrentAchive(username,achiveString.get(position));
+                img_currnetAchiveimg.setImageResource(currentimg);
+                dbHelper.updateCurrentAchive(username,achiveString.get(position), achiveImage.get(position));
                 apply_dialog.dismiss();
             }
         });
@@ -170,6 +176,7 @@ public class AchivementActivity extends AppCompatActivity {
                 null
         );
         while (usercursor.moveToNext()) {
+            currentimg = usercursor.getInt(usercursor.getColumnIndexOrThrow(swp_database.UserDB.CURRENT_IMG));
             currentAchive = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.CURRENT_ACHIVE));
             achive = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_ACHIVE));
             username = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_NAME));
@@ -187,10 +194,11 @@ public class AchivementActivity extends AppCompatActivity {
     }
     private void getData_recycler(List achiveContents, List achiveImg){
         List<String> Contents = achiveContents;
-        List<ImageView> Img = achiveImg;
+        List<Integer> Img = achiveImg;
 
         for(int i =0; i<Contents.size();i++){
             recyclerAchivementsData achiveData = new recyclerAchivementsData();
+            achiveData.setImg(Img.get(i));
             achiveData.setContent(Contents.get(i));
             achiveAdapter.addItem(achiveData);
         }

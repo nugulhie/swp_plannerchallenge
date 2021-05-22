@@ -64,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
     //
     private PlanRecyclerAdapter adapterplan;
     private ChallengeRecyclerAdapter adapterchallenge;
-    public Button button_Add_challenge;
+    public Button button_Add_challenge, button_getReward;
     ImageButton btn_menu, img_cal;
+    ImageView img_currentimg;
     String d1, d2, tempD, hour, minute;
     Date date1, date2, tempDate;
     TextView textdate, textAchive;
@@ -75,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
     public String achive, username;
     String category_item;
     final String[] category = {"약속", "공부", "운동", "시험", "기타"};
-    public int keys;
-    ImageView img;
+    public int keys, achiveimg;
     public static List plan_id = new ArrayList<>();
     public static List plan_contents = new ArrayList<>();
     public static List plan_categorys = new ArrayList<>();
@@ -106,8 +106,9 @@ public class MainActivity extends AppCompatActivity {
         img_cal = findViewById(R.id.button_calendar_main);
         btn_menu = findViewById(R.id.button_menu_main);
         textAchive = findViewById(R.id.textView_selectedAchieve);
+        button_getReward = findViewById(R.id.button_getreward);
+        img_currentimg = findViewById(R.id.imageView_selectedAchieve);
         achive = "칭호없음";
-        img = findViewById(R.id.imageView_key);
         textdate.setText(korDate.format(date));
 
 
@@ -126,15 +127,15 @@ public class MainActivity extends AppCompatActivity {
         temp = MainActivity.this;
         loadDB(temp);
         textAchive.setText("< " + achive + " >");
+        img_currentimg.setImageResource(achiveimg);
         init_recycler();
         getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
         //------------------------------------------------------------------------------------------------------
-        dbHelper.updatePass(challenge.getContents(), 1);
 
         Log.d("159753", "onCreate: main" + user.getCnt_key());
 
-        img.setOnClickListener(new View.OnClickListener() {
+        button_getReward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkChellenge();
@@ -437,7 +438,6 @@ public class MainActivity extends AppCompatActivity {
 
         d1 = dateMessage;
         ((TextView) challenge_dialog.findViewById(R.id.textView_date1_challenge)).setText(dateMessage);
-        Toast.makeText(this, "Date: " + dateMessage, Toast.LENGTH_SHORT).show();
     }
 
     public void processDatePicker2Result(int year, int month, int day) {  //기간2 날짜데이터 불러오기 이벤트
@@ -452,7 +452,6 @@ public class MainActivity extends AppCompatActivity {
 
         d2 = dateMessage;
         ((TextView) challenge_dialog.findViewById(R.id.textView_date2_challenge)).setText(dateMessage);
-        Toast.makeText(this, "Date: " + dateMessage, Toast.LENGTH_SHORT).show();
     }
     // ↑ 시작일, 종료일 불러오기 ↑
 
@@ -674,7 +673,7 @@ public class MainActivity extends AppCompatActivity {
                 null
         );
         while (usercursor.moveToNext()) {
-
+            achiveimg = usercursor.getInt(usercursor.getColumnIndexOrThrow(swp_database.UserDB.CURRENT_IMG));
             achive = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.CURRENT_ACHIVE));
             username = usercursor.getString(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_NAME));
             keys = usercursor.getInt(usercursor.getColumnIndexOrThrow(swp_database.UserDB.USER_KEY));
@@ -683,6 +682,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkChellenge() {
+        loadDB(temp);
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(temp);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat yearchanger = new SimpleDateFormat("yyyy");
@@ -690,12 +690,15 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat daychanger = new SimpleDateFormat("dd");
         Date date = Calendar.getInstance().getTime();
         List<Integer> challenge_passes = new ArrayList<>();
+        List<String> challPassContents = new ArrayList<>();
         String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
+        String selection = swp_database.ChallengeDB.CHALLENGE_CHECK + " LIKE ?";
+        String[] selectionArgs = {"0"};
         Cursor challengecursor = db.query(
                 swp_database.ChallengeDB.TABLE_NAME,
                 null,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder1
@@ -710,40 +713,49 @@ public class MainActivity extends AppCompatActivity {
             if (year1 <= Integer.parseInt(yearchanger.format(date)) && Integer.parseInt(yearchanger.format(date)) <= year2) { // year1 과 year2 사이의 현재 날짜가 있는가?
                 if (month1 <= Integer.parseInt(monthchanger.format(date)) && Integer.parseInt(monthchanger.format(date)) <= month2) { // month1 과 month2 사이의 현재 날짜가 있는가?
                     if (day1 <= Integer.parseInt(daychanger.format(date)) && Integer.parseInt(daychanger.format(date)) <= day2) { // day1과 day2사이의 현재 날짜가 있는가? (도전과제 범위 안에서의 출력
-
                         int pass1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_PASS));
                         challenge_passes.add(pass1);
+                        if (pass1 == 1) {
+                            challPassContents.add(
+                                    challengecursor.getString(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_CONTENTS))
+                            );
+                        }
                     }
                 }
             }
+        }
+        KeyController key = KeyController.getInstance();
+        SimpleDateFormat day = new SimpleDateFormat("dd");
+        int checkcount = 0;
+        for (int i = 0; i < challenge_passes.size(); i++) {
+            if (challenge_passes.get(i) == 1) {
+                checkcount++;
+            }
+        }
 
 
-            KeyController key = KeyController.getInstance();
-            SimpleDateFormat day = new SimpleDateFormat("dd");
-            int checkcount = 0;
-            for (int i = 0; i < challenge_passes.size(); i++) {
-                if (challenge_passes.get(i) == 1) {
-                    checkcount++;
+        if(!PreferenceManager.getBoolean(MainActivity.this,"check")) {
+                if (challenge_passes.size() == 0) {
+                    Toast.makeText(getApplicationContext(), "도전과제가 없는것 같아요!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (key.givekey(user, checkcount)) {
+                        dbHelper.updateUserKeyCount(username, user.getCnt_key());
+                        for (int i = 0; i < challPassContents.size(); i++) {
+                            dbHelper.updateCheckValue(challPassContents.get(i));
+                        }
+                        Toast.makeText(getApplicationContext(), "열쇠를 얻었습니다!", Toast.LENGTH_SHORT).show();
+                        PreferenceManager.setBoolean(MainActivity.this, "check", true);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "도전과제가 남았어요", Toast.LENGTH_SHORT).show();
+                        Log.d("159753", "checkChellenge: " + PreferenceManager.getString(MainActivity.this, "today"));
+                        Log.d("159753", "checkChellenge: " + daychanger.format(date));
+                    }
                 }
             }
-            if (!PreferenceManager.getString(MainActivity.this, "today").equals(day.format(date))) {
-                Log.d("159753", "checkChellenge: " + PreferenceManager.getString(MainActivity.this, "today"));
-                Log.d("159753", "checkChellenge: " + day.format(date));
-                PreferenceManager.setString(MainActivity.this, "today", day.format(date));
-                PreferenceManager.setBoolean(MainActivity.this, "todayCheck", true);
-            }
-
-            if (PreferenceManager.getBoolean(MainActivity.this, "todayCheck")) {
-                if (key.givekey(user, checkcount, temp)) {
-                    dbHelper.updateUserKeyCount(username, user.getCnt_key());
-                    Toast.makeText(temp, "도전과제를 완료하셔서 열쇠를 얻으셨습니다!", Toast.LENGTH_SHORT).show();
-                    PreferenceManager.setBoolean(MainActivity.this, "todayCheck", false);
-                } else {
-                    Toast.makeText(temp, "도전과제가 남았어요!", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(temp, "오늘은 이미 열쇠를 받으셨어요!", Toast.LENGTH_SHORT).show();
-            }
+        else{
+            Toast.makeText(getApplicationContext()," 이미 오늘의 보상을 받으셨어요!",Toast.LENGTH_SHORT).show();
         }
     }
 }

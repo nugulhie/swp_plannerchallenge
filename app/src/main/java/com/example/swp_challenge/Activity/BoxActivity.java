@@ -109,7 +109,7 @@ public class BoxActivity extends AppCompatActivity {
 
                     swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
                 } else {
-                    Toast.makeText(getApplicationContext(), "can'topen", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "열쇠가 없어요", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -125,13 +125,14 @@ public class BoxActivity extends AppCompatActivity {
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         UserController user = UserController.getInstance();
+        UserAchivementController AC = UserAchivementController.getInstance();
         switch (hints) {
             case 0:
                 image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 1개");
                 break;
             case 1:
-                image_reward.setImageResource(R.drawable.trophy);
+                image_reward.setImageResource(AC.img[randomAchive]);
                 achivetext.setText("칭호 " + "'" + achivestr + "'");
                 checkAchivement(achivenumber, randomAchive);
                 break;
@@ -269,6 +270,7 @@ public class BoxActivity extends AppCompatActivity {
     }
 
     public void checkAchivement(String currentAchive, int randomAchive) {
+        UserAchivementController ac = UserAchivementController.getInstance();
         String[] temp1 = currentAchive.split("-");
         for(int i =0 ;i<temp1.length;i++){
         Log.d("chi", "checkAchivement: "+temp1[i]);}

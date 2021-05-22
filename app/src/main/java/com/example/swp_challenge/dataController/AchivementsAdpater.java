@@ -4,6 +4,7 @@ package com.example.swp_challenge.dataController;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -65,11 +66,14 @@ public class AchivementsAdpater extends RecyclerView.Adapter<AchivementsAdpater.
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textView3;
+        private ImageView img;
 
         ItemViewHolder(View itemView) {
             super(itemView);
 
             textView3 = itemView.findViewById(R.id.textview_achivements);
+            img = itemView.findViewById(R.id.imageview_achivements);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,6 +90,7 @@ public class AchivementsAdpater extends RecyclerView.Adapter<AchivementsAdpater.
 
         void onBind(recyclerAchivementsData data) {
             textView3.setText(data.getContent());
+            img.setImageResource(data.getImg());
         }
     }
 

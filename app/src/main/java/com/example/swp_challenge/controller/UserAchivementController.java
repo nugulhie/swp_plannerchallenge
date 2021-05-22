@@ -1,11 +1,16 @@
 package com.example.swp_challenge.controller;
 
+import android.media.Image;
 import android.util.Log;
+import android.widget.ImageView;
+
+import com.example.swp_challenge.R;
 
 public class UserAchivementController {
     private static final UserAchivementController achive = new UserAchivementController();
 
     public static String[] achs = new String[10];
+    public static int[] img = new int[10];
     public static int randoms = 0;
     public static UserAchivementController getInstance() {
         achs[0] = "뉴비";
@@ -18,11 +23,24 @@ public class UserAchivementController {
         achs[7] = "조금만 더";
         achs[8] = "첫 승급!";
         achs[9] = "여기까지는 기본!";
+        img[0] = R.drawable.newbi;
+        img[1] = R.drawable.firstbox1;
+        img[2] = R.drawable.nowvet;
+        img[3] = R.drawable.granpa;
+        img[4] = R.drawable.whatru;
+        img[5] = R.drawable.bestplanner;
+        img[6] = R.drawable.howlong;
+        img[7] = R.drawable.morego;
+        img[8] = R.drawable.firstgrade;
+        img[9] = R.drawable.thisismylevel;
+
         //1~ 30
 
         return achive;
     }
-
+    public int getImg(int selectAchive){
+        return img[selectAchive];
+    }
 
 
     public int[] giveAchivements(String currentAchivements) {
