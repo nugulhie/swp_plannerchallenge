@@ -480,6 +480,9 @@ public class MainActivity extends AppCompatActivity {
                 //dbHelper.challengedelete(challenge_contents.get(position).toString());
 
                 Toast.makeText(getApplicationContext(), "도전과제 완료!", Toast.LENGTH_SHORT).show();
+                init_recycler();
+                loadDB(temp);
+                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
             }
 
             @Override
@@ -499,6 +502,10 @@ public class MainActivity extends AppCompatActivity {
                 adapterplan.notifyItemRangeChanged(position, adapterplan.getItemCount());
                 dbHelper.plandelete(plan_contents.get(position).toString());
                 Toast.makeText(getApplicationContext(), "일정 삭제.", Toast.LENGTH_SHORT).show();
+                init_recycler();
+                loadDB(temp);
+                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
+
             }
 
             @Override

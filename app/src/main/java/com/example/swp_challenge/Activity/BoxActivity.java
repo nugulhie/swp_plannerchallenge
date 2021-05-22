@@ -20,7 +20,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.example.swp_challenge.R;
 import com.example.swp_challenge.controller.BoxController;
 import com.example.swp_challenge.controller.KeyController;
