@@ -68,7 +68,6 @@ public class ChallhistoryActivity extends AppCompatActivity {
         month = intent.getIntExtra("selectmonth", 0);
         year = intent.getIntExtra("selectyear", 0);
         textdate.setText(+day+"일 도전과제 내역");
-        Log.d("222222", "onCreate: "+day);
         init_recycler();
         loadDB(temp,day);
         getData_recycler();
@@ -80,7 +79,6 @@ public class ChallhistoryActivity extends AppCompatActivity {
                 /*Intent intent = new Intent(ChallhistoryActivity.this, CalendarActivity.class);
                 startActivity(intent);*/ //바로 전 레이아웃이 캘린더 레이아웃이라 나가기
                 finish();
-                Log.d("zzz123", "onClick: calendarButton_challHistory");
             }
         });
     }

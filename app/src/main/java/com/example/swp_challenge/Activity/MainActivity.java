@@ -57,6 +57,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static java.lang.Math.abs;
+
 //
 public class MainActivity extends AppCompatActivity {
     UserController user = UserController.getInstance();
@@ -132,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
         //------------------------------------------------------------------------------------------------------
 
-        Log.d("159753", "onCreate: main" + user.getCnt_key());
 
         button_getReward.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,14 +147,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
                 finish();
-                Log.d("zzz123", "onClick:" + "calendarButton_main");
             }
         });
         button_Add_challenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog();
-                Log.d("zzz123", "onClick:" + "addChallengeButton_main");
             }
         });
 
@@ -232,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DialogFragment newFragment = new DatePickerFragment();
                 newFragment.show(getSupportFragmentManager(), "datePicker");
-                Log.d("zzz123", "onClick: datePicker1_challenge");
             }
         });
         ImageButton btn_date2 = challenge_dialog.findViewById(R.id.button_date2_chall); //날짜버튼2
@@ -241,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DialogFragment newFragment = new DatePicker2Fragment();
                 newFragment.show(getSupportFragmentManager(), "datePicker");
-                Log.d("zzz123", "onClick: datePicker2_challenge");
             }
         });
         Button btn_cancel = challenge_dialog.findViewById(R.id.button_cancel_chall);    //취소 버튼
@@ -249,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 challenge_dialog.dismiss();
-                Log.d("zzz123", "onClick: cancel_challenge");
             }
         });
         Button btn_submit = challenge_dialog.findViewById(R.id.button_submit_chall);    //제출 버튼
@@ -298,12 +294,8 @@ public class MainActivity extends AppCompatActivity {
                     loadDB(temp);
                     init_recycler();
                     getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
-                    Log.d("159753", "onClick: insertChallenge" + challenge.getContents());
-                    Log.d("zzz123", "onClick: " + "insert_challenge");
                     challenge_dialog.dismiss();
                 } else {
-                    //dbHelper.updateChallenge(challenge.getContents(),"운동들어오기",challenge.getDate(),2.5f);
-                    //Log.d("159753", "onClick: updateChallenge"+"운동들어오기");
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     challenge_dialog.dismiss();
                 }
@@ -342,7 +334,6 @@ public class MainActivity extends AppCompatActivity {
                 init_recycler();
                 getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
                 Toast.makeText(getApplicationContext(), "도전과제 삭제", Toast.LENGTH_SHORT).show();
-                Log.d("zzz123", "onClick: delete_challenge");
             }
         });
 
@@ -382,19 +373,16 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, BoxActivity.class);
                         startActivity(intent);
                         finish();
-                        Log.d("zzz123", "onMenuItemClick: " + "boxMenu_main");
                         break;
                     case R.id.action_menu2:
                         intent = new Intent(MainActivity.this, AchivementActivity.class);
                         startActivity(intent);
                         finish();
-                        Log.d("zzz123", "onMenuItemClick: " + "achieveMenu_main");
                         break;
                     case R.id.action_menu3:
                         intent = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(intent);
                         finish();
-                        Log.d("zzz123", "onMenuItemClick: " + "settingMenu_main");
                         break;
                 }
                 return true;
@@ -427,11 +415,9 @@ public class MainActivity extends AppCompatActivity {
     public void processDatePickerResult(int year, int month, int day) {  //기간1 날짜데이터 불러오기 이벤트
         selectDay1 = day;
         selectMonth1 = month + 1;
-        Log.d("123123", "processDatePickerResult: " + month);
         selectYear1 = year;
         String month_string = Integer.toString(month + 1);
         String day_string = Integer.toString(day);
-        Log.d("123123", "processDatePickerResult: " + day_string);
         String year_string = Integer.toString(year);
         String dateMessage = (year_string + "-" + month_string + "-" + day_string);
 
@@ -445,7 +431,6 @@ public class MainActivity extends AppCompatActivity {
         selectYear2 = year;
         String month_string = Integer.toString(month + 1);
         String day_string = Integer.toString(day);
-        Log.d("123123", "processDatePicker2Result: " + day_string);
         String year_string = Integer.toString(year);
         String dateMessage = (year_string + "-" + month_string + "-" + day_string);
 
@@ -594,25 +579,30 @@ public class MainActivity extends AppCompatActivity {
         List plan_categorys_temp = new ArrayList<>();
         List plan_dates_temp = new ArrayList<>();
 
-        while (plancursor.moveToNext()) {
-            String plan_date = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
-            plan_dates_temp.add(plan_date);
-            String plan_category = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
-            plan_categorys_temp.add(plan_category);
-            String plan_content = plancursor.getString(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
-            plan_contents_temp.add(plan_content);
-            int planItems = plancursor.getInt(
-                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
-            plan_id_temp.add(planItems);
-        }
+                while (plancursor.moveToNext()) {
+                    if(Integer.parseInt(yearchanger.format(date)) == plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_YEAR))) {
+                        if (Integer.parseInt(monthchanger.format(date)) == plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_MONTH))) {
+                            String plan_date = plancursor.getString(
+                                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_DATE));
+                            plan_dates_temp.add(plan_date);
+                            String plan_category = plancursor.getString(
+                                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CATEGORY));
+                            plan_categorys_temp.add(plan_category);
+                            String plan_content = plancursor.getString(
+                                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_CONTENTS));
+                            plan_contents_temp.add(plan_content);
+                            int planItems = plancursor.getInt(
+                                    plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_ID));
+                            plan_id_temp.add(planItems);
+                        }
+                    }
+                }
 
-        plan_id = plan_id_temp;
-        plan_contents = plan_contents_temp;
-        plan_categorys = plan_categorys_temp;
-        plan_dates = plan_dates_temp;
+                plan_id = plan_id_temp;
+                plan_contents = plan_contents_temp;
+                plan_categorys = plan_categorys_temp;
+                plan_dates = plan_dates_temp;
+
 
 
         String sortOrder1 = swp_database.ChallengeDB.CHALLENGE_ID + " ASC";
@@ -631,7 +621,6 @@ public class MainActivity extends AppCompatActivity {
         List challenge_dates_temp = new ArrayList<>();
         List challenge_pass_temp = new ArrayList<>();
         while (challengecursor.moveToNext()) {
-            Log.d("159753", "loadDB: " + 123123123);
             int day1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DAY1));
             int day2 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_DAY2));
             int month1 = challengecursor.getInt(challengecursor.getColumnIndexOrThrow(swp_database.ChallengeDB.CHALLENGE_MONTH1));
@@ -750,13 +739,11 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < challPassContents.size(); i++) {
                             dbHelper.updateCheckValue(challPassContents.get(i));
                         }
-                        Toast.makeText(getApplicationContext(), "열쇠를 얻었습니다!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "도전과제 "+checkcount+"개를 완료하여" +"열쇠를 얻었습니다!", Toast.LENGTH_SHORT).show();
                         PreferenceManager.setBoolean(MainActivity.this, "check", true);
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "도전과제가 남았어요", Toast.LENGTH_SHORT).show();
-                        Log.d("159753", "checkChellenge: " + PreferenceManager.getString(MainActivity.this, "today"));
-                        Log.d("159753", "checkChellenge: " + daychanger.format(date));
+                        Toast.makeText(getApplicationContext(), "도전과제를 "+ abs(checkcount - 3)+"개 더 완료해야 해요!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

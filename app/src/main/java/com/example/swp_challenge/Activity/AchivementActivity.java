@@ -96,7 +96,6 @@ public class AchivementActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AchivementActivity.this, CalendarActivity.class);
                 startActivity(intent);
-                Log.d("zzz123", "onClick: " + "calendarButton_achieve");
                 finish();
             }
         });
@@ -143,7 +142,6 @@ public class AchivementActivity extends AppCompatActivity {
                     case R.id.action_menu1:
                         Intent intent = new Intent(AchivementActivity.this, BoxActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: boxMenu_achieve");
                         finish();
                         break;
                     case R.id.action_menu2:
@@ -152,7 +150,6 @@ public class AchivementActivity extends AppCompatActivity {
                     case R.id.action_menu3:
                         intent = new Intent(AchivementActivity.this, SettingsActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: settingMenu_achieve");
                         finish();
                         break;
                 }

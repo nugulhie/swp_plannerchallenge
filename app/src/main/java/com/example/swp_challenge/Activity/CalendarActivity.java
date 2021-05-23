@@ -105,9 +105,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         user.setContext(temp);
 
-        Log.d("15922", "onCreate: " + Integer.parseInt(monthchanger.format(date)) + "=" + Integer.parseInt(yearchanger.format(date)));
-
-        Log.d("159753", "onCreate: " + size_of_recycler);
 
         // 밑으로 전부 인텐트 함수
         img_cal.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +112,6 @@ public class CalendarActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(CalendarActivity.this, CalendarActivity.class);
                 startActivity(intent);
-                Log.d("zzz123", "onClick: calendarButton_calendar");
                 finish();
             }
         });
@@ -127,12 +123,10 @@ public class CalendarActivity extends AppCompatActivity {
                 int dayOfMonth = date.getDay();
                 int month = date.getMonth();
                 int year = date.getYear();
-                Log.d("159753", "setDateClicked: "+dayOfMonth+ month+ year);
                 init_recycler();
                 loadDB(temp, dayOfMonth, month, year);
 
                 getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
-                Log.d("159753", "onSelectedDayChange: "+dayOfMonth);
 
                 btn_add_cal.setOnClickListener(new View.OnClickListener() {         //일정 팝업 액티비티 이동
                     @Override
@@ -141,9 +135,6 @@ public class CalendarActivity extends AppCompatActivity {
                         mYear = year;
                         mMonth = month;
                         mDay = dayOfMonth;
-                        Log.d("15922", "onSelectedDayChange: "+mMonth);
-                        Log.d("15922", "onSelectedDayChange: "+mYear);
-                        Log.d("zzz123", "onClick: addPlanButton_calendar");
 
                     }
                 });
@@ -156,7 +147,6 @@ public class CalendarActivity extends AppCompatActivity {
                         intent.putExtra("selectmonth", month);
                         intent.putExtra("selectyear", year);
                         startActivity(intent);
-                        Log.d("zzz123", "onClick: challengeHistoryButton_calendar");
                     }
                 });
             }
@@ -166,7 +156,6 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                Log.d("zzz123", "onClick: !unselected_date!");
             }
         });
 
@@ -174,7 +163,6 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                Log.d("zzz123", "onClick: !unselected_date!");
             }
         });
 
@@ -184,7 +172,6 @@ public class CalendarActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                        Log.d("zzz123", "onClick: !unselected_date!");
                     }
                 });
 
@@ -192,7 +179,6 @@ public class CalendarActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                        Log.d("zzz123", "onClick: !unselected_date!");
                     }
                 });
 
@@ -226,19 +212,16 @@ public class CalendarActivity extends AppCompatActivity {
                     case R.id.action_menu1:
                         Intent intent = new Intent(CalendarActivity.this, BoxActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: boxMenu_calendar");
                         finish();
                         break;
                     case R.id.action_menu2:
                         intent = new Intent(CalendarActivity.this, AchivementActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: achieveMenu_calendar");
                         finish();
                         break;
                     case R.id.action_menu3:
                         intent = new Intent(CalendarActivity.this, SettingsActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: settingMenu_calendar");
                         finish();
                         break;
                 }
@@ -277,7 +260,6 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 plan_dialog.dismiss();
-                Log.d("zzz123", "onClick: " + "cancel_plan");
             }
         });
         Button btn_submit = plan_dialog.findViewById(R.id.button_submit_plan);  //제출 버튼
@@ -292,7 +274,6 @@ public class CalendarActivity extends AppCompatActivity {
                     getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
                     loadEvent(temp);
                     plan_dialog.dismiss();
-                    Log.d("zzz123", "onClick: " + "insert_plan");
                 } else {
                     Toast.makeText(getApplicationContext(), "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     plan_dialog.dismiss();
@@ -387,7 +368,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     private void getData_recycler(List plan_contents, List plan_categorys, List plan_dates, List plan_days) {
 
-        Log.d("111111", "getData_recycler: "+plan_categorys.size());
         List<String> listPlanCategory = plan_categorys;
         List<String> listPlanContent = plan_contents;
         List<String> listplanDate = plan_dates;
@@ -400,7 +380,6 @@ public class CalendarActivity extends AppCompatActivity {
 
             adapterplan.addItem(plandata);
         }
-        Log.d("159753", "getData_recycler: " + size_of_recycler);
         size_of_recycler = listPlanCategory.size();
         adapterplan.notifyDataSetChanged();
 
@@ -435,10 +414,6 @@ public class CalendarActivity extends AppCompatActivity {
 
 
         while (plancursor.moveToNext()) {
-            Log.d("15922", "loadDB: " + plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_MONTH)));
-            Log.d("15922", "loadDB: " + mMonth);
-            Log.d("15922", "loadDB: " + mYear);
-
             if (plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_MONTH)) ==
                     mMonth && plancursor.getInt(plancursor.getColumnIndexOrThrow(swp_database.PlanDB.PLAN_YEAR)) == mYear) {
                 String plan_date = plancursor.getString(

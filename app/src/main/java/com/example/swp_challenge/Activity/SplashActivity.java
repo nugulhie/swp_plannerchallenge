@@ -28,11 +28,9 @@ public class SplashActivity extends AppCompatActivity { //스플래시 화면 �
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         Date date = Calendar.getInstance().getTime();
-        Log.d("159753", "onCreate: "+PreferenceManager.getBoolean(SplashActivity.this,"check"));
         temp = PreferenceManager.getBoolean(this,"checks");
         SimpleDateFormat day = new SimpleDateFormat("dd");
         PreferenceManager.setString(this,"today",day.format(date));
-        Log.d("159753", "onCreate: "+day.format(date));
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

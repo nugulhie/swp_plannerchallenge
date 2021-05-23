@@ -145,7 +145,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SettingsActivity.this, CalendarActivity.class);
                 startActivity(intent);
-                Log.d("zzz123", "onClick: calendarButton_setting");
                 finish();
             }
         });
@@ -178,13 +177,11 @@ public class SettingsActivity extends AppCompatActivity {
                     case R.id.action_menu1:
                         Intent intent = new Intent(SettingsActivity.this, BoxActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: boxMenu_setting");
                         finish();
                         break;
                     case R.id.action_menu2:
                         intent = new Intent(SettingsActivity.this, AchivementActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: achieveMenu_setting");
                         finish();
                         break;
                     case R.id.action_menu3:

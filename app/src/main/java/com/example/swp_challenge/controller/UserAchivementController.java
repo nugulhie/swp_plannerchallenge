@@ -59,11 +59,9 @@ public class UserAchivementController {
 
     public void setrandoms(int i) {
         randoms = i;
-        Log.d("achive", "setrandoms: " + i);
     }
 
     public String rewardAchive() {
-        Log.d("achive", "rewardAchive: " + achs[randoms]);
         return achs[randoms];
     }
 

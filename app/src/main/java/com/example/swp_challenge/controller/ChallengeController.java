@@ -3,7 +3,6 @@ package com.example.swp_challenge.controller;
 import android.app.Application;
 import java.util.Calendar;
 import java.util.Date;
-//
 public class ChallengeController {
     private static final ChallengeController challenge = new ChallengeController();
     public static ChallengeController getInstance(){
@@ -13,7 +12,6 @@ public class ChallengeController {
     private String contents;
     private int chall_pass;
     private Date date;
-//
     public void setChallenge(float rating, String contents){
         this.rating = rating;
         this.contents = contents;

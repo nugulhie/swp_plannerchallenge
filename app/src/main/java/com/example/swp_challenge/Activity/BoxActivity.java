@@ -58,7 +58,6 @@ public class BoxActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_box);
-        Log.d("159753", "onCreate: box" + user.getCnt_key());
         img_cal = findViewById(R.id.button_calendar_box);
         textdate = findViewById(R.id.textView_dateOfToday);
         textrank = findViewById(R.id.textView_tier);
@@ -86,7 +85,6 @@ public class BoxActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(BoxActivity.this, CalendarActivity.class);
                 startActivity(intent);
-                Log.d("zzz123", "onClick: calendarButton_box");
                 finish();
             }
         });
@@ -95,17 +93,14 @@ public class BoxActivity extends AppCompatActivity {
             swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
             @Override
             public void onClick(View v) {
+                loadDB();
                 KeyController key = KeyController.getInstance();
                 randomAchive = (int) (Math.random() * 10);
                 if (key.checkKey(user)) {
                     textKey.setText("x " + (Userkey - 1));
                     box.boxOpenCount(user);
                     showDialog();
-                    hints = box.getReward(user);
-                    if (hints == 1) {
-                        achive.setrandoms(randomAchive);
-                        achivestr = achive.rewardAchive();
-                    }
+
                 } else {
                     Toast.makeText(getApplicationContext(), "열쇠가 없어요", Toast.LENGTH_SHORT).show();
                 }
@@ -118,23 +113,28 @@ public class BoxActivity extends AppCompatActivity {
     }
     public void showDialog() {
         openBox_dialog.show();
+
         ImageView image_reward = openBox_dialog.findViewById(R.id.imageView_newAchieve);
         achivetext = openBox_dialog.findViewById(R.id.textView_newAchieve);
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
         UserController user = UserController.getInstance();
         UserAchivementController AC = UserAchivementController.getInstance();
+        UserAchivementController achive = UserAchivementController.getInstance();
+        BoxController box = BoxController.getInstance();
+        hints = box.getReward(user);
+        if (hints == 1) {
+            achive.setrandoms(randomAchive);
+            achivestr = achive.rewardAchive();
+        }
         switch (hints) {
-            case 0:
+            case 4:
                 image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 1개");
-
                 break;
             case 1:
                 image_reward.setImageResource(AC.img[randomAchive]);
                 achivetext.setText("칭호 " + "'" + AC.getAchivements(randomAchive) + "'");
                 checkAchivement(achivenumber, randomAchive);
-
                 break;
             case 2:
                 image_reward.setImageResource(R.drawable.key);
@@ -144,6 +144,10 @@ public class BoxActivity extends AppCompatActivity {
             case 3:
                 image_reward.setImageResource(R.drawable.key);
                 achivetext.setText("열쇠 " + hints + "개");
+                break;
+            case 0:
+                image_reward.setImageResource(R.drawable.fail);
+                achivetext.setText("꽝..");
                 break;
 
         }
@@ -159,7 +163,6 @@ public class BoxActivity extends AppCompatActivity {
 
                 textKey.setText("x " + Userkey);
                 textrank.setText(getrankStr());
-                Log.d("zzz123", "onClick: " + "check_open");
                 openBox_dialog.dismiss();
             }
         });
@@ -186,13 +189,11 @@ public class BoxActivity extends AppCompatActivity {
                     case R.id.action_menu2:
                         Intent intent = new Intent(BoxActivity.this, AchivementActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: achieveMenu_box");
                         finish();
                         break;
                     case R.id.action_menu3:
                         intent = new Intent(BoxActivity.this, SettingsActivity.class);
                         startActivity(intent);
-                        Log.d("zzz123", "onMenuItemClick: settingMenu_box");
                         finish();
                         break;
                 }
@@ -210,7 +211,6 @@ public class BoxActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String check = PreferenceManager.getString(BoxActivity.this, "username");
-        Log.d("159753", "updateDB: " + check);
         List itemids = new ArrayList<>();
         List tempname = new ArrayList<>();
         List box_open = new ArrayList<>();
@@ -248,13 +248,11 @@ public class BoxActivity extends AppCompatActivity {
         //db load
         for (int i = 0; i < itemids.size(); i++) {
             Userkey = (int) itemids.get(i);
-            Log.d("159753", "dbfrom " + Userkey);
             user.setCnt_key(Userkey);
             user.setBoxOpen((int) box_open.get(i));
             user.setBoxRank((int) box_rank.get(i));
             tempusername = tempname.get(i).toString();
             achivenumber = achives.get(i).toString();
-            Log.d("159753", "user" + user.getCnt_key());
         }
     }
 
@@ -268,29 +266,23 @@ public class BoxActivity extends AppCompatActivity {
         rankname[5] = "플래티넘";
         rankname[6] = "다이아";
         rankname[7] = "마스터";
+        rankname[8] = "챌린저";
         return rankname[user.getBoxRank()];
     }
 
     public void checkAchivement(String currentAchive, int randomAchive) {
         UserAchivementController ac = UserAchivementController.getInstance();
         String[] temp1 = currentAchive.split("-");
-        for(int i =0 ;i<temp1.length;i++){
-        Log.d("chi", "checkAchivement: "+temp1[i]);}
         int temp = 0;
         int checkok = 0;
         swp_databaseOpenHelper dbHelper = new swp_databaseOpenHelper(BoxActivity.this);
         for (int i = 0; i < temp1.length; i++) {
             temp = Integer.parseInt(temp1[i]);
-            Log.d("159753", "checkAchivement: " + temp);
-            Log.d("chi", "checkAchivement: "+temp1[i]);
             if (temp == randomAchive) {
-                Log.d("chi", "checkAchivement: " + temp + "   " + randomAchive);
                 Toast.makeText(getApplicationContext(), "이미 가지고 있는 칭호입니다.", Toast.LENGTH_SHORT).show();
                 checkok = 0;
                 break;
             } else {
-                Log.d("chi", "checkAchivement: " + temp + "   " + randomAchive);
-
                 checkok = 1;
             }
         }
