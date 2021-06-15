@@ -57,6 +57,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags;
 import static java.lang.Math.abs;
 
 //
@@ -79,11 +80,11 @@ public class MainActivity extends AppCompatActivity {
     String category_item;
     final String[] category = {"약속", "공부", "운동", "시험", "기타"};
     public int keys, achiveimg;
-    public static List plan_id = new ArrayList<>();
+    public static List<Integer> plan_id = new ArrayList<>();
     public static List plan_contents = new ArrayList<>();
     public static List plan_categorys = new ArrayList<>();
     public static List plan_dates = new ArrayList<>();
-    public static List challenge_id = new ArrayList<>();
+    public static List<Integer> challenge_id = new ArrayList<>();
     public static List challenge_contents = new ArrayList<>();
     public static List challenge_ratings = new ArrayList<>();
     public static List challenge_dates = new ArrayList<>();
@@ -132,9 +133,6 @@ public class MainActivity extends AppCompatActivity {
         init_recycler();
         getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
 
-        //------------------------------------------------------------------------------------------------------
-
-
         button_getReward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 showDialog();
             }
         });
-
     }
 
     public void showDialog3() {
@@ -175,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 category_item = (String) spinner_category.getSelectedItem();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -185,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String temp = contents.getText().toString();
-                dbHelper.updatePlan(plan_contents.get(count).toString(), temp, category_item);
+                dbHelper.updatePlan(plan_id.get(count), temp, category_item);
                 plan_dialog.dismiss();
                 init_recycler();
                 loadDB(MainActivity.this);
@@ -226,6 +222,20 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) challenge_dialog.findViewById(R.id.textView_date1_challenge)).setText("date");
         ((TextView) challenge_dialog.findViewById(R.id.textView_date2_challenge)).setText("date");
         ImageButton btn_date1 = challenge_dialog.findViewById(R.id.button_date1_chall); //날짜버튼1
+        ((TextView) challenge_dialog.findViewById(R.id.textView_date1_challenge)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+        ((TextView) challenge_dialog.findViewById(R.id.textView_date2_challenge)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new DatePicker2Fragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
         btn_date1.setOnClickListener(new View.OnClickListener() {   // 달력버튼1 선택시 달력1 dialogFragment 생성 이벤트
             @Override
             public void onClick(View v) {
@@ -328,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbHelper.challengedelete(challenge_contents.get(count).toString());
+                dbHelper.challengedelete(challenge_id.get(count));
                 challenge_edit_dialog.dismiss();
                 loadDB(temp);
                 init_recycler();
@@ -346,9 +356,8 @@ public class MainActivity extends AppCompatActivity {
                 float ratings;
                 contents = content.getText().toString();
                 if (content.length() > 0) {
-                    String a = challenge_contents.get(count).toString();
                     ratings = ratingBar.getRating();
-                    dbHelper.updateChallenge(a, contents, ratings);
+                    dbHelper.updateChallenge(challenge_id.get(count), contents, ratings);
                     challenge_edit_dialog.dismiss();
                     init_recycler();
                     loadDB(temp);
@@ -457,24 +466,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRightClicked(int position) {
                 count = position;
-
                 adapterchallenge.removeItem(position);
                 adapterchallenge.notifyItemRemoved(position);
                 adapterchallenge.notifyItemRangeChanged(position, adapterchallenge.getItemCount());
-                dbHelper.updatePass(challenge_contents.get(position).toString(), 1);
-                //dbHelper.challengedelete(challenge_contents.get(position).toString());
-
-                Toast.makeText(getApplicationContext(), "도전과제 완료!", Toast.LENGTH_SHORT).show();
-                init_recycler();
+                dbHelper.updatePass(challenge_id.get(count), 1);
                 loadDB(temp);
-                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
+                Toast.makeText(getApplicationContext(), "도전과제 완료!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLeftClicked(int position) {   //리사이클러 수정
                 showDialog2();
                 count = position;
-
             }
         });
 
@@ -485,19 +488,15 @@ public class MainActivity extends AppCompatActivity {
                 adapterplan.removeItem(position);
                 adapterplan.notifyItemRemoved(position);
                 adapterplan.notifyItemRangeChanged(position, adapterplan.getItemCount());
-                dbHelper.plandelete(plan_contents.get(position).toString());
-                Toast.makeText(getApplicationContext(), "일정 삭제.", Toast.LENGTH_SHORT).show();
-                init_recycler();
+                dbHelper.plandelete(plan_id.get(count));
                 loadDB(temp);
-                getData_recycler(plan_contents, plan_categorys, plan_dates, challenge_ratings, challenge_contents, challenge_dates);
-
+                Toast.makeText(getApplicationContext(), "일정 삭제.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLeftClicked(int position) {   //리사이클러 수정
                 showDialog3();
                 count = position;
-
             }
         });
 
@@ -736,9 +735,6 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     if (key.givekey(user, checkcount)) {
                         dbHelper.updateUserKeyCount(username, user.getCnt_key());
-                        for (int i = 0; i < challPassContents.size(); i++) {
-                            dbHelper.updateCheckValue(challPassContents.get(i));
-                        }
                         Toast.makeText(getApplicationContext(), "도전과제 "+checkcount+"개를 완료하여" +"열쇠를 얻었습니다!", Toast.LENGTH_SHORT).show();
                         PreferenceManager.setBoolean(MainActivity.this, "check", true);
                     }

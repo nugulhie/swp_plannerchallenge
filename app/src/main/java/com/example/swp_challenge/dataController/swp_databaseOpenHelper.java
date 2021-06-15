@@ -49,7 +49,7 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.PlanDB.PLAN_DATE, fullday);
         long newRowId = db.insert(swp_database.PlanDB.TABLE_NAME, null, values);
     }
-    public void updatePlan(String oldcontents, String newcontents, String category){
+    public void updatePlan(int id, String newcontents, String category){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -57,8 +57,8 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         values.put(swp_database.PlanDB.PLAN_CONTENTS, newcontents);
         values.put(swp_database.PlanDB.PLAN_CATEGORY, category);
 
-        String selection = swp_database.PlanDB.PLAN_CONTENTS + " LIKE ?";
-        String[] selectionArgs = {oldcontents};
+        String selection = swp_database.PlanDB.PLAN_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(id)};
 
         int count = db.update(
                 swp_database.PlanDB.TABLE_NAME,
@@ -66,10 +66,10 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selection,
                 selectionArgs);
     }
-    public void plandelete(String contents){
+    public void plandelete(int id){
         SQLiteDatabase db =getWritableDatabase();
-        String selection = swp_database.PlanDB.PLAN_CONTENTS + " LIKE ?";
-        String[] selectionArgs = { contents };
+        String selection = swp_database.PlanDB.PLAN_ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(id) };
         int deletedRows = db.delete(swp_database.PlanDB.TABLE_NAME, selection, selectionArgs);
     }
 
@@ -106,14 +106,14 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
         long newRowId = db.insert(swp_database.ChallengeDB.TABLE_NAME, null, values);
     }
 
-    public void updateChallenge(String oldcontents, String newcontents,float newrating){
+    public void updateChallenge(int id, String newcontents,float newrating){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
         values.put(swp_database.ChallengeDB.CHALLENGE_CONTENTS,newcontents);
         values.put(swp_database.ChallengeDB.CHALLENGE_RATING, newrating);
-        String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS + " LIKE ?";
-        String[] selectionArgs = {oldcontents};
+        String selection = swp_database.ChallengeDB.CHALLENGE_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(id)};
 
         int count = db.update(
                 swp_database.ChallengeDB.TABLE_NAME,
@@ -122,13 +122,13 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selectionArgs);
     }
 
-    public void updatePass(String contents ,int pass){
+    public void updatePass(int id ,int pass){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         SimpleDateFormat dateFormat = new SimpleDateFormat();
         values.put(swp_database.ChallengeDB.CHALLENGE_PASS, pass);
-        String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS+ " LIKE ?";
-        String[] selectionArgs = {contents};
+        String selection = swp_database.ChallengeDB.CHALLENGE_ID+ " LIKE ?";
+        String[] selectionArgs = {String.valueOf(id)};
 
         int count = db.update(
                 swp_database.ChallengeDB.TABLE_NAME,
@@ -137,17 +137,17 @@ public class swp_databaseOpenHelper extends SQLiteOpenHelper {
                 selectionArgs);
 
     }
-    public void challengedelete(String contents){
+    public void challengedelete(int id){
         SQLiteDatabase db = getWritableDatabase();
-        String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS + " LIKE ?";
-        String[] selectionArgs = {contents};
+        String selection = swp_database.ChallengeDB.CHALLENGE_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(id)};
         int deleteRows = db.delete(swp_database.ChallengeDB.TABLE_NAME,selection,selectionArgs);
     }
-    public void updateCheckValue(String contents){
+    public void updateCheckValue(int id){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        String selection = swp_database.ChallengeDB.CHALLENGE_CONTENTS+ " LIKE ?";
-        String[] selectionArgs = {contents};
+        String selection = swp_database.ChallengeDB.CHALLENGE_ID+ " LIKE ?";
+        String[] selectionArgs = {String.valueOf(id)};
         values.put(swp_database.ChallengeDB.CHALLENGE_CHECK, 1);
 
         int count = db.update(

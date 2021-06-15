@@ -38,20 +38,7 @@
             android:label="@string/title_activity_settings" />
         <activity android:name=".Activity.ChallhistoryActivity" />
         <activity android:name=".Activity.AchivementActivity" />
-        <service
-            android:name=".service.NotificationJobFireBaseService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
-
-
-        <receiver
-            android:name=".service.AlarmBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true"></receiver>
+        <activity android:name=".Activity.ExampleActivity"/>
     </application>
 
 

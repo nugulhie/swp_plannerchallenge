@@ -64,7 +64,7 @@ public class CalendarActivity extends AppCompatActivity {
     final String[] category = {"약속", "공부", "운동", "시험", "기타"};
     String category_item;
     public static int mYear, mMonth, mDay;
-    public static List plan_id = new ArrayList<>();
+    public static List<Integer> plan_id = new ArrayList<>();
     public static List plan_contents = new ArrayList<>();
     public static List plan_categorys = new ArrayList<>();
     public static List plan_dates = new ArrayList<>();
@@ -82,6 +82,7 @@ public class CalendarActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_calendar);
         SimpleDateFormat daychanger = new SimpleDateFormat("dd");
+
         SimpleDateFormat monthchanger = new SimpleDateFormat("MM");
         SimpleDateFormat yearchanger = new SimpleDateFormat("yyyy");
         SimpleDateFormat korDate = new SimpleDateFormat("MM월 dd일 E요일", Locale.KOREAN);
@@ -90,6 +91,7 @@ public class CalendarActivity extends AppCompatActivity {
         btn_challHistory = findViewById(R.id.button_challengeHistory_cal);
         textdate = findViewById(R.id.textView_dateOfToday);
         Date date = Calendar.getInstance().getTime();
+        mDay = Integer.parseInt(daychanger.format(date));
         textdate.setText(korDate.format(date));
         btn_menu = findViewById(R.id.button_menu_cal);
         mcalendarView = (CustomCalendar)findViewById(R.id.calendarView);
@@ -308,7 +310,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String temp = contents.getText().toString();
-                dbHelper.updatePlan(plan_contents.get(count).toString(),temp,category_item);
+                dbHelper.updatePlan(plan_id.get(count),temp,category_item);
                 plan_edit_dialog.dismiss();
                 loadDB(CalendarActivity.this, mDay, mMonth, mYear);
                 init_recycler();
@@ -337,17 +339,17 @@ public class CalendarActivity extends AppCompatActivity {
         recyclerView_calendar.setAdapter(adapterplan);
         SwipeController1 swipeController1 = new SwipeController1(new SwipeControllerActions() {
             @Override
-        public void onRightClicked(int position) {
-            count = position;
-            adapterplan.removeItem(position);
-            adapterplan.notifyItemRemoved(position);
-            adapterplan.notifyItemRangeChanged(position, adapterplan.getItemCount());
-            dbHelper.plandelete(plan_contents.get(position).toString());
+            public void onRightClicked(int position) {
+                count = position;
+                adapterplan.removeItem(position);
+                adapterplan.notifyItemRemoved(position);
+                adapterplan.notifyItemRangeChanged(position, adapterplan.getItemCount());
+                dbHelper.plandelete(plan_id.get(position));
                 loadDB(temp, mDay, mMonth, mYear);
                 init_recycler();
                 getData_recycler(plan_contents, plan_categorys, plan_dates, plan_days);
                 loadEvent(temp);
-        }
+            }
 
             @Override
             public void onLeftClicked(int position) {   //리사이클러 수정
@@ -362,6 +364,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 swipeController1.onDraw(c);
+
             }
         });
     }

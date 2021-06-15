@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.swp_challenge.R;
+import com.example.swp_challenge.dataController.PreferenceManager;
 
 public class TutorialActivity extends AppCompatActivity {
 
@@ -106,8 +107,9 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void moveMainPage() {
-        startActivity(new Intent(TutorialActivity.this, MainActivity.class));
-        finish();
+            startActivity(new Intent(TutorialActivity.this, ExampleActivity.class));
+            finish();
+
     }
 
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
